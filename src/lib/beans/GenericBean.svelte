@@ -1,5 +1,5 @@
 
-<svelte:component this={beanRendererComponent} {bean}}/>
+<svelte:component this={beanRendererComponent} {bean}/>
 
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
