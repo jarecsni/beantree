@@ -1,6 +1,6 @@
 export type BeanTreeNode = {
     bean:string,
     instanceId:string,
-    state:object,
+    state:{value: unknown},
     children?:BeanTreeNode[]
 }

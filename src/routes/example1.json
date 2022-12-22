@@ -1,6 +1,6 @@
 {
     "bean": "helloworld",
     "instanceId": "myHelloWorld",
-    "state": {"value": ""},
+    "state": {"value": "Johnny"},
     "children": []
 }
