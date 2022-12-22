@@ -18,4 +18,8 @@ export class BeanRegistry {
     public registerBean(beanMetaInfo:BeanMetaInfo):void {
         this.registry.set(beanMetaInfo.name, beanMetaInfo);
     }
+
+    geBeanMetaInfo(name:string) {
+        return this.registry.get(name); 
+    }
 }
