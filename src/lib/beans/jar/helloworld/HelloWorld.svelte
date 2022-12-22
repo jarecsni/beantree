@@ -2,6 +2,6 @@
     Hello {$name}!
 </div>
 
-<script>
+<script lang="ts">
 	import {name} from './store';
 </script>

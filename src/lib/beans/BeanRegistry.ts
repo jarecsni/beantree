@@ -15,7 +15,7 @@ export class BeanRegistry {
         return BeanRegistry.instance;
     }
 
-    public registerBean(name:string, beanMetaInfo:BeanMetaInfo):void {
-        this.registry.set(name, beanMetaInfo);
+    public registerBean(beanMetaInfo:BeanMetaInfo):void {
+        this.registry.set(beanMetaInfo.name, beanMetaInfo);
     }
 }
