@@ -6,11 +6,11 @@
 </p>
 
 <div class="content">
-    <BeanTreeWalker {bean}/>
+    <GenericBean {bean}/>
 </div>
 
 <script lang="ts">
-	import BeanTreeWalker from '$lib/beans/BeanTreeWalker.svelte';
+	import GenericBean from '$lib/beans/GenericBean.svelte';
     import {init} from '../../../application';
     import bean from './example1.json';
     init();
