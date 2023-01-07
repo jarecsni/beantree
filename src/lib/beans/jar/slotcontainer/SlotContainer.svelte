@@ -1,2 +1,2 @@
-<slot name="SlotA">Nothing provided for SlotA!</slot>
-<slot name="SlotB">Nothing provided for SlotB!</slot>
+<slot>Nothing provided for first slot!</slot>
+<slot>Nothing provided for second slot!</slot>

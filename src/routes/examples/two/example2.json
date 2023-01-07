@@ -1,15 +1,15 @@
 {
     "bean": "SlotContainer",
     "instanceId": "mySlot",
-    "children": {
-        "SlotA": {
+    "children": [
+        {
             "bean": "HelloWorld",
             "instanceId": "myHelloWorld",
             "state": {"value": "Johnny"}
         },
-        "SlotB": {
+        {
             "bean": "StringBean",
             "instanceId": "myString"
         }
-    }
+    ]
 }
