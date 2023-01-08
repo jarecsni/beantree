@@ -1,5 +1,5 @@
 
-<svelte:component this={beanRendererComponent} {bean}>
+<svelte:component this={beanRendererComponent} {bean} {...props}>
 	{#if bean.children}
 		{#each bean.children as childBean}
 			<span>
@@ -16,5 +16,6 @@
 	import type { BeanTreeNode } from './BeanTree';
 	import { getPlatformSpecificRenderer } from './utils';
     export let bean:BeanTreeNode;
+	const props = bean.props || {}
     const beanRendererComponent:typeof SvelteComponent | undefined = getPlatformSpecificRenderer(bean);
 </script>

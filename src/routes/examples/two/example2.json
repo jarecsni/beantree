@@ -9,7 +9,10 @@
         },
         {
             "bean": "StringBean",
-            "instanceId": "myString"
+            "instanceId": "myString",
+            "props": {
+                "text": "Well this is a string..."
+            }
         }
     ]
 }
