@@ -4,12 +4,12 @@
     "children": [
         {
             "bean": "HelloWorld",
-            "instanceId": "myHelloWorld",
+            "instanceId": "bean1",
             "state": {"value": "Johnny"}
         },
         {
             "bean": "StringBean",
-            "instanceId": "myString",
+            "instanceId": "bean2",
             "props": {
                 "text": "Well this is a string..."
             }
