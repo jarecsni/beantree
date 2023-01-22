@@ -1,0 +1,18 @@
+{
+    "bean": "SlotContainer",
+    "instanceId": "mySlot",
+    "children": [
+        {
+            "bean": "HelloWorld",
+            "instanceId": "bean1",
+            "state": {"value": "Johnny"}
+        },
+        {
+            "bean": "StringBean",
+            "instanceId": "bean2",
+            "props": {
+                "text": "Well this is a string..."
+            }
+        }
+    ]
+}
