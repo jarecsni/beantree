@@ -6,12 +6,14 @@
 </p>
 
 <div class="content">
+    <BeanTreeExplorerSwitch/>
     <BeanTreeExplorer/>
     <GenericBean {bean}/>
 </div>
 
 <script lang="ts">
-	import BeanTreeExplorer from '$lib/beans/BeanTreeExplorer.svelte';
+	import BeanTreeExplorer from '$lib/beans/explorer/BeanTreeExplorer.svelte';
+	import BeanTreeExplorerSwitch from '$lib/beans/explorer/BeanTreeExplorerSwitch.svelte';
 	import GenericBean from '$lib/beans/GenericBean.svelte';
     import {init} from '../../../application';
     import bean from './example2.json';
