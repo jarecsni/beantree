@@ -22,6 +22,7 @@
 
 <style>
     .content {
-        background: lightgray
+        background: lightgray;
+        display: flex;
     }
 </style>
