@@ -7,8 +7,12 @@
 
 <div class="content">
     <BeanTreeExplorerSwitch/>
-    <BeanTreeExplorer/>
-    <GenericBean {bean}/>
+    <div class="explorerWrapper">
+        <div class="explorer">
+            <BeanTreeExplorer/>
+        </div>
+        <GenericBean {bean}/>
+    </div>
 </div>
 
 <script lang="ts">
@@ -23,6 +27,11 @@
 <style>
     .content {
         background: lightgray;
+    }
+    .explorerWrapper {
         display: flex;
+    }
+    .explorer {
+        margin-right: 5px;
     }
 </style>
