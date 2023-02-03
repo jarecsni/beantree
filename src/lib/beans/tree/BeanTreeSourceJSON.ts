@@ -15,7 +15,7 @@ export class BeanTreeSourceJSON implements BeanTreeSource {
         if (savedTree) {
             this._jsonObject = JSON.parse(savedTree);
         } else {
-            this._jsonObject = require(this._sourceFileName);
+            this._jsonObject = require(this._sourceFileName);;
         }
     }
     public saveTree(): void {

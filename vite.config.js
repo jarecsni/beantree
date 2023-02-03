@@ -6,7 +6,8 @@ const config = {
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		globals: true,
-		environment: 'happy-dom'
+		environment: 'happy-dom',
+		setupFiles: ['vitest-localstorage-mock']
 	}
 };
 
