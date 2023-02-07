@@ -31,7 +31,4 @@
     .explorerWrapper {
         display: flex;
     }
-    .explorer {
-        margin-right: 5px;
-    }
 </style>

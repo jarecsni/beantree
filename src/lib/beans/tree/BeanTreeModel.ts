@@ -1,4 +1,4 @@
-import type { BeanTreeNode } from './BeanTree';
+import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreeSource } from './BeanTreeSource';
 
 export class BeanTreeModel {

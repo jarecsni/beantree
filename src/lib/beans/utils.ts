@@ -1,6 +1,6 @@
 import type { SvelteComponent } from 'svelte';
 import type { BeanMetaInfo } from './BeanMetaInfo'
-import type { BeanTreeNode } from './tree/BeanTree';
+import type { BeanTreeNode } from './tree/BeanTreeNode';
 import { BeanRegistry } from './BeanRegistry';
 
 // TODO this is hard coded to be desktop browser - will need to add mechanism to set the current platform

@@ -1,6 +1,12 @@
-import type { BeanTreeNode } from './BeanTree';
+import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreeSource } from './BeanTreeSource';
 
+/*
+* BeanTreeSourceJSON is a simple file based tree source, loading the tree definition from a file
+* and saving it in local storage. 
+* 
+* The tree can be saved as a whole, there is no incremental update or lazy loading with this source.
+*/
 export class BeanTreeSourceJSON implements BeanTreeSource {
     private _treeName:string;
     private _sourceFileName:string;
