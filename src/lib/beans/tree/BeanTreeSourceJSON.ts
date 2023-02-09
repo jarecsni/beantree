@@ -9,19 +9,18 @@ import type { BeanTreeSource } from './BeanTreeSource';
 */
 export class BeanTreeSourceJSON implements BeanTreeSource {
     private _treeName:string;
-    private _sourceFileName:string;
     private _jsonObject:BeanTreeNode = {} as BeanTreeNode;
-    constructor(treeName:string, sourceFileName: string) {
+    constructor(treeName:string, jsonObject: BeanTreeNode) {
         this._treeName = treeName;
-        this._sourceFileName = sourceFileName;
+        this._jsonObject = jsonObject;
         this.loadTree();
     } 
-    private loadTree() {
-        const savedTree = localStorage.getItem(this._treeName);
-        if (savedTree) {
-            this._jsonObject = JSON.parse(savedTree);
-        } else {
-            this._jsonObject = require(this._sourceFileName);;
+    private async loadTree() {
+        if (typeof window !== 'undefined') {
+            const savedTree = localStorage.getItem(this._treeName);
+            if (savedTree) {
+                this._jsonObject = JSON.parse(savedTree);
+            }
         }
     }
     public saveTree(): void {

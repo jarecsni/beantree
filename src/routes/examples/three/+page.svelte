@@ -19,9 +19,14 @@
 	import BeanTreeExplorer from '$lib/beans/explorer/BeanTreeExplorer.svelte';
 	import BeanTreeExplorerSwitch from '$lib/beans/explorer/BeanTreeExplorerSwitch.svelte';
 	import GenericBean from '$lib/beans/GenericBean.svelte';
+    import { BeanTreeModel } from '$lib/beans/tree/BeanTreeModel';
+	import { BeanTreeSourceJSON } from '$lib/beans/tree/BeanTreeSourceJSON';
     import {init} from '../../../application';
-    import bean from './example2.json';
+    import bean from './example3.json';
     init();
+    const model = new BeanTreeModel(new BeanTreeSourceJSON('example3', bean));
+    console.log('model loaded');
+    model.saveTree();
 </script>
 
 <style>

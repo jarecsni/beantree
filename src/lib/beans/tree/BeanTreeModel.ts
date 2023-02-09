@@ -8,4 +8,7 @@ export class BeanTreeModel {
         this._source = source;
         this._root = source.getRootNode();
     }
+    public saveTree() {
+        this._source.saveTree();
+    }
 }
