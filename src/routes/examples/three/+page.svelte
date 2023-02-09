@@ -22,11 +22,10 @@
     import { BeanTreeModel } from '$lib/beans/tree/BeanTreeModel';
 	import { BeanTreeSourceJSON } from '$lib/beans/tree/BeanTreeSourceJSON';
     import {init} from '../../../application';
-    import bean from './example3.json';
+    import beanDefinition from './example3.json';
     init();
-    const model = new BeanTreeModel(new BeanTreeSourceJSON('example3', bean));
-    console.log('model loaded');
-    model.saveTree();
+    const model = new BeanTreeModel(new BeanTreeSourceJSON('example3', beanDefinition));
+    const bean = model.getRootNode();
 </script>
 
 <style>

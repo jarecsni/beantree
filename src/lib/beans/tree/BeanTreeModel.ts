@@ -11,4 +11,7 @@ export class BeanTreeModel {
     public saveTree() {
         this._source.saveTree();
     }
+    public getRootNode() {
+        return this._source.getRootNode();
+    }
 }
