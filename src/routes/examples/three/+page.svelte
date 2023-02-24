@@ -9,7 +9,7 @@
     <BeanTreeExplorerSwitch/>
     <div class="explorerWrapper">
         <div class="explorer">
-            <BeanTreeExplorer/>
+            <BeanTreeExplorer node={bean}/>
         </div>
         <GenericBean {bean}/>
     </div>
