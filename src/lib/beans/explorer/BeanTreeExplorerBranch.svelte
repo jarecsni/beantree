@@ -27,7 +27,6 @@
 	import BeanExplorerTreeBranch from '$lib/ui/beanexplorer/BeanExplorerTreeBranch.svelte';
 	import {TreeBranch, TreeLeaf} from '$lib/ui/treeview';
 	import type { BeanTreeNode } from '../tree/BeanTreeNode';
-	import { children } from 'svelte/internal';
 	export let node:BeanTreeNode;
     function onSelect(nodeId:string) {
         selectedInstanceId.set(nodeId !== $selectedInstanceId ? nodeId : '');
