@@ -2,11 +2,11 @@
     {#if (node.children && node.children.length > 0)}
         {#each node.children as childNode}
             {#if (childNode.children)}
-                <TreeBranch rootContent={childNode.bean} onClick={()=>{onSelect(childNode.instanceId)}} selected={childNode.instanceId==$selectedInstanceId}>
+                <TreeBranch rootContent={childNode.bean} onClick={()=>{onSelect(childNode)}} selected={getTreeNodePath(childNode)==$selectedInstanceId}>
                     <BeanExplorerTreeBranch parentId={childNode.instanceId}/>
                 </TreeBranch>
             {:else}
-                <TreeLeaf onClick={()=>{onSelect(childNode.instanceId)}} selected={childNode.instanceId==$selectedInstanceId}>
+                <TreeLeaf onClick={()=>{onSelect(childNode)}} selected={getTreeNodePath(childNode)==$selectedInstanceId}>
                     <div>
                         {childNode.bean}
                     </div>
@@ -14,7 +14,7 @@
             {/if}
         {/each}
     {:else}
-        <TreeLeaf onClick={()=>{onSelect(node.instanceId)}} selected={node.instanceId==$selectedInstanceId}>
+        <TreeLeaf onClick={()=>{onSelect(node)}} selected={getTreeNodePath(node)==$selectedInstanceId}>
             <div>
                 {node.bean}
             </div>
@@ -26,10 +26,12 @@
 	import {selectedInstanceId} from '../jar/helloworld/store';
 	import BeanExplorerTreeBranch from '$lib/ui/beanexplorer/BeanExplorerTreeBranch.svelte';
 	import {TreeBranch, TreeLeaf} from '$lib/ui/treeview';
-	import type { BeanTreeNode } from '../tree/BeanTreeNode';
+	import { getTreeNodePath, type BeanTreeNode } from '../tree/BeanTreeNode';
 	export let node:BeanTreeNode;
-    function onSelect(nodeId:string) {
-        selectedInstanceId.set(nodeId !== $selectedInstanceId ? nodeId : '');
+    function onSelect(node:BeanTreeNode) {
+        const treeNodePath = getTreeNodePath(node);
+        console.log('Selected path:', treeNodePath);
+        selectedInstanceId.set(treeNodePath);
     }
 </script>
 

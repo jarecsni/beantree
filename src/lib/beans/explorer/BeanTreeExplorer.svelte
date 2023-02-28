@@ -1,7 +1,7 @@
 {#if $isVisible}
     <div class="content">
         <TreeView iconBackgroundColor="grey" iconColor="lightgrey">
-            <TreeBranch rootContent={node.bean} onClick={()=>{onSelect(node.instanceId)}} selected={node.instanceId==$selectedInstanceId}>
+            <TreeBranch rootContent={node.bean} onClick={()=>{onSelect(node)}} selected={getTreeNodePath(node) == $selectedInstanceId}>
                 <BeanTreeExplorerBranch {node}/>
             </TreeBranch>
         </TreeView>    
@@ -9,15 +9,17 @@
 {/if}
 
 <script lang="ts">
-	import type {BeanTreeNode} from './../tree/BeanTreeNode';
+	import {getTreeNodePath, type BeanTreeNode} from './../tree/BeanTreeNode';
     import BeanTreeExplorerBranch from './BeanTreeExplorerBranch.svelte';
 	import TreeBranch from '$lib/ui/treeview/TreeBranch.svelte';
 	import TreeView from '$lib/ui/treeview/TreeView.svelte';
 	import { isVisible } from './BeanTreeExplorer.store';
 	import { selectedInstanceId } from '../jar/helloworld/store';
     export let node:BeanTreeNode;
-    function onSelect(nodeId:string) {
-        selectedInstanceId.set(nodeId !== $selectedInstanceId ? nodeId : '');
+    function onSelect(node:BeanTreeNode) {
+        const treeNodePath = getTreeNodePath(node);
+        console.log('Selected path:', treeNodePath);
+        selectedInstanceId.set(treeNodePath);
     }
 </script>
 

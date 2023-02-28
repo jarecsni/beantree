@@ -11,6 +11,7 @@
 	const props:KVType = bean.props || {}
 	if (bean.children) {
 		bean.children.forEach(childBean => {
+			childBean.parent = bean;
 			props[childBean.instanceId] = childBean;
 		});
 	}
