@@ -27,7 +27,7 @@
 	}
 
     .selected {
-        border: 1px dotted;
+        background-color: white;
     }
 
 </style>
