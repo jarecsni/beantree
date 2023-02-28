@@ -11,7 +11,7 @@
         <div class="explorer">
             <BeanTreeExplorer node={bean}/>
         </div>
-        <GenericBean {bean}/>
+        <div><GenericBean {bean}/></div>
     </div>
 </div>
 
