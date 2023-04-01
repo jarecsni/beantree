@@ -30,8 +30,7 @@
 	export let node:BeanTreeNode;
     function onSelect(node:BeanTreeNode) {
         const treeNodePath = getTreeNodePath(node);
-        console.log('Selected path:', treeNodePath);
-        selectedInstanceId.set(treeNodePath);
+        selectedInstanceId.set($selectedInstanceId == treeNodePath ? '' : treeNodePath);
     }
 </script>
 
