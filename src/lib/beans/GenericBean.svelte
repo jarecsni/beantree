@@ -1,6 +1,6 @@
 <div class="wrapper">
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<div class="overlay" class:selected on:click={handleOverlayClick}>
+	<div class="overlay" class:selected on:contextmenu|preventDefault={handleOverlayClick}>
 
 	</div>
 	<svelte:component this={beanRendererComponent} {bean} {...props}/>
