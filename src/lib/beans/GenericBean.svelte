@@ -1,5 +1,6 @@
 <div class="wrapper">
-	<div class="overlay" class:selected>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div class="overlay" class:selected on:click={handleOverlayClick}>
 
 	</div>
 	<svelte:component this={beanRendererComponent} {bean} {...props}/>
@@ -25,6 +26,9 @@
 	}
 	bean.props = props;
     const beanRendererComponent:typeof SvelteComponent | undefined = getPlatformSpecificRenderer(bean);
+	function handleOverlayClick(event:Event) {
+		console.log(event)
+	}
 </script>
 <style>
 	.wrapper {
@@ -42,5 +46,6 @@
 	}
 	.selected {
 	  	display: inline-block;
+		z-index: 10;
 	}
 </style>
