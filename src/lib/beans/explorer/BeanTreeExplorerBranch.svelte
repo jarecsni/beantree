@@ -23,7 +23,7 @@
 </div>
 
 <script lang="ts">
-	import {selectedInstanceId} from '../jar/helloworld/store';
+	import {selectedInstanceId} from './../tree/store';
 	import BeanExplorerTreeBranch from '$lib/ui/beanexplorer/BeanExplorerTreeBranch.svelte';
 	import {TreeBranch, TreeLeaf} from '$lib/ui/treeview';
 	import { getTreeNodePath, type BeanTreeNode } from '../tree/BeanTreeNode';

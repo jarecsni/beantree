@@ -7,10 +7,10 @@
 </div>
 
 <script lang="ts">
+	import {selectedInstanceId} from './tree/store';
 	import type { SvelteComponent } from 'svelte';
 	import type { BeanTreeNode, KVType } from './tree/BeanTreeNode';
 	import { getPlatformSpecificRenderer } from './utils';
-	import { selectedInstanceId } from './jar/helloworld/store';
 	import { getTreeNodePath } from './tree/BeanTreeNode';
     export let bean:BeanTreeNode;
 	const props:KVType = bean.props || {}

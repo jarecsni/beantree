@@ -9,12 +9,12 @@
 {/if}
 
 <script lang="ts">
+	import {selectedInstanceId} from '../tree/store';
 	import {getTreeNodePath, type BeanTreeNode} from './../tree/BeanTreeNode';
     import BeanTreeExplorerBranch from './BeanTreeExplorerBranch.svelte';
 	import TreeBranch from '$lib/ui/treeview/TreeBranch.svelte';
 	import TreeView from '$lib/ui/treeview/TreeView.svelte';
 	import { isVisible } from './BeanTreeExplorer.store';
-	import { selectedInstanceId } from '../jar/helloworld/store';
     export let node:BeanTreeNode;
     function onSelect(node:BeanTreeNode) {
         const treeNodePath = getTreeNodePath(node);
