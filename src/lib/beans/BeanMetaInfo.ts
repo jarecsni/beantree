@@ -1,7 +1,7 @@
-import type { SvelteComponent } from 'svelte'
+import type { ComponentType } from 'svelte'
 
 export type RendererInfo = {
-    desktop: typeof SvelteComponent
+    desktop: ComponentType 
 }
 export type BeanMetaInfo = {
     name: string,
