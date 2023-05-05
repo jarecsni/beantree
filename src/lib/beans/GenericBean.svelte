@@ -6,22 +6,34 @@
 <div style="min-width: 100px; z-index: 20">
 	<Menu bind:this={menu}>
 		<List>
-			<Item on:SMUI:action={() => (alert('Cut'))}>
-				<Text>Cut</Text>
-			</Item>
-			<Item on:SMUI:action={() => (alert('Copy'))}>
-				<Text>Copy</Text>
-			</Item>
-			<Item on:SMUI:action={() => (alert('Paste'))}>
-				<Text>Paste</Text>
+			<Item on:SMUI:action={editProperties}>
+				<Text>Properties</Text>
 			</Item>
 			<Separator />
 			<Item on:SMUI:action={() => (alert('Delete'))}>
-				<Text>Delete</Text>
+				<Text>Some bean action</Text>
 			</Item>
 		</List>
 	</Menu>
 </div>
+<Dialog bind:open={configureNodeDialogueOpen}>
+	<Title>Bean Properties</Title>
+	<Content>
+		<div class="dialogueContent">
+			{#if configObject}
+				<PropertyEditor obj={configObject}/>
+			{/if}
+		</div>
+	</Content>
+	<Actions>
+		<Button>
+			<Label>Cancel</Label>
+		</Button>
+		<Button on:click{doSaveConfig}>
+			<Label>Save</Label>
+		</Button>
+	</Actions>
+</Dialog>    
 
 <script lang="ts">
 	import { selectedInstanceId } from './tree/store';
@@ -31,12 +43,18 @@
 	import { getTreeNodePath } from './tree/BeanTreeNode';
 	import Menu from '@smui/menu';
   	import List, { Item, Separator, Text } from '@smui/list';
- 
+	import PropertyEditor from '$lib/beans/property-editor/PropertyEditor.svelte';
+    import type {PropertiesObject} from '$lib/beans/property-editor/PropertyEditorTypes';
+	import Dialog, { Title, Content, Actions } from '@smui/dialog';
+	import Button, { Label } from '@smui/button';
+
 	export let bean: BeanTreeNode;
+
 	const props: KVType = bean.props || {};
 	let selected = false;
-
 	let menu: Menu;
+	let configureNodeDialogueOpen = false;
+	let configObject = {sections:[]}
 
 
 	$: {
@@ -55,6 +73,9 @@
 		console.log(event);
 		console.log(menu);
 		menu.setOpen(true);
+	}
+	function editProperties() {
+		configureNodeDialogueOpen = true;
 	}
 </script>
 

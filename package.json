@@ -56,8 +56,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@smui-extra/accordion": "^7.0.0-beta.8",
+		"@smui/button": "^7.0.0-beta.8",
+		"@smui/data-table": "^7.0.0-beta.8",
+		"@smui/dialog": "^7.0.0-beta.8",
 		"@smui/list": "^7.0.0-beta.4",
 		"@smui/menu": "^7.0.0-beta.4",
-		"@smui/menu-surface": "^7.0.0-beta.4"
+		"@smui/menu-surface": "^7.0.0-beta.4",
+		"@smui/switch": "^7.0.0-beta.8",
+		"@smui/textfield": "^7.0.0-beta.8"
 	}
 }
