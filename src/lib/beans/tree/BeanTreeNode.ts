@@ -1,4 +1,4 @@
-export type KVType = {[key: string]: unknown}
+export type KVType<T = unknown> = {[key: string]: T}
 
 export type BeanTreeNode = {
     bean:string,
