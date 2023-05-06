@@ -6,7 +6,7 @@
 <div style="min-width: 100px; z-index: 20">
 	<Menu bind:this={menu}>
 		<List>
-			<Item on:SMUI:action={editProperties}>
+			<Item on:SMUI:action={editProperties} disabled={!configObject}>
 				<Text>Properties</Text>
 			</Item>
 			<Separator />
@@ -47,6 +47,7 @@
     import type {PropertiesObject} from '$lib/beans/property-editor/PropertyEditorTypes';
 	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
+	import { BeanRegistry } from './BeanRegistry';
 
 	export let bean: BeanTreeNode;
 
@@ -54,8 +55,12 @@
 	let selected = false;
 	let menu: Menu;
 	let configureNodeDialogueOpen = false;
-	let configObject = {sections:[]}
-
+	
+	let metaInfo = BeanRegistry.getInstance().geBeanMetaInfo(bean.bean);
+	let	configObject = null;
+	if(metaInfo?.properties) {
+		configObject = {sections: [{name: 'S', properties: [{description: 'X', displayName: 'XD', value: 'Alma'}]}]}
+	}
 
 	$: {
 		selected = getTreeNodePath(bean) == $selectedInstanceId;
@@ -67,11 +72,8 @@
 		});
 	}
 	bean.props = props;
-	const beanRendererComponent: typeof SvelteComponent | undefined =
-		getPlatformSpecificRenderer(bean);
+	const beanRendererComponent: typeof SvelteComponent | undefined =getPlatformSpecificRenderer(bean);
 	function handleOverlayClick(event: Event) {
-		console.log(event);
-		console.log(menu);
 		menu.setOpen(true);
 	}
 	function editProperties() {

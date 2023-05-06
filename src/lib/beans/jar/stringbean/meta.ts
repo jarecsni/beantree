@@ -6,5 +6,13 @@ export const getMetaInfo = ():BeanMetaInfo => ({
     name: 'StringBean',
     renderers: {
         desktop: StringBean
+    },
+    properties: {
+        sections: [
+            {
+                name: 'Bean Properties', properties: [
+                    {displayName: 'text', description: 'The text to display', value: null}
+            ]
+        }]
     }
 })
