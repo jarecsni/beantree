@@ -21,8 +21,10 @@ describe('BeanTreeSourceJSON', () => {
             }
         })
         source.saveTree();
-        const savedSource = new BeanTreeSourceJSON('myTree', './__test__/example2.json');
-        const savedRoot = source.getRootNode();
+        const savedSource = new BeanTreeSourceJSON('myTree', bean);
+        const savedRoot = savedSource.getRootNode();
         expect(savedRoot.children).toHaveLength(3);
+        console.log(savedRoot.children![2].props!['text']);
+        expect(savedRoot.children![2].props!['text']).toBe('Another, dynamic string...');
     });
 });

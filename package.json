@@ -23,11 +23,11 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"package": "svelte-package",
-		"test": "playwright test",
+		"test:ui": "playwright test",
 		"smui-theme": "smui-theme compile static/smui.css -i src/theme",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test:unit": "vitest",
+		"test": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
