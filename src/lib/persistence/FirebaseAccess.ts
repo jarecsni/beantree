@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, CollectionReference, type DocumentData, doc, updateDoc, addDoc, deleteDoc, onSnapshot, orderBy, query, where, getDocs } from "firebase/firestore";
+import { getFirestore, collection, CollectionReference, type DocumentData, doc, updateDoc, addDoc, deleteDoc, onSnapshot, orderBy, query, where, getDocs, setDoc } from "firebase/firestore";
 import type { WhereFilterOp } from 'firebase/firestore';
 import type { PersistenceAccess, WhereClause } from './PersistenceAccess';
 import firebaseConfig from './firebase-config.json'
@@ -20,8 +20,8 @@ export class FirebaseAccess implements PersistenceAccess {
     update(id: string, obj: object): Promise<void> {
         return updateDoc(doc(FirebaseAccess.db, this.collectionName, id), obj);
     }
-    insert(obj: object): Promise<unknown> {
-        return addDoc(this.dbRef, obj);
+    insert(obj: object, key?:string): Promise<unknown> {
+        return key? setDoc(doc(FirebaseAccess.db, 'tree', key || ''), obj) : addDoc(this.dbRef, obj);
     }
     delete(id: string): Promise<void> {
         return deleteDoc(doc(FirebaseAccess.db, this.collectionName, id));

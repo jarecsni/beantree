@@ -4,6 +4,8 @@ import { BeanRegistry } from '$lib/beans/BeanRegistry';
 import * as HelloWorldMeta from '$lib/beans/jar/helloworld/meta';
 import * as SlotContainerMeta from '$lib/beans/jar/slotcontainer/meta';
 import * as StringBeanMeta from '$lib/beans/jar/stringbean/meta';
+import type { FirebaseAccess } from '$lib/persistence/FirebaseAccess';
+import type { PersistenceAccess } from '$lib/persistence/PersistenceAccess';
 import { PersistenceService } from '$lib/persistence/PersistenceService';
 
 export const init = () => {
@@ -12,5 +14,6 @@ export const init = () => {
     BeanRegistry.getInstance().registerBean(SlotContainerMeta.getMetaInfo());
     BeanRegistry.getInstance().registerBean(StringBeanMeta.getMetaInfo());
     console.log('Starting persistence service');
-    PersistenceService.getInstance();
+    const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('tree');
+    dao.insert({json: JSON.stringify({})}, 'beantree-main');
 }
