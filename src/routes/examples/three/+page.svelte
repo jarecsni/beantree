@@ -24,7 +24,7 @@
     import {init} from '../../../application';
     import beanDefinition from './example3.json';
     init();
-    const model = new BeanTreeModel(new BeanTreeSourceJSON('example3', beanDefinition));
+    const model = new BeanTreeModel("example3", new BeanTreeSourceJSON(beanDefinition), new BeanTreePersisrence());
     const bean = model.getRootNode();
 </script>
 

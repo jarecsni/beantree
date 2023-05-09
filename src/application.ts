@@ -13,7 +13,6 @@ export const init = () => {
     BeanRegistry.getInstance().registerBean(HelloWorldMeta.getMetaInfo());
     BeanRegistry.getInstance().registerBean(SlotContainerMeta.getMetaInfo());
     BeanRegistry.getInstance().registerBean(StringBeanMeta.getMetaInfo());
-    console.log('Starting persistence service');
-    const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('tree');
-    dao.insert({json: JSON.stringify({})}, 'beantree-main');
+    // const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('tree');
+    // dao.insert({json: JSON.stringify({})}, 'beantree-main');
 }
