@@ -1,22 +1,24 @@
 import type { BeanTreeNode } from './BeanTreeNode';
-import type { BeanTreePersisrence } from './BeanTreePersistence';
+import type { BeanTreePersistence } from './BeanTreePersistence';
 import type { BeanTreeSource } from './BeanTreeSource';
 
 export class BeanTreeModel {
     private _name:string;
-    private _root:BeanTreeNode;
+    private _root:BeanTreeNode|undefined;
     private _source:BeanTreeSource;
-    private _persistence:BeanTreePersisrence;
-    constructor(name:string, source: BeanTreeSource, persistence:BeanTreePersisrence) {
+    private _persistence:BeanTreePersistence;
+    constructor(name:string, source: BeanTreeSource, persistence:BeanTreePersistence) {
         this._name = name;
         this._source = source;
         this._persistence = persistence;
         this._root = source.getRootNode();
     }
     public saveTree() {
-        this._persistence.saveTree(this._root);
+        if (this._root) {
+            this._persistence.saveTree(this._root);
+        }
     }
     public getRootNode() {
-        return this._root ? this._root : this._source.getRootNode();
+        return this._root;
     }
 }

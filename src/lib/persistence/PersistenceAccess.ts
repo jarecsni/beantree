@@ -1,7 +1,7 @@
-import type { insert } from 'svelte/internal'
+import type { FieldPath } from 'firebase/firestore';
 
 export type WhereClause = {
-    field: string
+    field: string|FieldPath
     op: string
     value: string
 }

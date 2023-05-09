@@ -2,8 +2,9 @@ import type { PersistenceAccess } from '$lib/persistence/PersistenceAccess';
 import { PersistenceService } from '$lib/persistence/PersistenceService';
 import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreePersistence } from './BeanTreePersistence';
+import firebaseAdmin from 'firebase-admin';
 
-export class BeanTreePersitrenceDAO implements BeanTreePersistence {
+export class BeanTreePersistenceDAO implements BeanTreePersistence {
     private _treeName:string;
     constructor(treeName:string) {
         this._treeName = treeName;
@@ -13,9 +14,10 @@ export class BeanTreePersitrenceDAO implements BeanTreePersistence {
         let savedTree;
         dao.select((treeDef) => {savedTree = treeDef}, 
             [
-                {field: 'admin.firestore.FieldPath.documentId()', op: '==', value: this._treeName}
+                {field: firebaseAdmin.firestore.FieldPath.documentId(), op: '==', value: this._treeName}
             ]
 	    );
+        console.log('saved tree found (upon saving)', savedTree);
         if (savedTree) {
             dao.update(this._treeName, node);
         } else {

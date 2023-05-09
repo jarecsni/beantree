@@ -2,16 +2,16 @@ import type { PersistenceAccess } from '$lib/persistence/PersistenceAccess';
 import { PersistenceService } from '$lib/persistence/PersistenceService';
 import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreeSource } from './BeanTreeSource';
+import firebaseAdmin from 'firebase-admin';
 
 /*
 * BeanTreeSourceFirebase is for loading bean tree definitions from Firebase 
 */
 export class BeanTreeSourceDAO implements BeanTreeSource {
-    private _jsonObject:BeanTreeNode = {} as BeanTreeNode;
+    private _jsonObject:BeanTreeNode | undefined;
     private _treeName:string;
-    constructor(treeName:string, jsonObject: BeanTreeNode) {
+    constructor(treeName:string) {
         this._treeName = treeName;
-        this._jsonObject = jsonObject;
         this.loadTree();
     } 
     private async loadTree() {
@@ -19,16 +19,16 @@ export class BeanTreeSourceDAO implements BeanTreeSource {
         let savedTree;
         dao.select((treeDef) => {savedTree = treeDef}, 
             [
-                {field: 'admin.firestore.FieldPath.documentId()', op: '==', value: this._treeName}
+                {field: firebaseAdmin.firestore.FieldPath.documentId(), op: '==', value: this._treeName}
             ]
 	    );
-        console.log(savedTree);
+        console.log('--DAO-- savedTree', savedTree);
         if (savedTree) {
             this._jsonObject = JSON.parse(savedTree);
         }
     }
 
-    public getRootNode(): BeanTreeNode {
+    public getRootNode(): BeanTreeNode|undefined {
         return this._jsonObject;
     }
 }

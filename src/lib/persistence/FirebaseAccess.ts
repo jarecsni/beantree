@@ -21,7 +21,7 @@ export class FirebaseAccess implements PersistenceAccess {
         return updateDoc(doc(FirebaseAccess.db, this.collectionName, id), obj);
     }
     insert(obj: object, key?:string): Promise<unknown> {
-        return key? setDoc(doc(FirebaseAccess.db, 'tree', key || ''), obj) : addDoc(this.dbRef, obj);
+        return key? setDoc(doc(FirebaseAccess.db, this.collectionName, key || ''), obj) : addDoc(this.dbRef, obj);
     }
     delete(id: string): Promise<void> {
         return deleteDoc(doc(FirebaseAccess.db, this.collectionName, id));

@@ -12,7 +12,9 @@ export class BeanTreeSourceMulti {
     }
     getRootNode(): BeanTreeNode {
         let json = this._jsonSource.getRootNode();
+        console.log('json=', json);
         let override = this._persistentSource.getRootNode();
+        console.log('fb=', override);
         return override ? override : json;
     }
 }
