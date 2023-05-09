@@ -1,9 +1,9 @@
-import type { FieldPath } from 'firebase/firestore';
+import type { DocumentReference, FieldPath } from 'firebase/firestore';
 
 export type WhereClause = {
     field: string|FieldPath
     op: string
-    value: string
+    value: unknown
 }
 
 export interface PersistenceAccess {
