@@ -36,7 +36,9 @@ export class FirebaseAccess implements PersistenceAccess {
             query(this.dbRef, ...whereClauses);
         onSnapshot(queryFn, (querySnapshot) => {
 				let objects = [];
+                console.log('onSnapshot')
 				querySnapshot.forEach((doc) => {
+                    console.log('record found', doc.id);
 					objects.push({ ...doc.data(), id: doc.id });
 				});
 				callback(objects);

@@ -17,17 +17,15 @@ export class BeanTreeSourceDAO implements BeanTreeSource {
     private async loadTree() {
         const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('beantree');
         let savedTree;
-        const arr = [this._treeName];
-        const refArr = arr.map(id => firebaseAdmin.firestore().collection("beantree").doc(id));
-        dao.select((treeDef) => {savedTree = treeDef}, 
+        dao.select((treeDef) => {
+                console.log('callback!', treeDef)
+                savedTree = treeDef;
+                this._jsonObject = JSON.parse(savedTree);
+            }, 
             [
-                {field: firebaseAdmin.firestore.FieldPath.documentId(), op: 'in', value: refArr}
+                {field: '__name__', op: '==', value: this._treeName}
             ]
 	    );
-        console.log('--DAO-- savedTree', savedTree);
-        if (savedTree) {
-            this._jsonObject = JSON.parse(savedTree);
-        }
     }
 
     public getRootNode(): BeanTreeNode|undefined {

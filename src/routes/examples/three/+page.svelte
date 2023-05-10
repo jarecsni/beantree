@@ -32,7 +32,6 @@
         new BeanTreePersistenceDAO('example3')
     );
     const bean = model.getRootNode();
-    model.saveTree();
 </script>
 
 <style>
