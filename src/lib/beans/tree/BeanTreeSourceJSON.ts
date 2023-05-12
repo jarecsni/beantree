@@ -9,7 +9,7 @@ export class BeanTreeSourceJSON implements BeanTreeSource {
     constructor(jsonObject: BeanTreeNode) {
         this._jsonObject = jsonObject;
     } 
-    public getRootNode(): BeanTreeNode {
-        return this._jsonObject;
+    public getRootNode(): Promise<BeanTreeNode|undefined> {
+        return Promise.resolve(this._jsonObject);
     }
 }

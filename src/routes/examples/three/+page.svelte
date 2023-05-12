@@ -8,10 +8,12 @@
 <div class="content">
     <BeanTreeExplorerSwitch/>
     <div class="explorerWrapper">
-        <div class="explorer">
-            <BeanTreeExplorer node={bean}/>
-        </div>
-        <div><GenericBean {bean}/></div>
+        {#if bean}
+            <div class="explorer">
+                <BeanTreeExplorer node={bean}/>
+            </div>
+            <div><GenericBean {bean}/></div>
+        {/if}
     </div>
 </div>
 
@@ -20,6 +22,7 @@
 	import BeanTreeExplorerSwitch from '$lib/beans/explorer/BeanTreeExplorerSwitch.svelte';
 	import GenericBean from '$lib/beans/GenericBean.svelte';
     import { BeanTreeModel } from '$lib/beans/tree/BeanTreeModel';
+	import type { BeanTreeNode } from '$lib/beans/tree/BeanTreeNode';
 	import { BeanTreePersistenceDAO } from '$lib/beans/tree/BeanTreePersistenceDAO';
 	import { BeanTreeSourceDAO } from '$lib/beans/tree/BeanTreeSourceDAO';
 	import { BeanTreeSourceJSON } from '$lib/beans/tree/BeanTreeSourceJSON';
@@ -31,7 +34,12 @@
         new BeanTreeSourceMulti(new BeanTreeSourceJSON(beanDefinition), new BeanTreeSourceDAO('example3')),
         new BeanTreePersistenceDAO('example3')
     );
-    const bean = model.getRootNode();
+    let bean:BeanTreeNode|undefined;
+    load();
+    async function load() {
+        bean = await model.getRootNode();
+        console.log('UI:', JSON.stringify(bean));
+    }
 </script>
 
 <style>

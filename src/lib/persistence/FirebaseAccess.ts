@@ -26,7 +26,7 @@ export class FirebaseAccess implements PersistenceAccess {
     delete(id: string): Promise<void> {
         return deleteDoc(doc(FirebaseAccess.db, this.collectionName, id));
     }
-    select(callback: (data: object[]) => void, clauses: WhereClause[], order?: string): void {
+    async select(clauses: WhereClause[], order?: string): Promise<unknown[]> {
         let whereClauses = [];
         clauses.forEach(clause => {
             whereClauses.push(where(clause.field, (clause.op as WhereFilterOp), clause.value));
@@ -34,16 +34,18 @@ export class FirebaseAccess implements PersistenceAccess {
         let queryFn = order ? 
             query(this.dbRef, ...whereClauses, orderBy(order)) : 
             query(this.dbRef, ...whereClauses);
-        onSnapshot(queryFn, (querySnapshot) => {
-				let objects = [];
+        
+        return new Promise((resolve, reject) => {
+            onSnapshot(queryFn, (querySnapshot) => {
+                let objects:unknown[] = [];
                 console.log('onSnapshot')
-				querySnapshot.forEach((doc) => {
+                querySnapshot.forEach((doc) => {
                     console.log('record found', doc.id);
-					objects.push({ ...doc.data(), id: doc.id });
-				});
-				callback(objects);
-			}
-		);
+                    objects.push({ ...doc.data(), id: doc.id });
+                });
+                resolve(objects);
+            });
+        });
     }
     async count(clauses: WhereClause[]): Promise<number> {
         let whereClauses = [];

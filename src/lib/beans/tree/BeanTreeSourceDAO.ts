@@ -2,7 +2,6 @@ import type { PersistenceAccess } from '$lib/persistence/PersistenceAccess';
 import { PersistenceService } from '$lib/persistence/PersistenceService';
 import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreeSource } from './BeanTreeSource';
-import firebaseAdmin from 'firebase-admin';
 
 /*
 * BeanTreeSourceFirebase is for loading bean tree definitions from Firebase 
@@ -12,23 +11,21 @@ export class BeanTreeSourceDAO implements BeanTreeSource {
     private _treeName:string;
     constructor(treeName:string) {
         this._treeName = treeName;
-        this.loadTree();
+        this.loadTree()
     } 
-    private async loadTree() {
+    private async loadTree():Promise<unknown[]> {
         const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('beantree');
-        let savedTree;
-        dao.select((treeDef) => {
-                console.log('callback!', treeDef)
-                savedTree = treeDef;
-                this._jsonObject = JSON.parse(savedTree);
-            }, 
+        return dao.select(
             [
                 {field: '__name__', op: '==', value: this._treeName}
-            ]
-	    );
+            ]);
     }
 
-    public getRootNode(): BeanTreeNode|undefined {
+    public async getRootNode(): Promise<BeanTreeNode|undefined> {
+        if(!this._jsonObject) {
+            this._jsonObject = (await this.loadTree())[0] as BeanTreeNode;
+        }
+        console.log('dao loaded:', JSON.stringify(this._jsonObject))
         return this._jsonObject;
     }
 }
