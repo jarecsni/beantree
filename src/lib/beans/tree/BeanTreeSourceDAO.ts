@@ -7,12 +7,15 @@ import type { BeanTreeSource } from './BeanTreeSource';
 * BeanTreeSourceFirebase is for loading bean tree definitions from Firebase 
 */
 export class BeanTreeSourceDAO implements BeanTreeSource {
+    
     private _jsonObject:BeanTreeNode | undefined;
     private _treeName:string;
+    
     constructor(treeName:string) {
         this._treeName = treeName;
         this.loadTree()
     } 
+    
     private async loadTree():Promise<unknown[]> {
         const dao:PersistenceAccess = PersistenceService.getInstance().getDataAccessObjectFor('beantree');
         return dao.select(
@@ -21,7 +24,7 @@ export class BeanTreeSourceDAO implements BeanTreeSource {
             ]);
     }
 
-    public async getRootNode(): Promise<BeanTreeNode|undefined> {
+    public async getRootNode(): Promise<BeanTreeNode> {
         if(!this._jsonObject) {
             this._jsonObject = (await this.loadTree())[0] as BeanTreeNode;
         }

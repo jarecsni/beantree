@@ -7,6 +7,7 @@ import type { BeanTreeSource } from './BeanTreeSource';
 * BeanTreeSourceFirebase is for loading bean tree definitions from Firebase 
 */
 export class BeanTreeSourceLocalStorage implements BeanTreeSource {
+    
     private _jsonObject:BeanTreeNode = {} as BeanTreeNode;
     private _treeName:string;
     
@@ -14,6 +15,7 @@ export class BeanTreeSourceLocalStorage implements BeanTreeSource {
         this._treeName = treeName;
         this.loadTree();
     } 
+    
     private async loadTree() {
         if (typeof window !== 'undefined') {
             const savedTree = localStorage.getItem(this._treeName);
@@ -22,8 +24,8 @@ export class BeanTreeSourceLocalStorage implements BeanTreeSource {
             }
         }
     }
-
-    public getRootNode(): BeanTreeNode {
-        return this._jsonObject;
+    
+    public async getRootNode(): Promise<BeanTreeNode> {
+        return Promise.resolve(this._jsonObject);
     }
 }
