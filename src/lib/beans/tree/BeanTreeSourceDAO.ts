@@ -28,7 +28,6 @@ export class BeanTreeSourceDAO implements BeanTreeSource {
         if(!this._jsonObject) {
             this._jsonObject = (await this.loadTree())[0] as BeanTreeNode;
         }
-        console.log('dao loaded:', JSON.stringify(this._jsonObject))
         return this._jsonObject;
     }
 }
