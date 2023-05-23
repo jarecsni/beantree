@@ -27,6 +27,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"beantree": "^0.1.0"
+		"beantree": "^0.1.1"
 	}
 }

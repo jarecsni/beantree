@@ -1,0 +1,76 @@
+{
+	"name": "beantree",
+	"version": "0.1.1",
+	"description": "A revolutionary frontend framework based on beans and a tree.",
+	"author": "Johnny Jarecsni <johnny.jarecsni@icloud.com>",
+	"license": "MIT",
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"graph",
+		"render",
+		"framework"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jarecsni/beantree"
+	},
+	"bugs": {
+		"url": "https://github.com/jarecsni/beantree/issues"
+	},
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"package": "svelte-package",
+		"test:ui": "playwright test",
+		"smui-theme": "smui-theme compile static/smui.css -i src/theme",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "vitest",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.33.0",
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "^1.18.0",
+		"@sveltejs/package": "^2.0.2",
+		"@testing-library/svelte": "^3.2.2",
+		"@typescript-eslint/eslint-plugin": "^5.59.6",
+		"@typescript-eslint/parser": "^5.59.6",
+		"eslint": "^8.40.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"happy-dom": "^9.19.2",
+		"prettier": "^2.8.8",
+		"prettier-plugin-svelte": "^2.10.0",
+		"smui-theme": "^7.0.0-beta.8",
+		"svelte-check": "^3.3.2",
+		"tslib": "^2.5.2",
+		"typescript": "^5.0.4",
+		"vite": "^4.3.8",
+		"vitest": "^0.31.1",
+		"vitest-localstorage-mock": "^0.0.1"
+	},
+	"type": "module",
+	"dependencies": {
+		"@smui-extra/accordion": "^7.0.0-beta.8",
+		"@smui/button": "^7.0.0-beta.8",
+		"@smui/data-table": "^7.0.0-beta.8",
+		"@smui/dialog": "^7.0.0-beta.8",
+		"@smui/list": "^7.0.0-beta.8",
+		"@smui/menu": "^7.0.0-beta.8",
+		"@smui/menu-surface": "^7.0.0-beta.8",
+		"@smui/switch": "^7.0.0-beta.8",
+		"@smui/textfield": "^7.0.0-beta.8",
+		"firebase": "^9.22.0",
+		"svelte": "^3.59.1"
+	},
+	"exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "svelte": "./dist/index.js"
+        }
+    }
+}
