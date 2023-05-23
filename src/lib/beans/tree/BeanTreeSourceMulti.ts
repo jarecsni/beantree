@@ -17,9 +17,7 @@ export class BeanTreeSourceMulti implements BeanTreeSource {
     async getRootNode(): Promise<BeanTreeNode> {
         if(!this._rootNode) {
             let json = await this._jsonSource.getRootNode();
-            console.log('json=', json);
             let override = await this._persistentSource.getRootNode();
-            console.log('override=', override);
             this._rootNode = override ? override : json;
         }
         return Promise.resolve(this._rootNode);
