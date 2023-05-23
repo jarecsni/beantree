@@ -30,7 +30,7 @@
     import {init} from '../../../application';
     import beanDefinition from './example3.json';
     init();
-    const model = new BeanTreeModel("example3", 
+    const model = new BeanTreeModel( 
         new BeanTreeSourceMulti(new BeanTreeSourceJSON(beanDefinition), new BeanTreeSourceDAO('example3')),
         new BeanTreePersistenceDAO('example3')
     );
