@@ -35,11 +35,7 @@
         new BeanTreePersistenceDAO('example3')
     );
     let bean:BeanTreeNode|undefined;
-    load();
-    async function load() {
-        bean = await model.getRootNode();
-        console.log('UI:', JSON.stringify(bean));
-    }
+    model.getRootNode().then(node => {bean = node;});
 </script>
 
 <style>
