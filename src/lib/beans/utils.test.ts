@@ -19,6 +19,7 @@ const meta1:PropertiesObject = {
 
 describe('mergePropsWithMeta', () => {
     it('merges a single property with a meta information', () => {
+        expect(meta1.sections[0].properties[0].value).toBeUndefined();
         const merged = mergePropsWithMetaImpl({test1: 'Some value'}, meta1, 'testbean');
         expect(merged.sections[0].properties[0].value).toBe('Some value');
     });
