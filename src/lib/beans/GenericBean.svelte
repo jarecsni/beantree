@@ -29,7 +29,7 @@
 		<Button>
 			<Label>Cancel</Label>
 		</Button>
-		<Button on:click={doSaveConfig(configObject)}>
+		<Button on:click={doSaveConfig}>
 			<Label>Save</Label>
 		</Button>
 	</Actions>
@@ -59,9 +59,8 @@
 	let metaInfo = BeanRegistry.getInstance().geBeanMetaInfo(bean.bean);
 	let	configObject:PropertiesObject;
 	if(metaInfo?.properties) {
-		configObject = {sections: [{name: 'S', properties: [{description: 'X', name: 'XD', value: 'Alma'}]}]}
+		configObject = metaInfo.properties
 	}
-
 	$: {
 		selected = getTreeNodePath(bean) == $selectedInstanceId;
 	}
@@ -79,8 +78,8 @@
 	function editProperties() {
 		configureNodeDialogueOpen = true;
 	}
-	function doSaveConfig(obj:PropertiesObject) {
-		console.log(JSON.stringify(obj));
+	function doSaveConfig() {
+		
 	}
 </script>
 

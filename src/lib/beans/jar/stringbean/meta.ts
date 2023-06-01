@@ -12,7 +12,7 @@ export const getMetaInfo = ():BeanMetaInfo => ({
             {
                 name: 'Bean Properties', properties: [
                     {name: 'text', description: 'The text to display'}
-            ]
-        }]
+                ]
+            }]
     }
 })
