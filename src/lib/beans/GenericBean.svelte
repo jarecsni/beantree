@@ -29,7 +29,7 @@
 		<Button>
 			<Label>Cancel</Label>
 		</Button>
-		<Button on:click{doSaveConfig}>
+		<Button on:click={doSaveConfig(configObject)}>
 			<Label>Save</Label>
 		</Button>
 	</Actions>
@@ -57,9 +57,9 @@
 	let configureNodeDialogueOpen = false;
 	
 	let metaInfo = BeanRegistry.getInstance().geBeanMetaInfo(bean.bean);
-	let	configObject = null;
+	let	configObject:PropertiesObject;
 	if(metaInfo?.properties) {
-		configObject = {sections: [{name: 'S', properties: [{description: 'X', displayName: 'XD', value: 'Alma'}]}]}
+		configObject = {sections: [{name: 'S', properties: [{description: 'X', name: 'XD', value: 'Alma'}]}]}
 	}
 
 	$: {
@@ -78,6 +78,9 @@
 	}
 	function editProperties() {
 		configureNodeDialogueOpen = true;
+	}
+	function doSaveConfig(obj:PropertiesObject) {
+		console.log(JSON.stringify(obj));
 	}
 </script>
 

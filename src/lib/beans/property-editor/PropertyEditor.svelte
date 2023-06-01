@@ -14,7 +14,8 @@
 					<Body>
 						{#each Object.keys(section.properties) as property}
 							<Row>
-								<Cell>{section.properties[property].displayName}</Cell>
+								<Cell>{section.properties[property].displayName ||
+										section.properties[property].name}</Cell>
 								<Cell>
 									<svelte:component 
 										this={editors[property]}
