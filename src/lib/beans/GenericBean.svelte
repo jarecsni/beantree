@@ -39,7 +39,7 @@
 	import { selectedInstanceId } from './tree/store';
 	import type { SvelteComponent } from 'svelte';
 	import type { BeanTreeNode, KVType } from './tree/BeanTreeNode';
-	import { getPlatformSpecificRenderer } from './utils';
+	import { getPlatformSpecificRenderer, mergePropsWithMetaImpl } from './utils';
 	import { getTreeNodePath } from './tree/BeanTreeNode';
 	import Menu from '@smui/menu';
   	import List, { Item, Separator, Text } from '@smui/list';
@@ -58,8 +58,8 @@
 	
 	let metaInfo = BeanRegistry.getInstance().geBeanMetaInfo(bean.bean);
 	let	configObject:PropertiesObject;
-	if(metaInfo?.properties) {
-		configObject = metaInfo.properties
+	if(metaInfo?.properties && bean.props) {
+		configObject = mergePropsWithMetaImpl(bean.props, metaInfo.properties, bean.bean);
 	}
 	$: {
 		selected = getTreeNodePath(bean) == $selectedInstanceId;
@@ -79,7 +79,7 @@
 		configureNodeDialogueOpen = true;
 	}
 	function doSaveConfig() {
-		
+		console.log('doSaveConfig', JSON.stringify(configObject));
 	}
 </script>
 

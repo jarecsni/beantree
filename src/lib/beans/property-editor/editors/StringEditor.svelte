@@ -1,4 +1,4 @@
-<Textfield bind:value={value}>
+<Textfield bind:value={property.value}>
     <IconButton 
         class="material-icons" 
         slot="trailingIcon" 
@@ -11,17 +11,16 @@
 <div class="surface-wrapper">
   <Dialog bind:open={editorOpen}>
     <Paper>
-      <Title>{displayName}</Title>
+      <Title>{property.displayName}</Title>
       <Content>
         <div class="string-editor-content">
-          <Textfield textarea bind:value={value} autofocus />
+          <Textfield textarea bind:value={property.value} autofocus />
           <Button on:click={()=>(editorOpen=false)}><Label>Close</Label></Button>
         </div>
       </Content>
     </Paper>
   </Dialog>
 </div> 
-
 
 <script lang="ts">
 	  import Textfield from '@smui/textfield';
@@ -30,9 +29,12 @@
     import Button, {Label} from '@smui/button';
     import './StringEditor.global.scss';
 	  import Dialog from '@smui/dialog';
-
-    export let value, displayName;
+    import type { Property } from './../PropertyEditorTypes';
+	  
+    export let property:Property;
+    const displayName = property.displayName;
     let editorOpen: boolean;
+    
 </script>
 
 <style>

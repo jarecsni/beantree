@@ -12,18 +12,20 @@
 						</Row>
 					</Head>
 					<Body>
-						{#each Object.keys(section.properties) as property}
+						{#each section.properties as property}
 							<Row>
-								<Cell>{section.properties[property].displayName ||
-										section.properties[property].name}</Cell>
+								<Cell>
+									{property.displayName || property.name}
+								</Cell>
 								<Cell>
 									<svelte:component 
-										this={editors[property]}
-										value={section.properties[property].value}
-										displayName={section.properties[property].displayName}
+										this={editors[property.name]}
+										{property}
 									/>
 								</Cell>
-                                <Cell>{section.properties[property].description}</Cell>
+                                <Cell>
+									{property.description}
+								</Cell>
 							</Row>
 						{/each}
 					</Body>
@@ -84,10 +86,9 @@
 	const {sections} = obj;
 	const editors = {};
 	sections.forEach(section => {
-		Object.keys(section.properties).forEach(propertyName => {
-			const property = section.properties[propertyName];
-			const type = property.type || property.value.constructor.name;
-			editors[propertyName] = editorsByType[type] || StringEditor;
+		section.properties.forEach(property => {
+			const type = property.value.constructor.name;
+			editors[property.name] = editorsByType[type] || StringEditor;
 			// TODO one idea might be:
 			// https://www.webtips.dev/webtips/svelte/how-to-dynamically-render-components-in-svelte
 			// Also (props): https://svelte.dev/repl/74593f36569a4c268d8a6ab277db34b5?version=3.12.1
