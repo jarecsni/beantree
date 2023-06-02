@@ -35,4 +35,20 @@ export const mergePropsWithMetaImpl = (instanceProperties:KVType, propertyInfo:P
     return result;
 }   
 
+export const checkPropertiesObject = (obj:PropertiesObject) => {
+    const sectionsMap = new Map<string, string>();
+    const propertiesMap = new Map<string, string>();
+    obj.sections.forEach(section => {
+        if(sectionsMap.has(section.name)) {
+            throw new Error('duplicate section key: ' + section.name);
+        }
+        sectionsMap.set(section.name, section.name);
+        section.properties.forEach(prop => {
+            if (propertiesMap.has(prop.name)) {
+                throw new Error('duplicate property key: ' + prop.name);
+            }
+            propertiesMap.set(prop.name, prop.name);
+        });  
+    });
+}
 
