@@ -3,5 +3,5 @@
 <script lang="ts">
     import Switch from '@smui/switch';
 	import type { Property } from '../PropertyEditorTypes';
-    export let property:Property;
+    export let property:Property<boolean>;
 </script>

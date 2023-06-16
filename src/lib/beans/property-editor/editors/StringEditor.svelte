@@ -31,7 +31,7 @@
 	  import Dialog from '@smui/dialog';
     import type { Property } from './../PropertyEditorTypes';
 	  
-    export let property:Property;
+    export let property:Property<string>;
     const displayName = property.displayName;
     let editorOpen: boolean;
     
