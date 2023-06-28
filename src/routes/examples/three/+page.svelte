@@ -22,6 +22,7 @@
 	import BeanTreeExplorerSwitch from '$lib/beans/explorer/BeanTreeExplorerSwitch.svelte';
 	import GenericBean from '$lib/beans/GenericBean.svelte';
     import { BeanTreeModel } from '$lib/beans/tree/BeanTreeModel';
+	import { BeanTreeModelService } from '$lib/beans/tree/BeanTreeModelService';
 	import type { BeanTreeNode } from '$lib/beans/tree/BeanTreeNode';
 	import { BeanTreePersistenceDAO } from '$lib/beans/tree/BeanTreePersistenceDAO';
 	import { BeanTreeSourceDAO } from '$lib/beans/tree/BeanTreeSourceDAO';
@@ -30,10 +31,8 @@
     import {init} from '../../../application';
     import beanDefinition from './example3.json';
     init();
-    const model = new BeanTreeModel( 
-        new BeanTreeSourceMulti(new BeanTreeSourceJSON(beanDefinition), new BeanTreeSourceDAO('example3')),
-        new BeanTreePersistenceDAO('example3')
-    );
+    BeanTreeModelService.getInstance().setBeanTreeModelFor(beanDefinition, 'example3');
+    const model = BeanTreeModelService.getInstance().getTreeModel();
     let bean:BeanTreeNode|undefined;
     model.getRootNode().then(node => {bean = node;});
 </script>

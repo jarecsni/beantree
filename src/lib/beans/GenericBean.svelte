@@ -82,6 +82,7 @@
 		console.log('doSaveConfig', JSON.stringify(configObject));
 		console.log('bean', bean);
 		const props = convertToPlainObject(configObject);
+		console.log('plain props', props);
 	}
 </script>
 
