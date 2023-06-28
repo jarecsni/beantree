@@ -16,6 +16,7 @@ export class BeanTreePersistenceDAO implements BeanTreePersistence {
             ]
 	    );
         console.log('saved tree found (upon saving)', savedTree);
+        console.log('updating with node', node);
         if (savedTree) {
             dao.update(this._treeName, node);
         } else {

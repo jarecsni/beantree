@@ -48,6 +48,7 @@
 	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button, { Label } from '@smui/button';
 	import { BeanRegistry } from './BeanRegistry';
+	import { BeanTreeModelService } from './tree/BeanTreeModelService';
 
 	export let bean: BeanTreeNode;
 
@@ -79,10 +80,12 @@
 		configureNodeDialogueOpen = true;
 	}
 	function doSaveConfig() {
-		console.log('doSaveConfig', JSON.stringify(configObject));
-		console.log('bean', bean);
-		const props = convertToPlainObject(configObject);
-		console.log('plain props', props);
+		const props:KVType = convertToPlainObject(configObject);
+		bean.props = props;
+		console.log('bean to be saved', bean);
+		BeanTreeModelService.getInstance().getTreeModel().getRootNode().then(rn => console.log('bean in model', rn))
+		BeanTreeModelService.getInstance().getTreeModel().saveTree();
+		console.log('bean now', bean);
 	}
 </script>
 
