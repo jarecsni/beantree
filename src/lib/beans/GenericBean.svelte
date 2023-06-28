@@ -39,7 +39,7 @@
 	import { selectedInstanceId } from './tree/store';
 	import type { SvelteComponent } from 'svelte';
 	import type { BeanTreeNode, KVType } from './tree/BeanTreeNode';
-	import { getPlatformSpecificRenderer, mergePropsWithMetaImpl } from './utils';
+	import { getPlatformSpecificRenderer, mergePropsWithMetaImpl, convertToPlainObject } from './utils';
 	import { getTreeNodePath } from './tree/BeanTreeNode';
 	import Menu from '@smui/menu';
   	import List, { Item, Separator, Text } from '@smui/list';
@@ -71,7 +71,7 @@
 		});
 	}
 	bean.props = props;
-	const beanRendererComponent: typeof SvelteComponent | undefined =getPlatformSpecificRenderer(bean);
+	const beanRendererComponent: typeof SvelteComponent | undefined = getPlatformSpecificRenderer(bean);
 	function handleOverlayClick(event: Event) {
 		menu.setOpen(true);
 	}
@@ -80,6 +80,8 @@
 	}
 	function doSaveConfig() {
 		console.log('doSaveConfig', JSON.stringify(configObject));
+		console.log('bean', bean);
+		const props = convertToPlainObject(configObject);
 	}
 </script>
 

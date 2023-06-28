@@ -52,3 +52,14 @@ export const checkPropertiesObject = (obj:PropertiesObject) => {
     });
 }
 
+export const convertToPlainObject = (props: PropertiesObject): object => {
+    const result:KVType = {};
+    props.sections.forEach(section => {
+        section.properties.forEach(prop => {
+            if (prop.value) {
+                result[prop.name] = prop.value;
+            }
+        });  
+    });
+    return result;
+}
