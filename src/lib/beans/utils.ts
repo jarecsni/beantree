@@ -63,3 +63,18 @@ export const convertToPlainObject = (props: PropertiesObject): KVType => {
     });
     return result;
 }
+
+export const stripBeanReferences = (bean: BeanTreeNode): BeanTreeNode => {
+    if (bean.children) {
+        bean.children.forEach(child => {
+            delete bean.props![child.instanceId];
+            delete child.parent;
+            stripBeanReferences(child);
+        })
+        if (Object.keys(bean.props!).length == 0) {
+            delete bean.props;
+        }
+    }
+    delete bean.id;
+    return bean;
+}

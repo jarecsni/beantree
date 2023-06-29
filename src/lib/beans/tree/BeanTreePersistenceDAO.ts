@@ -1,5 +1,6 @@
 import type { PersistenceAccess } from '$lib/persistence/PersistenceAccess';
 import { PersistenceService } from '$lib/persistence/PersistenceService';
+import { stripBeanReferences } from '../utils';
 import type { BeanTreeNode } from './BeanTreeNode';
 import type { BeanTreePersistence } from './BeanTreePersistence';
 
@@ -16,11 +17,12 @@ export class BeanTreePersistenceDAO implements BeanTreePersistence {
             ]
 	    );
         console.log('saved tree found (upon saving)', savedTree);
-        console.log('updating with node', node);
+        const nodeCopy = stripBeanReferences(structuredClone(node));
+        console.log('updating with node', nodeCopy);
         if (savedTree) {
-            dao.update(this._treeName, node);
+            dao.update(this._treeName, nodeCopy);
         } else {
-            dao.insert(node, this._treeName);
+            dao.insert(nodeCopy, this._treeName);
         }
     }
 }
