@@ -11,7 +11,7 @@
 <div class="surface-wrapper">
   <Dialog bind:open={editorOpen}>
     <Paper>
-      <Title>{property.displayName}</Title>
+      <Title>{property.displayName || property.name}</Title>
       <Content>
         <div class="string-editor-content">
           <Textfield textarea bind:value={property.value} autofocus />

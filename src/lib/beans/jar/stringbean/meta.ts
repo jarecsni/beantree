@@ -11,7 +11,7 @@ export const getMetaInfo = ():BeanMetaInfo => ({
         sections: [
             {
                 name: 'Bean Properties', properties: [
-                    {name: 'text', description: 'The text to display'}
+                    {name: 'text', description: 'The text to display', displayName: 'Textike'}
                 ]
             }]
     }
