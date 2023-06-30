@@ -40,9 +40,9 @@ export class FirebaseAccess implements PersistenceAccess {
                 let objects:unknown[] = [];
                 console.log('onSnapshot')
                 querySnapshot.forEach((doc) => {
-                    console.log('record found', doc.id);
                     objects.push({ ...doc.data(), id: doc.id });
                 });
+                console.log('objects: ', objects);
                 resolve(objects);
             });
         });

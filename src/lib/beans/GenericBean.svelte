@@ -1,5 +1,5 @@
 <div class="wrapper">
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div class="overlay" class:selected on:contextmenu|preventDefault={handleOverlayClick} />
 	<svelte:component this={beanRendererComponent} {bean} {...props} />
 </div>
@@ -50,9 +50,8 @@
 	import { BeanRegistry } from './BeanRegistry';
 	import { BeanTreeModelService } from './tree/BeanTreeModelService';
 
-	export let bean: BeanTreeNode;
-
-	const props: KVType = bean.props || {};
+	export let bean: BeanTreeNode; 
+	let props: KVType = bean.props || {};
 	let selected = false;
 	let menu: Menu;
 	let configureNodeDialogueOpen = false;
@@ -72,7 +71,7 @@
 		});
 	}
 	bean.props = props;
-	const beanRendererComponent: typeof SvelteComponent | undefined = getPlatformSpecificRenderer(bean);
+	let beanRendererComponent: typeof SvelteComponent | undefined = getPlatformSpecificRenderer(bean);
 	function handleOverlayClick(event: Event) {
 		menu.setOpen(true);
 	}
@@ -80,12 +79,10 @@
 		configureNodeDialogueOpen = true;
 	}
 	function doSaveConfig() {
-		const props:KVType = convertToPlainObject(configObject);
-		bean.props = props;
-		console.log('bean to be saved', bean);
-		BeanTreeModelService.getInstance().getTreeModel().getRootNode().then(rn => console.log('bean in model', rn))
+		const plainProps:KVType = convertToPlainObject(configObject);
+		bean.props = plainProps;
+		props = bean.props || {};
 		BeanTreeModelService.getInstance().getTreeModel().saveTree();
-		console.log('bean now', bean);
 	}
 </script>
 
