@@ -4,11 +4,11 @@
     Example application for visualising data
 </p>
 
-<LightBulb/>
+<LightBulb id="bulb"/>
 
 Use the button to switch on and off the light.
 
-<Switch/>
+<Switch id="switch"/>
 
 <script lang="ts">
 	import Switch from './switch/Switch.svelte';
@@ -19,7 +19,6 @@ Use the button to switch on and off the light.
 
 	const beanLink = new BeanLink('example5');
     setContext('beanlink', beanLink);
-    
-	
+	beanLink.mapState('switch', 'lightSwitch');
 </script>
 
