@@ -19,6 +19,6 @@ Use the button to switch on and off the light.
 
 	const beanLink = new BeanLink('example5');
     setContext('beanlink', beanLink);
-	beanLink.mapState('switch', 'lightSwitch');
+	beanLink.mapEvent('switch', 'lightSwitch');
 </script>
 

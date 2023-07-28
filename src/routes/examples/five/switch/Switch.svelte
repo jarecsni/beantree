@@ -10,6 +10,6 @@
 
     let value = false;
     const onChange = () => {
-        beanLink.publishStateChange(id, 'switch', value);
+        beanLink.publishEvent(id, 'switch', value);
     }
 </script>

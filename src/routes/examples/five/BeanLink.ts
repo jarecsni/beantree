@@ -6,33 +6,34 @@ export class BeanLink {
     
     private _name:string;
     private _bus:EventBus;
-    private _stateMap:Map<string, string>;
+    private _eventMap:Map<string, string>;
 
     constructor(name:string) {
         this._name = name;
         this._bus = new EventBus();
-        this._stateMap = new Map();
+        this._eventMap = new Map();
     }
 
     get name() {
         return this._name;
     }
 
-    public publishStateChange(id:string, stateName:string, value:unknown) {
-        const mapped = this._stateMap.get(stateName) || stateName;
+    public publishEvent(sourceId:string, eventId:string, payload:unknown) {
+        const mapped = this._eventMap.get(eventId) || eventId;
+        console.log('[beanlink][publish]['+sourceId+'] ' + eventId + ' = ' + JSON.stringify(payload));
         this._bus.publish({
-            type: 'state.changed.' + mapped,
-            payload: value
+            type: mapped,
+            payload
         });
     }
 
-    public subscribeToStateChange(name:string, handler:StateChangeHandler) {
-        this._bus.subscribe('state.changed.'+name, (event) => {
-            handler({value: event.payload});
+    public subscribeToEvent(eventId:string, handler:StateChangeHandler) {
+        this._bus.subscribe(eventId, (event) => {
+            handler({payload: event.payload});
         });
     }
 
-    public mapState(from:string, to:string) {
-        this._stateMap.set(from, to);
+    public mapEvent(from:string, to:string) {
+        this._eventMap.set(from, to);
     }
 }

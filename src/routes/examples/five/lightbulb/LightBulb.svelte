@@ -12,8 +12,8 @@
     export let id;
     let isOn = false;
 
-    beanLink.subscribeToStateChange('lightSwitch', (payload:KVType) => {
-        isOn = payload.value as boolean;
+    beanLink.subscribeToEvent('lightSwitch', (payload:KVType) => {
+        isOn = payload.payload as boolean;
     });
 
 </script>
