@@ -8,3 +8,5 @@
 <a href="/examples/four">Four</a>
 
 <a href="/examples/five">Five</a>
+
+<a href="/examples/six">Six</a>
