@@ -5,6 +5,7 @@
 </p>
 
 <LightBulb id="bulb"/>
+<LightBulb id="bulb2"/>
 
 Use the button to switch on and off the light.
 

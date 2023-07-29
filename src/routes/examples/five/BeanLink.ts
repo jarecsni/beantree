@@ -1,3 +1,4 @@
+import type { KVType } from "$lib/beans/tree/BeanTreeNode";
 import { EventBus, createEventDefinition } from "ts-bus";
 
 type StateChangeHandler = (payload:KVType) => void;
