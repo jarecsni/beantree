@@ -1,16 +1,20 @@
 import type { KVType } from "$lib/beans/tree/BeanTreeNode";
-import type { StreamHandler } from "./StreamHandler";
+
 import data from "./data.json";
+
+export declare type onStreamDataHandler = (symbol:string, number: number) => void;
 
 class DataPump {
     private symbol:string;
     private index: number = 0;
     private numbers:Array<number>;
     private running:boolean = false;
+    private handler:onStreamDataHandler;
 
-    constructor(symbol:string, numbers:Array<number>, handler:(symbol:string,number:number)=>void) {
+    constructor(symbol:string, numbers:Array<number>, handler:onStreamDataHandler) {
         this.symbol = symbol;
         this.numbers = numbers;
+        this.handler = handler;
     }
 
     start():void {
@@ -18,7 +22,7 @@ class DataPump {
         const doWork =() => {
             // Do the work here
             const number = this.next();
-
+            this.handler(this.symbol, number);
             if (this.running) {
                 // Generate a random interval between 1 and 5 seconds (1000 to 5000 milliseconds)
                 const randomInterval = Math.floor(Math.random() * 4000) + 1000;
@@ -26,7 +30,8 @@ class DataPump {
                 // Call the doWork function again after the random interval
                 setTimeout(doWork, randomInterval);
             }
-        }        
+        }      
+        doWork();  
     }
 
     stop():void {
@@ -46,9 +51,10 @@ class DataPump {
 export class Streamer {
     
     private static instance: Streamer;
-    private handlerMap: Map<String, Array<StreamHandler>>;
+    private handlerMap: Map<String, Array<onStreamDataHandler>>;
     private data: {[key: string]: Array<number>};
     private pumpers:Array<DataPump> = [];
+    private running:boolean = false;
 
     private constructor() {
         // Private constructor to prevent instantiation from outside the class
@@ -57,13 +63,18 @@ export class Streamer {
     }
   
     public static getInstance(): Streamer {
-      if (!Streamer.instance) {
-        Streamer.instance = new Streamer();
-      }
-      return Streamer.instance;
+        if (!Streamer.instance) {
+            Streamer.instance = new Streamer();
+        }
+        return Streamer.instance;
     }
 
-    public connect(symbol:string, handler:StreamHandler) {
+    public initialise() {
+        this.stopStreaming();
+        this.handlerMap = new Map();
+    }
+
+    public connect(symbol:string, handler:onStreamDataHandler) {
         let handlers = this.handlerMap.get(symbol);
         if (!handlers) {
             handlers = [];
@@ -72,7 +83,7 @@ export class Streamer {
         handlers.push(handler);
     }
 
-    public disconnect(symbol:string, handler:StreamHandler) {
+    public disconnect(symbol:string, handler:onStreamDataHandler) {
         const handlers = this.handlerMap.get(symbol);
         if (handlers) {
             const index = handlers.findIndex((item) => item === handler);
@@ -83,6 +94,7 @@ export class Streamer {
     }
 
     public startStreaming() {
+        this.running = true;
         for (const symbol in this.data) {
             const pumper = new DataPump(symbol, this.data[symbol], (symbol:string, number:number) => {
                 this.publish(symbol, number);
@@ -93,6 +105,7 @@ export class Streamer {
     }
 
     public stopStreaming() {
+        this.running = false;
         this.pumpers.forEach(p => {
             p.stop();
         })
@@ -100,10 +113,13 @@ export class Streamer {
     }
 
     private publish(symbol:string, number:number) {
-        const handlers:Array<StreamHandler>|undefined = this.handlerMap.get(symbol);
+        if (!this.running) {
+            return;
+        }
+        const handlers:Array<onStreamDataHandler>|undefined = this.handlerMap.get(symbol);
         if (handlers) {
             handlers.forEach(h => {
-                h.onData(symbol, number);
+                h(symbol, number);
             })
         }
     }
