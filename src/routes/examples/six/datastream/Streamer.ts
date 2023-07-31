@@ -23,9 +23,8 @@ export class DataPump {
             if (this.running) {
                 const number = this.next();
                 this.handler(this.symbol, number);
-                    // Generate a random interval between 1 and 5 seconds (1000 to 5000 milliseconds)
+                // Generate a random interval between 1 and 5 seconds (1000 to 5000 milliseconds)
                 const randomInterval = Math.floor(Math.random() * 4000) + 1000;
-            
                 // Call the doWork function again after the random interval
                 setTimeout(doWork, randomInterval);
             }
