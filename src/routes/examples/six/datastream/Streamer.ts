@@ -4,9 +4,9 @@ import data from "./data.json";
 
 export declare type onStreamDataHandler = (symbol:string, number: number) => void;
 
-class DataPump {
+export class DataPump {
     private symbol:string;
-    private index: number = 0;
+    private index: number = -1;
     private numbers:Array<number>;
     private running:boolean = false;
     private handler:onStreamDataHandler;
@@ -20,11 +20,10 @@ class DataPump {
     start():void {
         this.running = true;
         const doWork =() => {
-            // Do the work here
-            const number = this.next();
-            this.handler(this.symbol, number);
             if (this.running) {
-                // Generate a random interval between 1 and 5 seconds (1000 to 5000 milliseconds)
+                const number = this.next();
+                this.handler(this.symbol, number);
+                    // Generate a random interval between 1 and 5 seconds (1000 to 5000 milliseconds)
                 const randomInterval = Math.floor(Math.random() * 4000) + 1000;
             
                 // Call the doWork function again after the random interval
@@ -36,7 +35,7 @@ class DataPump {
 
     stop():void {
         this.running = false;
-        this.index = 0;
+        this.index = -1;
     }
 
     next():number {
@@ -45,8 +44,8 @@ class DataPump {
         }
         return this.numbers[this.index];        
     }
-
 }
+
 
 export class Streamer {
     
