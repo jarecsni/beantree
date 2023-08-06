@@ -1,6 +1,6 @@
 <div class="app">
     <div class="toolbar">
-        <CounterpartyPicker {counterparties} selectedCounterparty={counterparties[0]}/>
+        <CounterpartyPicker {counterparties} selectedCounterparty={counterparties[0]} id="counterpartyPicker"/>
     </div>
     <div class="container">
         
@@ -9,9 +9,12 @@
 </div>
 
 <script lang="ts">
+	import { setContext } from "svelte";
     import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
 	import { CounterpartyService } from "./components/counterparty/CounterpartyService";
+	import { BeanLink } from "./BeanLink";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
+    setContext('beanlink', new BeanLink('App'));
 </script>
 
 <style>
