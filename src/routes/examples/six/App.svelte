@@ -11,7 +11,7 @@
 <script lang="ts">
 	import { setContext } from "svelte";
     import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
-	import { CounterpartyService } from "./components/counterparty/CounterpartyService";
+	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     setContext('beanlink', new BeanLink('App'));
