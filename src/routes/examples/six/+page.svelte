@@ -23,8 +23,10 @@
     // }, 10000);
 
     const counterpartyChangedHandler = (event:BusEvent) => {
-        const credit = CreditService.getInstance().getCredit(event.payload.counterparty);
-        console.log('credit is', credit, 'for counterparty', event.payload.counterparty);
+        if (event.payload.counterparty) {
+            const credit = CreditService.getInstance().getCredit(event.payload.counterparty);
+            console.log('credit is', credit, 'for counterparty', event.payload.counterparty);
+        }
     };
 
     beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
