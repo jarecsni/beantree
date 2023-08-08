@@ -13,8 +13,15 @@
     import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
 	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";
+	import type { BusEvent } from "ts-bus/types";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
-    setContext('beanlink', new BeanLink('App'));
+    const beanLink = new BeanLink('App');
+    setContext('beanlink', beanLink);
+
+    const counterpartyChangedHandler = (event:BusEvent) => {
+        console.log('handling event', JSON.stringify(event));
+    };
+    beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
 </script>
 
 <style>

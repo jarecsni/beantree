@@ -26,9 +26,9 @@ export class BeanLink {
     }
 
     public publishEvent(sourceId:string, event:BusEvent) {
-        const mapped = this._eventMap.get(event.type) || event.type;
+        const mapped = this._name + '.' + (this._eventMap.get(event.type) || event.type);
         const typeInfo = event.type !== mapped ? mapped + '(' + event.type + ')' : mapped;
-        console.log('[beanlink:publish][' + moment().format() + ']: ' + sourceId + '/' + typeInfo + '(' + JSON.stringify(event.payload) + ')');
+        this.log('publish', sourceId + '/' + typeInfo + '(' + JSON.stringify(event.payload) + ')');
         const busEventPayload = {
             ...event,
             type: mapped
@@ -37,12 +37,18 @@ export class BeanLink {
     }
 
     public subscribeToEvent(eventId:string, handler:EventHandler) {
-        BeanLink._bus.subscribe(eventId, (event) => {
+        const qualifiedEventName = this._name + '.' + eventId;
+        this.log('subscribe', qualifiedEventName);
+        BeanLink._bus.subscribe(qualifiedEventName, (event) => {
             handler(event);
         });
     }
 
     public mapEvent(from:string, to:string) {
         this._eventMap.set(from, to);
+    }
+
+    private log(action:string, message:string) {
+        console.log('[beanlink:' + action + '][' + moment().format() + ']:', message);
     }
 }
