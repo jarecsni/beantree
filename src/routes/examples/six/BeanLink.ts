@@ -1,19 +1,19 @@
 import type { KVType } from "$lib/beans/tree/BeanTreeNode";
 import { EventBus, createEventDefinition } from "ts-bus";
 import moment from 'moment';
+import type { BusEvent } from "ts-bus/types";
 
-type EventHandler = (payload:KVType) => void;
+type EventHandler = (e:BusEvent) => void;
 
 export class BeanLink {
     
     private _name:string;
-    private _bus:EventBus;
+    private static _bus = new EventBus();;
     private _eventMap:Map<string, string>;
     private static _rootInstance = new BeanLink('__ROOT__');
 
     constructor(name:string) {
         this._name = name;
-        this._bus = new EventBus();
         this._eventMap = new Map();
     }
 
@@ -25,20 +25,20 @@ export class BeanLink {
         return BeanLink._rootInstance; 
     }
 
-    public publishEvent(sourceId:string, eventId:string, payload:unknown) {
-        const mapped = this._eventMap.get(eventId) || eventId;
-        console.log('[beanlink:publish][' + moment().format() + ']: ' + sourceId + '/' + eventId + '(' + JSON.stringify(payload) + ')');
+    public publishEvent(sourceId:string, event:BusEvent) {
+        const mapped = this._eventMap.get(event.type) || event.type;
+        const typeInfo = event.type !== mapped ? mapped + '(' + event.type + ')' : mapped;
+        console.log('[beanlink:publish][' + moment().format() + ']: ' + sourceId + '/' + typeInfo + '(' + JSON.stringify(event.payload) + ')');
         const busEventPayload = {
-            type: mapped,
-            payload
+            ...event,
+            type: mapped
         };
-        this._bus.publish(busEventPayload);
-        BeanLink._rootInstance._bus.publish(busEventPayload);
+        BeanLink._bus.publish(busEventPayload);
     }
 
     public subscribeToEvent(eventId:string, handler:EventHandler) {
-        this._bus.subscribe(eventId, (event) => {
-            handler({payload: event.payload});
+        BeanLink._bus.subscribe(eventId, (event) => {
+            handler(event);
         });
     }
 

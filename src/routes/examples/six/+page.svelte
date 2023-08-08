@@ -4,6 +4,7 @@
 	import { BeanLink } from './BeanLink';
     import App from './App.svelte';
 	import { CreditService } from './services/CreditService';
+	import type { BusEvent } from 'ts-bus/types';
 
     const beanLink = BeanLink.rootInstance;
 
@@ -21,9 +22,9 @@
     //     Streamer.getInstance().stopStreaming();
     // }, 10000);
 
-    const counterpartyChangedHandler = (event) => {
+    const counterpartyChangedHandler = (event:BusEvent) => {
         const credit = CreditService.getInstance().getCredit(event.payload.counterparty);
-        beanLink.publishEvent('counterpartyChangeHandler', 'creditLimitSet', {value: credit});
+        console.log('credit is', credit, 'for counterparty', event.payload.counterparty);
     };
 
     beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
