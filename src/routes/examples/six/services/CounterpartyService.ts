@@ -1,8 +1,4 @@
-
-export type Counterparty = {
-    id: number;
-    label: string;
-};
+import type { Counterparty } from "../components/counterparty/types";
 
 export class CounterpartyService {
     private static instance: CounterpartyService;

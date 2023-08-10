@@ -8,9 +8,8 @@
 
 <script lang="ts">
     import Autocomplete from '@smui-extra/autocomplete';
-	import type { Counterparty } from '../../services/CounterpartyService';
+	import type { Counterparty } from '../counterparty/types';
 	import { getContext } from 'svelte';
-	import { createEventDefinition } from 'ts-bus';
 	import type { BeanLink } from '../../BeanLink';
 	import { counterpartyStateChangedEvent } from './types';
     export let id = '';
