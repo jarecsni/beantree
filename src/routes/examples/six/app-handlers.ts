@@ -6,5 +6,5 @@ const counterpartyChangedHandler = (event:BusEvent) => {
 };
 
 export const registerAppHandlers = (beanLink:BeanLink) => {
-    beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
+    beanLink.subscribeToEvent('state.change.counterparty', counterpartyChangedHandler);
 } 
