@@ -9,18 +9,19 @@
 <script lang="ts">
     import Autocomplete from '@smui-extra/autocomplete';
 	import type { Counterparty } from '../../services/CounterpartyService';
-	import type { BeanLink } from '../../BeanLink';
+	import { createStateChangeEvent, type BeanLink } from '../../BeanLink';
 	import { getContext } from 'svelte';
 	import { createEventDefinition } from 'ts-bus';
     export let id = '';
-
-    const counterpartyChangedEvent = createEventDefinition<{counterparty: Counterparty}>()('counterpartyChanged');
 
     const beanLink:BeanLink = getContext('beanlink');
 
     export let selectedCounterparty:Counterparty;
     export let counterparties:Counterparty[] = [];
+    
+    const counterpartyStateChangedEvent = createStateChangeEvent<Counterparty>('counterparty');
+    
     $: {
-        beanLink.publishEvent(id, counterpartyChangedEvent({counterparty: selectedCounterparty}));
+        beanLink.publishEvent(id, counterpartyStateChangedEvent({name: 'counterparty', value: selectedCounterparty}));
     }
 </script>

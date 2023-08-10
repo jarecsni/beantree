@@ -1,9 +1,13 @@
-import type { KVType } from "$lib/beans/tree/BeanTreeNode";
+
 import { EventBus, createEventDefinition } from "ts-bus";
 import moment from 'moment';
 import type { BusEvent } from "ts-bus/types";
 
 type EventHandler = (e:BusEvent) => void;
+
+export const createStateChangeEvent = <T>(name:string) => {
+    return createEventDefinition<{name:String, value: T}>()('state.change.' + name)
+}
 
 export class BeanLink {
     
