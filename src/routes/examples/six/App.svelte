@@ -14,14 +14,11 @@
 	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";
 	import type { BusEvent } from "ts-bus/types";
+	import { registerAppHandlers } from "./app-handlers";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
-    const beanLink = new BeanLink('App');
+    const beanLink = new BeanLink('App'); // top level BeanLink instance
     setContext('beanlink', beanLink);
-
-    const counterpartyChangedHandler = (event:BusEvent) => {
-        console.log('handling event', JSON.stringify(event));
-    };
-    beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
+    registerAppHandlers(beanLink);
 </script>
 
 <style>
