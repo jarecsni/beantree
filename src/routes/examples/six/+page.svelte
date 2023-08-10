@@ -6,8 +6,6 @@
 	import { CreditService } from './services/CreditService';
 	import type { BusEvent } from 'ts-bus/types';
 
-    const beanLink = BeanLink.rootInstance;
-
     // import { Streamer } from "./datastream/Streamer";
     // Streamer.getInstance().initialise();
     // Streamer.getInstance().connect('ABC', (symbol:string, number:number) => {
@@ -29,6 +27,5 @@
         }
     };
 
-    beanLink.subscribeToEvent('counterpartyChanged', counterpartyChangedHandler);
 
 </script>

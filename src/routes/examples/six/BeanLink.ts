@@ -10,8 +10,7 @@ export class BeanLink {
     private _name:string;
     private static _bus = new EventBus();;
     private _eventMap:Map<string, string>;
-    private static _rootInstance = new BeanLink('__ROOT__');
-
+    
     constructor(name:string) {
         this._name = name;
         this._eventMap = new Map();
@@ -19,10 +18,6 @@ export class BeanLink {
 
     get name() {
         return this._name;
-    }
-
-    static get rootInstance() {
-        return BeanLink._rootInstance; 
     }
 
     public publishEvent(sourceId:string, event:BusEvent) {
