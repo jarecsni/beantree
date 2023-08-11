@@ -4,9 +4,7 @@
         <div class="button-panel">
             <div class="spacer"></div>
             <div class="add-button">
-                <Button on:click={() => {}} variant="raised">
-                    <Label>New tile</Label>
-                </Button>
+                <EventButton id="addTile" label="New Tile" eventId="addNewTile"/>
             </div>
         </div>
     </div>
@@ -22,8 +20,7 @@
 	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";
 	import { registerAppEventHandlers } from "./app-event-handlers";
-	import Button from "@smui/button/src/Button.svelte";
-	import Label from "@smui/list/src/Label.svelte";
+	import EventButton from "./components/button/EventButton.svelte";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = new BeanLink('App'); // top level BeanLink instance
     setContext('beanlink', beanLink);
@@ -39,7 +36,7 @@
     .toolbar {
         display: flex;
         padding: 10px;
-        background: rgb(136, 146, 149);
+        background: rgb(209, 211, 213);
     }
     .container {
         display: flex;

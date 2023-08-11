@@ -19,7 +19,7 @@ export class BeanLink {
         return this._name;
     }
 
-    public publishEvent(sourceId:string, eventId:string, payload:unknown) {
+    public publishEvent(sourceId:string, eventId:string, payload?:unknown) {
         const mapped = this._eventMap.get(eventId) || eventId;
         console.log('[beanlink][publish]['+sourceId+'] ' + eventId + ' = ' + JSON.stringify(payload));
         this._bus.publish({
