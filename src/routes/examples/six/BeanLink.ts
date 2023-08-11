@@ -9,6 +9,11 @@ export const createStateChangeEvent = <T>(name:string) => {
     return createEventDefinition<{name:String, value: T}>()('state.change.' + name)
 }
 
+// TODO experimental
+export const createEventWithId = (name:string) => {
+    return createEventDefinition<{id:string}>()(name);
+}
+
 export class BeanLink {
     
     private _name:string;

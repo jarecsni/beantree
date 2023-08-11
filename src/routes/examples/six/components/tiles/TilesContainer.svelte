@@ -1,15 +1,41 @@
-<div>
-    Tiles
-</div>
+{#each tiles as tile}
+    <Tile id={tile.id} value=''/>
+{/each}
+
 
 <script lang="ts">
+    import {v4 as uuidv4} from 'uuid';
 	import { getContext } from 'svelte';
 	import type { BeanLink } from '../../BeanLink';
-
+    import Tile from './Tile.svelte';
+	import type { closeTileEvent, TileDef } from './types';
+    import type { BusEvent } from 'ts-bus/types';
     export let id:string;
+
     const beanLink:BeanLink = getContext('beanlink');
+    let tiles:TileDef[] = [];
 
     beanLink.subscribeToEvent('addNewTile', () => {
-        console.log('new tile request');
+        let tileId = uuidv4();
+        tiles.push({
+            id: tileId,
+            symbol: ''
+        });
+        tiles = tiles; // svelte needs this
     });
+
+    //const closeTileEventHandler = ;
+
+    // const closeTileEventHandler = (event:BusEvent) => {
+
+    // }
+
+    // beanLink.subscribeToEvent('tile.close', (event:ReturnType<typeof closeTileEvent>) => {
+    //     console.log(event.payload.id, ' closed');
+    // });
+
+    beanLink.subscribeToEvent('close.tile', (event:ReturnType<typeof closeTileEvent>) => {
+        console.log(event.payload.id, ' closed');
+    });
+
 </script>
