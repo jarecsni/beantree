@@ -1,7 +1,7 @@
 
 import { EventBus, createEventDefinition } from "ts-bus";
 import moment from 'moment';
-import type { BusEvent } from "ts-bus/types";
+import type { BusEvent, EventCreatorFn } from "ts-bus/types";
 
 type EventHandler = (e:BusEvent) => void;
 
@@ -47,6 +47,14 @@ export class BeanLink {
             handler(event);
         });
     }
+
+    public subscribe<T extends BusEvent>(event:EventCreatorFn<T>, handler:EventHandler) {
+        const mapped = this._name + '.' + (this._eventMap.get(event.eventType) || event.eventType);
+        event.eventType = mapped;
+        BeanLink._bus.subscribe(event, (event) => {
+            handler(event);
+        });
+    } 
 
     public mapEvent(from:string, to:string) {
         this._eventMap.set(from, to);

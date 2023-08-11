@@ -8,7 +8,7 @@
 	import { getContext } from 'svelte';
 	import type { BeanLink } from '../../BeanLink';
     import Tile from './Tile.svelte';
-	import type { closeTileEvent, TileDef } from './types';
+	import { closeTileEvent, type TileDef } from './types';
     import type { BusEvent } from 'ts-bus/types';
     export let id:string;
 
@@ -34,7 +34,11 @@
     //     console.log(event.payload.id, ' closed');
     // });
 
-    beanLink.subscribeToEvent('close.tile', (event:ReturnType<typeof closeTileEvent>) => {
+    // beanLink.subscribeToEvent('tile.close', (event:ReturnType<typeof closeTileEvent>) => {
+    //     console.log(event.payload.id, ' closed');
+    // });
+
+    beanLink.subscribe(closeTileEvent, (event) => {
         console.log(event.payload.id, ' closed');
     });
 
