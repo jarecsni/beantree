@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="container">
-        
+        <TilesContainer id="tiles"/>
     </div>
     <div class="bottom-bar">Bottom Bar</div>
 </div>
@@ -21,6 +21,7 @@
 	import { BeanLink } from "./BeanLink";
 	import { registerAppEventHandlers } from "./app-event-handlers";
 	import EventButton from "./components/button/EventButton.svelte";
+	import TilesContainer from "./components/tiles/TilesContainer.svelte";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = new BeanLink('App'); // top level BeanLink instance
     setContext('beanlink', beanLink);

@@ -8,9 +8,9 @@
 	import type { BeanLink } from "../../BeanLink";
 	import { getContext } from "svelte";
 	import { createNewButtonEvent } from "./types";
-    export let label = '';
-    export let eventId = '';
-    export let id = '';
+    export let label:string;
+    export let eventId:string;
+    export let id:string;
 
     const beanLink:BeanLink = getContext('beanlink');
 
