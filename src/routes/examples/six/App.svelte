@@ -4,7 +4,7 @@
         <div class="button-panel">
             <div class="spacer"></div>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" eventId="addNewTile"/>
+                <EventButton id="addTile" label="New Tile" eventCreator={addNewTileEvent}/>
             </div>
         </div>
     </div>
@@ -22,6 +22,7 @@
 	import { registerAppEventHandlers } from "./app-event-handlers";
 	import EventButton from "./components/button/EventButton.svelte";
 	import TilesContainer from "./components/tiles/TilesContainer.svelte";
+	import { addNewTileEvent } from "./components/tiles/types";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = new BeanLink('App'); // top level BeanLink instance
     setContext('beanlink', beanLink);

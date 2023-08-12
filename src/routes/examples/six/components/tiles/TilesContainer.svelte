@@ -7,13 +7,13 @@
 	import { getContext } from 'svelte';
 	import type { BeanLink } from '../../BeanLink';
     import Tile from './Tile.svelte';
-	import { closeTileEvent } from './types';
+	import { addNewTileEvent, closeTileEvent } from './types';
     export let id:string;
 
     const beanLink:BeanLink = getContext('beanlink');
     let tiles:{id:string}[] = [];
 
-    beanLink.subscribeToEvent('addNewTile', () => {
+    beanLink.subscribe(addNewTileEvent, () => {
         let tileId = uuidv4();
         tiles.push({
             id: tileId
