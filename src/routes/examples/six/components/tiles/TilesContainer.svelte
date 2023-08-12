@@ -23,7 +23,6 @@
 
     beanLink.subscribe(closeTileEvent, (event) => {
         const index = tiles.findIndex((element) => element.id === event.payload.id);
-        console.log('delete index', index);    
         if (index !== -1) {
             tiles.splice(index, 1);
             tiles = tiles;
