@@ -26,7 +26,6 @@
         if (index !== -1) {
             tiles.splice(index, 1);
             tiles = tiles;
-            console.log(JSON.stringify(tiles));
         }
     });
 
