@@ -38,6 +38,7 @@
     .toolbar {
         display: flex;
         padding: 10px;
+        margin: 5px;
         background: rgb(209, 211, 213);
     }
     .container {
