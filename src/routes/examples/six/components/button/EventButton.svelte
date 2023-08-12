@@ -14,7 +14,7 @@
 
     const beanLink:BeanLink = getContext('beanlink');
 
-    const event = createNewButtonEvent(eventId)();
+    const event = createNewButtonEvent(eventId)({sourceId: id});
 
     function onClick() {
         beanLink.publishEvent(id, event);

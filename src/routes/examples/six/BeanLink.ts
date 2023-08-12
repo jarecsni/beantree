@@ -6,11 +6,11 @@ import type { BusEvent, EventCreatorFn } from "ts-bus/types";
 type EventHandler = (e:BusEvent) => void;
 
 export const createStateChangeEvent = <T>(name:string) => {
-    return createEventDefinition<{name:String, value: T}>()('state.change.' + name)
+    return createEventDefinition<{name:String, value: T, sourceId: string}>()('state.change.' + name)
 }
 
 export const createEvent = <P>(name:string) => {
-    return createEventDefinition<P>()(name);
+    return createEventDefinition<P &{sourceId:string}>()(name);
 }
 
 export class BeanLink {

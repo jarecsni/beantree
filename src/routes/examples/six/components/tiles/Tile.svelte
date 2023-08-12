@@ -26,7 +26,7 @@
     let symbols = ['AAPL', 'GOOGL', 'SI', 'AMZN'];
 
     function closeTile() {
-        beanLink.publishEvent(id, closeTileEvent({id}));
+        beanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
     }
 </script>
 
@@ -36,5 +36,6 @@
         flex-direction: row;
         background-color: lightsteelblue;
         margin: 5px;
+        padding: 5px;
     }
 </style>

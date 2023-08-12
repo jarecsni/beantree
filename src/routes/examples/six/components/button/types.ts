@@ -1,3 +1,3 @@
-import { createEventDefinition } from 'ts-bus';
+import { createEvent } from '../../BeanLink';
 
-export const createNewButtonEvent = (event:string) => createEventDefinition()(event)
+export const createNewButtonEvent = (event:string) => createEvent(event);

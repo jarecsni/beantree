@@ -20,6 +20,8 @@
     export let counterparties:Counterparty[] = [];
     
     $: {
-        beanLink.publishEvent(id, counterpartyStateChangedEvent({name: 'counterparty', value: selectedCounterparty}));
+        beanLink.publishEvent(id, counterpartyStateChangedEvent({
+            name: 'counterparty', value: selectedCounterparty, sourceId: id
+        }));
     }
 </script>
