@@ -24,20 +24,6 @@
         tiles = tiles; // svelte needs this
     });
 
-    //const closeTileEventHandler = ;
-
-    // const closeTileEventHandler = (event:BusEvent) => {
-
-    // }
-
-    // beanLink.subscribeToEvent('tile.close', (event:ReturnType<typeof closeTileEvent>) => {
-    //     console.log(event.payload.id, ' closed');
-    // });
-
-    // beanLink.subscribeToEvent('tile.close', (event:ReturnType<typeof closeTileEvent>) => {
-    //     console.log(event.payload.id, ' closed');
-    // });
-
     beanLink.subscribe(closeTileEvent, (event) => {
         console.log(event.payload.id, ' closed');
     });
