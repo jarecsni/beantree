@@ -121,4 +121,9 @@ export class Streamer {
             })
         }
     }
+
+    public getSymbols() {
+        return Object.keys(data);
+    }
+    //['AAPL', 'GOOGL', 'SI', 'AMZN']
 }

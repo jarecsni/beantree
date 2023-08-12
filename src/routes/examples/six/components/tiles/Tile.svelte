@@ -18,12 +18,13 @@
 	import type { BeanLink } from "../../BeanLink";
 	import Select, { Option } from '@smui/select';
 	import { closeTileEvent } from './types';
+	import { Streamer } from '../../datastream/Streamer';
 	
     export let id:string;
     export let value = '';
     const beanLink:BeanLink = getContext('beanlink');
   
-    let symbols = ['AAPL', 'GOOGL', 'SI', 'AMZN'];
+    let symbols = Streamer.getInstance().getSymbols();
 
     function closeTile() {
         beanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));

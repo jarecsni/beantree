@@ -2,7 +2,6 @@
     <Tile id={tile.id} value=''/>
 {/each}
 
-
 <script lang="ts">
     import {v4 as uuidv4} from 'uuid';
 	import { getContext } from 'svelte';
