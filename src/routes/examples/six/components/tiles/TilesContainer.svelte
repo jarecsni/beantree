@@ -4,16 +4,17 @@
 
 <script lang="ts">
     import {v4 as uuidv4} from 'uuid';
-	import { getContext } from 'svelte';
-	import type { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../BeanLink';
     import Tile from './Tile.svelte';
 	import { addNewTileEvent, closeTileEvent } from './types';
     export let id:string;
 
-    const beanLink:BeanLink = getContext('beanlink');
+    const parentBeanLink:BeanLink = BeanLink.getInstanceInContext();
+    const beanLink:BeanLink = new BeanLink('TilesContainer');
+
     let tiles:{id:string}[] = [];
 
-    beanLink.subscribe(addNewTileEvent, () => {
+    parentBeanLink.subscribe(addNewTileEvent, () => {
         let tileId = uuidv4();
         tiles.push({
             id: tileId

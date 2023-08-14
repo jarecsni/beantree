@@ -2,6 +2,7 @@
 import { EventBus, createEventDefinition } from "ts-bus";
 import moment from 'moment';
 import type { BusEvent, EventCreatorFn } from "ts-bus/types";
+import { getContext, setContext } from "svelte";
 
 type EventHandler = (e:BusEvent) => void;
 
@@ -22,6 +23,11 @@ export class BeanLink {
     constructor(name:string) {
         this._name = name;
         this._eventMap = new Map();
+        setContext('beanLink', this);
+    }
+
+    public static getInstanceInContext():BeanLink {
+        return getContext('beanLink');
     }
 
     get name() {

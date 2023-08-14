@@ -20,12 +20,12 @@
     //     Streamer.getInstance().stopStreaming();
     // }, 10000);
 
-    const counterpartyChangedHandler = (event:BusEvent) => {
-        if (event.payload.counterparty) {
-            const credit = CreditService.getInstance().getCredit(event.payload.counterparty);
-            console.log('credit is', credit, 'for counterparty', event.payload.counterparty);
-        }
-    };
+    // const counterpartyChangedHandler = (event:BusEvent) => {
+    //     if (event.payload.counterparty) {
+    //         const credit = CreditService.getInstance().getCredit(event.payload.counterparty);
+    //         console.log('credit is', credit, 'for counterparty', event.payload.counterparty);
+    //     }
+    // };
 
 
 </script>

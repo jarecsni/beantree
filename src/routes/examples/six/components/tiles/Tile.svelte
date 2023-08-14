@@ -14,16 +14,15 @@
 
 <script lang="ts">
     import IconButton from '@smui/icon-button';
-	import { getContext } from "svelte";
-	import type { BeanLink } from "../../BeanLink";
+	import { BeanLink } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { closeTileEvent } from './types';
 	import { Streamer } from '../../datastream/Streamer';
 	
     export let id:string;
     export let value = '';
-    const beanLink:BeanLink = getContext('beanlink');
-  
+    const beanLink:BeanLink = BeanLink.getInstanceInContext();
+   
     let symbols = Streamer.getInstance().getSymbols();
 
     function closeTile() {

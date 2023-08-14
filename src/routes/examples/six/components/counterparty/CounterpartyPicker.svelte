@@ -9,12 +9,11 @@
 <script lang="ts">
     import Autocomplete from '@smui-extra/autocomplete';
 	import type { Counterparty } from '../counterparty/types';
-	import { getContext } from 'svelte';
-	import type { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../BeanLink';
 	import { counterpartyStateChangedEvent } from './types';
     export let id = '';
 
-    const beanLink:BeanLink = getContext('beanlink');
+    const beanLink:BeanLink = BeanLink.getInstanceInContext();
 
     export let selectedCounterparty:Counterparty;
     export let counterparties:Counterparty[] = [];
