@@ -23,11 +23,32 @@ export class BeanLink {
     constructor(name:string) {
         this._name = name;
         this._eventMap = new Map();
-        setContext('beanLink', this);
     }
 
-    public static getInstanceInContext():BeanLink {
-        return getContext('beanLink');
+    public static getInstanceInContext(contextId?:string):BeanLink {
+        let instance = getContext('beanLink') as BeanLink;
+        if (!instance || (contextId && (contextId !== instance.name))) {
+            if (contextId) {
+                instance = new BeanLink(contextId);
+            } else {
+                throw new Error('Assumed beanLink in context where none exists - with no ID provided, none can be created either.');
+            }
+            const parentInstance = getContext('beanLink');
+            if (parentInstance) {
+                setContext('parentBeanLink', parentInstance);
+            }
+            setContext('beanLink', instance);
+        }
+        return instance;
+    }
+
+    public static getInstanceInParentContext():BeanLink {
+        let parentInstance = getContext('parentBeanLink') as BeanLink;
+        if (!parentInstance) {
+            parentInstance = getContext('beanLink');
+            setContext('parentBeanLink', parentInstance);
+        }
+        return getContext('parentBeanLink');
     }
 
     get name() {

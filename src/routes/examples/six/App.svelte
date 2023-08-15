@@ -24,7 +24,7 @@
 	import TilesContainer from "./components/tiles/TilesContainer.svelte";
 	import { addNewTileEvent } from "./components/tiles/types";
     const counterparties = CounterpartyService.getInstance().getCounterparties();
-    const beanLink = new BeanLink('App'); // top level BeanLink instance
+    const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);
 </script>
 

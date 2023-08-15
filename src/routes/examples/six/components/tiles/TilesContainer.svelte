@@ -9,8 +9,8 @@
 	import { addNewTileEvent, closeTileEvent } from './types';
     export let id:string;
 
-    const parentBeanLink:BeanLink = BeanLink.getInstanceInContext();
-    const beanLink:BeanLink = new BeanLink('TilesContainer');
+    const beanLink:BeanLink = BeanLink.getInstanceInContext('TilesContainer');
+    const parentBeanLink:BeanLink = BeanLink.getInstanceInParentContext();
 
     let tiles:{id:string}[] = [];
 
