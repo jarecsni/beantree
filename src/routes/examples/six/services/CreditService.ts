@@ -1,5 +1,5 @@
 import type { KVType } from "$lib/beans/tree/BeanTreeNode";
-import type { Counterparty } from "./CounterpartyService";
+import type { Counterparty } from "../components/counterparty/types";
 
 export class CreditService {
 

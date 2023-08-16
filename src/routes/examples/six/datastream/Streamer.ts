@@ -1,5 +1,3 @@
-import type { KVType } from "$lib/beans/tree/BeanTreeNode";
-
 import data from "./data.json";
 
 export declare type onStreamDataHandler = (symbol:string, number: number) => void;

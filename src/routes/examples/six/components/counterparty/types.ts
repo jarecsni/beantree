@@ -1,4 +1,4 @@
-import { createStateChangeEvent } from "../../BeanLink";
+import { createStateChangeEvent } from '../../BeanLink';
 
 export const counterpartyStateChangedEvent = createStateChangeEvent<Counterparty>('counterparty');
 

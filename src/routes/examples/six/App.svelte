@@ -15,7 +15,6 @@
 </div>
 
 <script lang="ts">
-	import { setContext } from "svelte";
     import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
 	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";

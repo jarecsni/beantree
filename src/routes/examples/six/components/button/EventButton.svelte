@@ -3,10 +3,10 @@
 </Button>
 
 <script lang="ts">
-	import Button from "@smui/button/src/Button.svelte";
-	import Label from "@smui/list/src/Label.svelte";    
-	import { BeanLink } from "../../BeanLink";
-	import type { BusEvent, EventCreatorFn } from "ts-bus/types";
+	import Button from '@smui/button/src/Button.svelte';
+	import Label from '@smui/list/src/Label.svelte';    
+	import { BeanLink } from '../../BeanLink';
+	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
 	
     export let label:string;
     export let event:EventCreatorFn<BusEvent>;
