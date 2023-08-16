@@ -11,7 +11,18 @@
     <div class="container">
         <TilesContainer id="tiles" addTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
-    <div class="bottom-bar">Bottom Bar</div>
+    <div class="bottom-bar">
+        <EventingComponent 
+            id="componentA" 
+            eventConsumed={[{event: testEventB}]} 
+            eventProduced={testEventA}
+        />
+        <EventingComponent 
+            id="componentB" 
+            eventConsumed={[{event: testEventA}]} 
+            eventProduced={testEventB}
+        />
+    </div>
 </div>
 
 <script lang="ts">
@@ -22,6 +33,10 @@
 	import EventButton from "./components/button/EventButton.svelte";
 	import TilesContainer from "./components/tiles/TilesContainer.svelte";
 	import { addNewTileEvent } from "./components/tiles/types";
+    import EventingComponent from './components/cycle/EventingComponent.svelte';
+	import { testEventA, testEventB } from './components/cycle/types';
+
+
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);

@@ -4,7 +4,10 @@ import moment from 'moment';
 import type { BusEvent, EventCreatorFn } from "ts-bus/types";
 import { getContext, setContext } from "svelte";
 
-type EventHandler = (e:BusEvent) => void;
+type EventHandlerDescription = {
+    id:string,
+    handleEvent:(e:BusEvent) => void;
+}
 
 export type EventSource = [{
     sourceId?:string,
@@ -23,7 +26,7 @@ export const createEvent = <P>(name:string) => {
 export class BeanLink {
     
     private _name:string;
-    private static _bus = new EventBus();;
+    private static _bus = new EventBus();
     
     constructor(name:string) {
         this._name = name;
@@ -59,7 +62,7 @@ export class BeanLink {
         return this._name;
     }
 
-    public publishEvent(sourceId:string, event:BusEvent) {
+    public publishEvent(sourceId:string, event:BusEvent, componentRef?: unknown) {
         const qualified = this._name + '.' + event.type;
         this.log('publish', sourceId + '/' + qualified);
         const busEventPayload = {
@@ -72,29 +75,29 @@ export class BeanLink {
         BeanLink._bus.publish(busEventPayload);
     }
 
-    public subscribeToEvent(eventId:string, handler:EventHandler) {
+    public subscribeToEvent(eventId:string, handlerDescr:EventHandlerDescription) {
         const qualifiedEventName = this._name + '.' + eventId;
         this.log('subscribe', qualifiedEventName);
         BeanLink._bus.subscribe(qualifiedEventName, (event) => {
-            handler(event);
+            handlerDescr.handleEvent(event);
         });
     }
 
-    public subscribe<T extends BusEvent>(event:EventCreatorFn<T>, handler:EventHandler) {
+    public subscribe<T extends BusEvent>(event:EventCreatorFn<T>, handlerDescr:EventHandlerDescription) {
         const qualifiedEventName = this._name + '.' + event.eventType;
         this.log('subscribe', qualifiedEventName);
         BeanLink._bus.subscribe(qualifiedEventName, (e) => {
-            handler(e);
+            handlerDescr.handleEvent(e);
         });
     } 
 
-    public subscribeToEventSource<T extends BusEvent>(eventSource:EventSource, handler:EventHandler) {
+    public subscribeToEventSource<T extends BusEvent>(eventSource:EventSource, handlerDescr:EventHandlerDescription) {
         eventSource.forEach(eventSourceDef => {
             const qualifiedEventName = this._name + '.' + eventSourceDef.event.eventType;
             this.log('subscribe', qualifiedEventName);
                 BeanLink._bus.subscribe(qualifiedEventName, (event) => {
                     if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
-                        handler(event);
+                        handlerDescr.handleEvent(event);
                     }
                 }
             );

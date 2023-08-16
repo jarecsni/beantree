@@ -15,19 +15,25 @@
 
     let tiles:{id:string}[] = [];
 
-    parentBeanLink.subscribeToEventSource(addTileEvent, () => {
-        let tileId = uuidv4();
-        tiles.push({
-            id: tileId
-        });
-        tiles = tiles; // svelte needs this
+    parentBeanLink.subscribeToEventSource(addTileEvent, {
+        id, 
+        handleEvent: () => {
+            let tileId = uuidv4();
+            tiles.push({
+                id: tileId
+            });
+            tiles = tiles; // svelte needs this
+        }
     });
 
-    beanLink.subscribe(closeTileEvent, (event) => {
-        const index = tiles.findIndex((element) => element.id === event.payload.id);
-        if (index !== -1) {
-            tiles.splice(index, 1);
-            tiles = tiles;
+    beanLink.subscribe(closeTileEvent, {
+        id, 
+        handleEvent: (event) => {
+            const index = tiles.findIndex((element) => element.id === event.payload.id);
+            if (index !== -1) {
+                tiles.splice(index, 1);
+                tiles = tiles;
+            }
         }
     });
 

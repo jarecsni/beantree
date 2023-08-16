@@ -14,5 +14,7 @@ const counterpartyChangedHandler = (event:ReturnType<typeof counterpartyStateCha
 };
 
 export const registerAppEventHandlers = (beanLink:BeanLink) => {
-    beanLink.subscribeToEvent('state.change.counterparty', counterpartyChangedHandler);
+    beanLink.subscribeToEvent('state.change.counterparty', { 
+        id: 'cptyEventHandler', handleEvent: counterpartyChangedHandler
+    });
 } 
