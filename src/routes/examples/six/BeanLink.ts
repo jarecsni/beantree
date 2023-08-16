@@ -27,7 +27,6 @@ export class BeanLink {
     
     constructor(name:string) {
         this._name = name;
-        this._eventMap = new Map();
     }
 
     public static getInstanceInContext(contextId?:string):BeanLink {
