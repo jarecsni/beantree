@@ -24,4 +24,8 @@ export class Stack<T> {
     has(item: T): boolean {
         return this.items.includes(item);
     }
+
+    clear(): void {
+        this.items = [];
+    }
 }

@@ -116,6 +116,7 @@ export class BeanLink {
 
     checkEventStack(sourceId:string, handlerId:string) {
         if (this.eventStack.has(handlerId)) {
+            this.eventStack.clear();
             throw new Error('Event handling cycle detected! Source id = ' + sourceId + ', handler id = ' + handlerId);
         }
     }

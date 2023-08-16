@@ -12,16 +12,35 @@
         <TilesContainer id="tiles" addTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
     <div class="bottom-bar">
-        <EventingComponent 
-            id="componentA" 
-            eventConsumed={[{event: testEventB}]} 
-            eventProduced={testEventA}
-        />
-        <EventingComponent 
-            id="componentB" 
-            eventConsumed={[{event: testEventA}]} 
-            eventProduced={testEventB}
-        />
+        <div class="direct-example">
+            <EventingComponent 
+                id="componentA" 
+                eventConsumed={[{event: testEventB}]} 
+                eventProduced={testEventA}
+            />
+            <EventingComponent 
+                id="componentB" 
+                eventConsumed={[{event: testEventA}]} 
+                eventProduced={testEventB}
+            />
+        </div>
+        <div class="indirect-example">
+            <EventingComponent 
+                id="componentAA" 
+                eventConsumed={[{event: testEventBB}]} 
+                eventProduced={testEventAA}
+            />
+            <EventingComponent 
+                id="componentBB" 
+                eventConsumed={[{event: testEventAA}]} 
+                eventProduced={testEventCC}
+            />
+            <EventingComponent 
+                id="componentCC" 
+                eventConsumed={[{event: testEventCC}]} 
+                eventProduced={testEventBB}
+            />
+        </div>
     </div>
 </div>
 
@@ -34,7 +53,7 @@
 	import TilesContainer from "./components/tiles/TilesContainer.svelte";
 	import { addNewTileEvent } from "./components/tiles/types";
     import EventingComponent from './components/cycle/EventingComponent.svelte';
-	import { testEventA, testEventB } from './components/cycle/types';
+	import { testEventA, testEventAA, testEventB, testEventBB, testEventCC } from './components/cycle/types';
 
 
     const counterparties = CounterpartyService.getInstance().getCounterparties();
@@ -60,6 +79,7 @@
     }
     .bottom-bar {
         display: flex;
+        flex-direction: column;
     }
     .ticker {
         width: 200px;
@@ -74,5 +94,11 @@
     }
     .add-button {
         align-self: center;
+    }
+    .direct-example {
+        display: flex;
+    }
+    .indirect-example {
+        display: flex;
     }
 </style>
