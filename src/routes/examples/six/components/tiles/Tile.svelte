@@ -16,11 +16,13 @@
     import IconButton from '@smui/icon-button';
 	import { BeanLink } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
-	import { closeTileEvent } from './types';
 	import { Streamer } from '../../datastream/Streamer';
+	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
 	
     export let id:string;
     export let value = '';
+    export let closeTileEvent:EventCreatorFn<BusEvent>;
+
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
    
     let symbols = Streamer.getInstance().getSymbols();

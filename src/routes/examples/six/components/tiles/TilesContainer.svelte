@@ -1,5 +1,5 @@
 {#each tiles as tile (tile.id)}
-    <Tile id={tile.id} value=''/>
+    <Tile id={tile.id} value='' closeTileEvent={closeTileEvent}/>
 {/each}
 
 <script lang="ts">
