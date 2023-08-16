@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" addTileEvent={[{event: addNewTileEvent}]}/>
+        <TilesContainer id="tiles" addTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
     <div class="bottom-bar">Bottom Bar</div>
 </div>

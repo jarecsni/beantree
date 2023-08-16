@@ -7,7 +7,7 @@ import { getContext, setContext } from "svelte";
 type EventHandler = (e:BusEvent) => void;
 
 export type EventSource = [{
-    id?:string,
+    sourceId?:string,
     event:EventCreatorFn<BusEvent>
 }];
 
@@ -65,7 +65,10 @@ export class BeanLink {
         this.log('publish', sourceId + '/' + qualified);
         const busEventPayload = {
             ...event,
-            type: qualified
+            type: qualified,
+            meta: {
+                sourceId
+            }
         };
         BeanLink._bus.publish(busEventPayload);
     }
@@ -91,9 +94,11 @@ export class BeanLink {
             const qualifiedEventName = this._name + '.' + eventSourceDef.event.eventType;
             this.log('subscribe', qualifiedEventName);
                 BeanLink._bus.subscribe(qualifiedEventName, (event) => {
-                // TODO add sourceID based filtering
-                handler(event);
-            });
+                    if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
+                        handler(event);
+                    }
+                }
+            );
         })
     } 
 
