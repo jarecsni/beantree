@@ -4,12 +4,12 @@
         <div class="button-panel">
             <div class="spacer"></div>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" eventCreator={addNewTileEvent}/>
+                <EventButton id="addTile" label="New Tile" event={addNewTileEvent}/>
             </div>
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles"/>
+        <TilesContainer id="tiles" addTileEvent={[{event: addNewTileEvent}]}/>
     </div>
     <div class="bottom-bar">Bottom Bar</div>
 </div>
