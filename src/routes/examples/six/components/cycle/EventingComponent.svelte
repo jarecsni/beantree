@@ -21,7 +21,7 @@
     const eventLabel = 'Produce event ' + event.type
 
     beanLink.subscribeToEventSource(eventConsumed, { id, handleEvent: (e) => {
-            beanLink.publishEvent(id, event, self);
+            beanLink.publishEvent(id, event);
         }
     });
 </script>

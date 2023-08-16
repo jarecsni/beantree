@@ -64,7 +64,7 @@ export class BeanLink {
         return this._name;
     }
 
-    public publishEvent(sourceId:string, event:BusEvent, componentRef?: unknown) {
+    public publishEvent(sourceId:string, event:BusEvent) {
         const qualified = this._name + '.' + event.type;
         this.log('publish start', sourceId + '/' + qualified);
         this.eventStack.push(sourceId);
@@ -82,20 +82,20 @@ export class BeanLink {
 
     public subscribeToEvent(eventId:string, handlerDescr:EventHandlerDescription) {
         const qualifiedEventName = this._name + '.' + eventId;
-        this.log('subscribe', qualifiedEventName);
+        this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         BeanLink._bus.subscribe(qualifiedEventName, (event) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            this.checkEventStack(handlerDescr.id);
+            this.checkEventStack(qualifiedEventName, handlerDescr.id);
             handlerDescr.handleEvent(event);
         });
     }
 
     public subscribe<T extends BusEvent>(event:EventCreatorFn<T>, handlerDescr:EventHandlerDescription) {
         const qualifiedEventName = this._name + '.' + event.eventType;
-        this.log('subscribe', qualifiedEventName);
+        this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         BeanLink._bus.subscribe(qualifiedEventName, (e) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            this.checkEventStack(handlerDescr.id);
+            this.checkEventStack(qualifiedEventName, handlerDescr.id);
             handlerDescr.handleEvent(e);
         });
     } 
@@ -103,21 +103,20 @@ export class BeanLink {
     public subscribeToEventSource<T extends BusEvent>(eventSource:EventSource, handlerDescr:EventHandlerDescription) {
         eventSource.forEach(eventSourceDef => {
             const qualifiedEventName = this._name + '.' + eventSourceDef.event.eventType;
-            this.log('subscribe', qualifiedEventName);
-                BeanLink._bus.subscribe(qualifiedEventName, (event) => {
-                    if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
-                        this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-                        this.checkEventStack(handlerDescr.id);
-                        handlerDescr.handleEvent(event);
-                    }
+            this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
+            BeanLink._bus.subscribe(qualifiedEventName, (event) => {
+                if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
+                    this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
+                    this.checkEventStack(eventSourceDef.event + (eventSourceDef.sourceId && ('/' + eventSourceDef.sourceId) || ''), handlerDescr.id);
+                    handlerDescr.handleEvent(event);
                 }
-            );
+            });
         })
     } 
 
-    checkEventStack(handlerId:string) {
+    checkEventStack(sourceId:string, handlerId:string) {
         if (this.eventStack.has(handlerId)) {
-            throw new Error('Event handling cycle detected: ' + handlerId);
+            throw new Error('Event handling cycle detected! Source id = ' + sourceId + ', handler id = ' + handlerId);
         }
     }
 
