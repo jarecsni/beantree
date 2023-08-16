@@ -1,8 +1,9 @@
 
-import { EventBus, createEventDefinition } from "ts-bus";
+import { EventBus, createEventDefinition } from 'ts-bus';
 import moment from 'moment';
-import type { BusEvent, EventCreatorFn } from "ts-bus/types";
-import { getContext, setContext } from "svelte";
+import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
+import { getContext, setContext } from 'svelte';
+import { Stack } from './utils/Stack';
 
 type EventHandlerDescription = {
     id:string,
@@ -27,6 +28,7 @@ export class BeanLink {
     
     private _name:string;
     private static _bus = new EventBus();
+    private eventStack = new Stack<string>();
     
     constructor(name:string) {
         this._name = name;
@@ -64,7 +66,8 @@ export class BeanLink {
 
     public publishEvent(sourceId:string, event:BusEvent, componentRef?: unknown) {
         const qualified = this._name + '.' + event.type;
-        this.log('publish', sourceId + '/' + qualified);
+        this.log('publish start', sourceId + '/' + qualified);
+        this.eventStack.push(sourceId);
         const busEventPayload = {
             ...event,
             type: qualified,
@@ -73,12 +76,16 @@ export class BeanLink {
             }
         };
         BeanLink._bus.publish(busEventPayload);
+        this.log('publish done', sourceId + '/' + qualified);
+        this.eventStack.pop();
     }
 
     public subscribeToEvent(eventId:string, handlerDescr:EventHandlerDescription) {
         const qualifiedEventName = this._name + '.' + eventId;
         this.log('subscribe', qualifiedEventName);
         BeanLink._bus.subscribe(qualifiedEventName, (event) => {
+            this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
+            this.checkEventStack(handlerDescr.id);
             handlerDescr.handleEvent(event);
         });
     }
@@ -87,6 +94,8 @@ export class BeanLink {
         const qualifiedEventName = this._name + '.' + event.eventType;
         this.log('subscribe', qualifiedEventName);
         BeanLink._bus.subscribe(qualifiedEventName, (e) => {
+            this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
+            this.checkEventStack(handlerDescr.id);
             handlerDescr.handleEvent(e);
         });
     } 
@@ -97,12 +106,20 @@ export class BeanLink {
             this.log('subscribe', qualifiedEventName);
                 BeanLink._bus.subscribe(qualifiedEventName, (event) => {
                     if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
+                        this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
+                        this.checkEventStack(handlerDescr.id);
                         handlerDescr.handleEvent(event);
                     }
                 }
             );
         })
     } 
+
+    checkEventStack(handlerId:string) {
+        if (this.eventStack.has(handlerId)) {
+            throw new Error('Event handling cycle detected: ' + handlerId);
+        }
+    }
 
     private log(action:string, message:string) {
         console.log('[beanlink:' + action + '][' + moment().format() + ']:', message);
