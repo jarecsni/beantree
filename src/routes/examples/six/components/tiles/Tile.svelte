@@ -25,23 +25,23 @@
 	import { BeanLink, type EventCreator } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
-	import { closeTileEvent, symbolChangedEvent } from './types';
+	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent} from './types';
 	
     export let id:string;
     export let value = '';
-    export let producesEventCloseTileEvent:EventCreator = closeTileEvent;
-    export let producesSymbolChangedEvent:EventCreator = symbolChangedEvent;
+    export let closeTileEvent:EventCreator = _closeTileEvent;
+    export let symbolChangedEvent:EventCreator = _symbolChangedEvent;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
    
     let symbols = Streamer.getInstance().getSymbols();
 
     function closeTile() {
-        beanLink.publishEvent(id, producesEventCloseTileEvent({id, sourceId: id}));
+        beanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
     }
 
     $: {
-        beanLink.publishEvent(id, producesSymbolChangedEvent({id, sourceId: id, symbol: value}));        
+        beanLink.publishEvent(id, symbolChangedEvent({id, sourceId: id, symbol: value}));        
     }
 </script>
 

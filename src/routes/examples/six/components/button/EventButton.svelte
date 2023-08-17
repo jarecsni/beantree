@@ -8,11 +8,11 @@
 	import { BeanLink, type EventCreator } from '../../BeanLink';
 	
     export let label:string;
-    export let producedEvent_ButtonEvent:EventCreator;
+    export let event:EventCreator;
     export let id:string
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
-    const eventToFire = producedEvent_ButtonEvent({sourceId: id});
+    const eventToFire = event({sourceId: id});
 
     function onClick() {
         beanLink.publishEvent(id, eventToFire);

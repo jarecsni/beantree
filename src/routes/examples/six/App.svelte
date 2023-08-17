@@ -6,16 +6,20 @@
     </TabBar>
     {#if active === 'Steaming Prices'}
     <div class="toolbar">
-        <CounterpartyPicker {counterparties} selectedCounterparty={counterparties[0]} id="counterpartyPicker"/>
+        <CounterpartyPicker 
+            id="counterpartyPicker"
+            {counterparties} 
+            selectedCounterparty={counterparties[0]} 
+        />
         <div class="button-panel">
-            <div class="spacer"></div>
+            <div class="spacer"/>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" producedEvent_ButtonEvent={addNewTileEvent}/>
+                <EventButton id="addTile" label="New Tile" event={addNewTileEvent}/>
             </div>
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" consumesEventSourceAddTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
+        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
     <div class="bottom-panel">
 
@@ -25,30 +29,30 @@
         <div class="direct-example">
             <EventingComponent 
                 id="componentA" 
-                consumedEventSource_TestEventSource={[{event: testEventB}]} 
-                producedEvent_TestEvent={testEventA}
+                testEventSource={[{event: testEventB}]} 
+                testEvent={testEventA}
             />
             <EventingComponent 
                 id="componentB" 
-                consumedEventSource_TestEventSource={[{event: testEventA}]} 
-                producedEvent_TestEvent={testEventB}
+                testEventSource={[{event: testEventA}]} 
+                testEvent={testEventB}
             />
         </div>
         <div class="indirect-example">
             <EventingComponent 
                 id="componentAA" 
-                consumedEventSource_TestEventSource={[{event: testEventBB}]} 
-                producedEvent_TestEvent={testEventAA}
+                testEventSource={[{event: testEventBB}]} 
+                testEvent={testEventAA}
             />
             <EventingComponent 
                 id="componentBB" 
-                consumedEventSource_TestEventSource={[{event: testEventAA}]} 
-                producedEvent_TestEvent={testEventCC}
+                testEventSource={[{event: testEventAA}]} 
+                testEvent={testEventCC}
             />
             <EventingComponent 
                 id="componentCC" 
-                consumedEventSource_TestEventSource={[{event: testEventCC}]} 
-                producedEvent_TestEvent={testEventBB}
+                testEventSource={[{event: testEventCC}]} 
+                t§estEvent={testEventBB}
             />
         </div>
     </div>
