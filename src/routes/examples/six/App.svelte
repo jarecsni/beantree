@@ -1,4 +1,10 @@
 <div class="app">
+    <TabBar tabs={['Steaming Prices', 'Circula Reference Detection']} let:tab bind:active>
+        <Tab stacked={true} {tab}>
+            <Label>{tab}</Label>
+        </Tab>
+    </TabBar>
+    {#if active === 'Steaming Prices'}
     <div class="toolbar">
         <CounterpartyPicker {counterparties} selectedCounterparty={counterparties[0]} id="counterpartyPicker"/>
         <div class="button-panel">
@@ -11,7 +17,11 @@
     <div class="container">
         <TilesContainer id="tiles" addTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
-    <div class="bottom-bar">
+    <div class="bottom-panel">
+
+    </div>
+{:else if active === 'Circula Reference Detection'}
+    <div class="circular-example-container">
         <div class="direct-example">
             <EventingComponent 
                 id="componentA" 
@@ -42,9 +52,14 @@
             />
         </div>
     </div>
+{/if}
 </div>
 
 <script lang="ts">
+    import Tab, { Label } from '@smui/tab';
+    import TabBar from '@smui/tab-bar';
+    import Button from '@smui/button';
+    import Paper, { Content } from '@smui/paper';
     import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
 	import { CounterpartyService } from "./services/CounterpartyService";
 	import { BeanLink } from "./BeanLink";
@@ -59,6 +74,8 @@
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);
+
+    let active:string = 'Steaming Prices';
 </script>
 
 <style>
@@ -77,7 +94,11 @@
         display: flex;
         flex-wrap: wrap;
     }
-    .bottom-bar {
+    .bottom-panel {
+        display: flex;
+        flex-direction: column;
+    }
+    .circular-example-container {
         display: flex;
         flex-direction: column;
     }
