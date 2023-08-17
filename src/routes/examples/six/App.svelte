@@ -10,7 +10,7 @@
         <div class="button-panel">
             <div class="spacer"></div>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" producesEventButtonEvent={addNewTileEvent}/>
+                <EventButton id="addTile" label="New Tile" producedEvent_ButtonEvent={addNewTileEvent}/>
             </div>
         </div>
     </div>
@@ -25,30 +25,30 @@
         <div class="direct-example">
             <EventingComponent 
                 id="componentA" 
-                eventConsumed={[{event: testEventB}]} 
-                eventProduced={testEventA}
+                consumedEventSource_TestEventSource={[{event: testEventB}]} 
+                producedEvent_TestEvent={testEventA}
             />
             <EventingComponent 
                 id="componentB" 
-                eventConsumed={[{event: testEventA}]} 
-                eventProduced={testEventB}
+                consumedEventSource_TestEventSource={[{event: testEventA}]} 
+                producedEvent_TestEvent={testEventB}
             />
         </div>
         <div class="indirect-example">
             <EventingComponent 
                 id="componentAA" 
-                eventConsumed={[{event: testEventBB}]} 
-                eventProduced={testEventAA}
+                consumedEventSource_TestEventSource={[{event: testEventBB}]} 
+                producedEvent_TestEvent={testEventAA}
             />
             <EventingComponent 
                 id="componentBB" 
-                eventConsumed={[{event: testEventAA}]} 
-                eventProduced={testEventCC}
+                consumedEventSource_TestEventSource={[{event: testEventAA}]} 
+                producedEvent_TestEvent={testEventCC}
             />
             <EventingComponent 
                 id="componentCC" 
-                eventConsumed={[{event: testEventCC}]} 
-                eventProduced={testEventBB}
+                consumedEventSource_TestEventSource={[{event: testEventCC}]} 
+                producedEvent_TestEvent={testEventBB}
             />
         </div>
     </div>

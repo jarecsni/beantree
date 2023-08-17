@@ -2,8 +2,8 @@
     <EventButton 
         {id} 
         label={eventLabel} 
-        event={eventProduced}
-        on:click={()=>{beanLink.publishEvent(id, eventProduced({}))}}
+        producedEvent_ButtonEvent={producedEvent_TestEvent}
+        on:click={()=>{beanLink.publishEvent(id, producedEvent_TestEvent({}))}}
     />
 </div>
 
@@ -13,14 +13,14 @@
     import EventButton from '../button/EventButton.svelte';
 
     export let id:string;
-    export let eventConsumed:EventSource;
-    export let eventProduced:EventCreatorFn<BusEvent>;
+    export let consumedEventSource_TestEventSource:EventSource;
+    export let producedEvent_TestEvent:EventCreatorFn<BusEvent>;
     const beanLink = BeanLink.getInstanceInContext();
     
-    const event = eventProduced({});
+    const event = producedEvent_TestEvent({});
     const eventLabel = 'Produce event ' + event.type
 
-    beanLink.subscribeToEventSource(eventConsumed, { id, handleEvent: (e) => {
+    beanLink.subscribeToEventSource(consumedEventSource_TestEventSource, { id, handleEvent: (e) => {
             beanLink.publishEvent(id, event);
         }
     });
