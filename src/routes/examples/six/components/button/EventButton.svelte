@@ -5,11 +5,10 @@
 <script lang="ts">
 	import Button from '@smui/button/src/Button.svelte';
 	import Label from '@smui/list/src/Label.svelte';    
-	import { BeanLink } from '../../BeanLink';
-	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
+	import { BeanLink, type EventCreator } from '../../BeanLink';
 	
     export let label:string;
-    export let producedEvent_ButtonEvent:EventCreatorFn<BusEvent>;
+    export let producedEvent_ButtonEvent:EventCreator;
     export let id:string
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();

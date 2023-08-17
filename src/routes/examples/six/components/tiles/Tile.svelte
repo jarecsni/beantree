@@ -22,16 +22,15 @@
 
 <script lang="ts">
     import IconButton from '@smui/icon-button';
-	import { BeanLink } from '../../BeanLink';
+	import { BeanLink, type EventCreator } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
-	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
 	import { closeTileEvent, symbolChangedEvent } from './types';
 	
     export let id:string;
     export let value = '';
-    export let producesEventCloseTileEvent:EventCreatorFn<BusEvent> = closeTileEvent;
-    export let producesSymbolChangedEvent:EventCreatorFn<BusEvent> = symbolChangedEvent;
+    export let producesEventCloseTileEvent:EventCreator = closeTileEvent;
+    export let producesSymbolChangedEvent:EventCreator = symbolChangedEvent;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
    

@@ -15,6 +15,7 @@ export type EventSource = [{
     event:EventCreatorFn<BusEvent>
 }];
 
+export type EventCreator = EventCreatorFn<BusEvent>;
 
 export const createStateChangeEvent = <T>(name:string) => {
     return createEventDefinition<{name:String, value: T, sourceId: string}>()('state.change.' + name)

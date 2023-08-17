@@ -1,3 +1,4 @@
+
 import { createEvent } from '../../BeanLink';
 
 export const testEventA = createEvent('test.event.A');

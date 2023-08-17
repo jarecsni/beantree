@@ -8,13 +8,12 @@
 </div>
 
 <script lang="ts">
-	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
-	import { BeanLink, type EventSource } from '../../BeanLink';
+	import { BeanLink, type EventCreator, type EventSource } from '../../BeanLink';
     import EventButton from '../button/EventButton.svelte';
 
     export let id:string;
     export let consumedEventSource_TestEventSource:EventSource;
-    export let producedEvent_TestEvent:EventCreatorFn<BusEvent>;
+    export let producedEvent_TestEvent:EventCreator;
     const beanLink = BeanLink.getInstanceInContext();
     
     const event = producedEvent_TestEvent({});
