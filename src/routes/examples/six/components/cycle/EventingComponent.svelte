@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <EventButton 
         {id} 
         label={eventLabel} 
@@ -25,3 +25,9 @@
         }
     });
 </script>
+
+<style>
+    .container {
+        margin-right: 5px;
+    }
+</style>

@@ -1,5 +1,5 @@
 <div class="app">
-    <TabBar tabs={['Steaming Prices', 'Circula Reference Detection']} let:tab bind:active>
+    <TabBar tabs={['Steaming Prices', 'Circular Reference Detection']} let:tab bind:active>
         <Tab stacked={true} {tab}>
             <Label>{tab}</Label>
         </Tab>
@@ -20,7 +20,7 @@
     <div class="bottom-panel">
 
     </div>
-{:else if active === 'Circula Reference Detection'}
+{:else if active === 'Circular Reference Detection'}
     <div class="circular-example-container">
         <div class="direct-example">
             <EventingComponent 
@@ -118,10 +118,11 @@
     }
     .direct-example {
         display: flex;
+        margin: 5px;
+
     }
     .indirect-example {
         display: flex;
-        padding: 10px;
         margin: 5px;
     }
 </style>

@@ -1,14 +1,22 @@
 
 <div class="tile">
-    <div>
-        <Select bind:value label="Symbol">
-            {#each symbols as symbol}
-                <Option value={symbol}>{symbol}</Option>
-            {/each}
-        </Select>
+    <div class="tile-row-1">
+        <div>
+            <Select bind:value label="Symbol">
+                {#each symbols as symbol}
+                    <Option value={symbol}>{symbol}</Option>
+                {/each}
+            </Select>
+        </div>
+        <div class="close-button">
+            <IconButton class="material-icons" on:click={()=>{closeTile()}}>close</IconButton>
+        </div>
     </div>
-    <div class="close-button">
-        <IconButton class="material-icons" on:click={()=>{closeTile()}}>close</IconButton>
+    <div class="price">
+        Price
+    </div>
+    <div class="buttons">
+        Buttons
     </div>
 </div>
 
@@ -35,9 +43,14 @@
 <style>
     .tile {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         background-color: lightsteelblue;
         margin: 5px;
         padding: 5px;
+    }
+    .tile-row-1 {
+        display: flex;
+        flex-direction: row;
+        background-color: lightsteelblue;
     }
 </style>
