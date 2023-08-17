@@ -58,15 +58,13 @@
 <script lang="ts">
     import Tab, { Label } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
-    import Button from '@smui/button';
-    import Paper, { Content } from '@smui/paper';
-    import CounterpartyPicker from "./components/counterparty/CounterpartyPicker.svelte";
-	import { CounterpartyService } from "./services/CounterpartyService";
-	import { BeanLink } from "./BeanLink";
-	import { registerAppEventHandlers } from "./app-event-handlers";
-	import EventButton from "./components/button/EventButton.svelte";
-	import TilesContainer from "./components/tiles/TilesContainer.svelte";
-	import { addNewTileEvent } from "./components/tiles/types";
+    import CounterpartyPicker from './components/counterparty/CounterpartyPicker.svelte';
+	import { CounterpartyService } from './services/CounterpartyService';
+	import { BeanLink } from './BeanLink';
+	import { registerAppEventHandlers } from './app-event-handlers';
+	import EventButton from './components/button/EventButton.svelte';
+	import TilesContainer from './components/tiles/TilesContainer.svelte';
+	import { addNewTileEvent } from './components/tiles/types';
     import EventingComponent from './components/cycle/EventingComponent.svelte';
 	import { testEventA, testEventAA, testEventB, testEventBB, testEventCC } from './components/cycle/types';
 
