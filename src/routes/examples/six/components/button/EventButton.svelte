@@ -9,11 +9,11 @@
 	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
 	
     export let label:string;
-    export let event:EventCreatorFn<BusEvent>;
+    export let producesEventButtonEvent:EventCreatorFn<BusEvent>;
     export let id:string
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
-    const eventToFire = event({sourceId: id});
+    const eventToFire = producesEventButtonEvent({sourceId: id});
 
     function onClick() {
         beanLink.publishEvent(id, eventToFire);

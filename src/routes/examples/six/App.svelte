@@ -10,12 +10,12 @@
         <div class="button-panel">
             <div class="spacer"></div>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" event={addNewTileEvent}/>
+                <EventButton id="addTile" label="New Tile" producesEventButtonEvent={addNewTileEvent}/>
             </div>
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" addTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
+        <TilesContainer id="tiles" consumesEventSourceAddTileEvent={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
     </div>
     <div class="bottom-panel">
 

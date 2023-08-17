@@ -26,17 +26,23 @@
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
 	import type { BusEvent, EventCreatorFn } from 'ts-bus/types';
+	import { closeTileEvent, symbolChangedEvent } from './types';
 	
     export let id:string;
     export let value = '';
-    export let closeTileEvent:EventCreatorFn<BusEvent>;
+    export let producesEventCloseTileEvent:EventCreatorFn<BusEvent> = closeTileEvent;
+    export let producesSymbolChangedEvent:EventCreatorFn<BusEvent> = symbolChangedEvent;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
    
     let symbols = Streamer.getInstance().getSymbols();
 
     function closeTile() {
-        beanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
+        beanLink.publishEvent(id, producesEventCloseTileEvent({id, sourceId: id}));
+    }
+
+    $: {
+        beanLink.publishEvent(id, producesSymbolChangedEvent({id, sourceId: id, symbol: value}));        
     }
 </script>
 

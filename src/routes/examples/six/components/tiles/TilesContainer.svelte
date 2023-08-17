@@ -1,5 +1,5 @@
 {#each tiles as tile (tile.id)}
-    <Tile id={tile.id} value='' closeTileEvent={closeTileEvent}/>
+    <Tile id={tile.id} value=''/>
 {/each}
 
 <script lang="ts">
@@ -8,14 +8,14 @@
     import Tile from './Tile.svelte';
 	import { closeTileEvent } from './types';
     export let id:string;
-    export let addTileEvent:EventSource;
+    export let consumesEventSourceAddTileEvent:EventSource;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext('TilesContainer');
     const parentBeanLink:BeanLink = BeanLink.getInstanceInParentContext();
 
     let tiles:{id:string}[] = [];
 
-    parentBeanLink.subscribeToEventSource(addTileEvent, {
+    parentBeanLink.subscribeToEventSource(consumesEventSourceAddTileEvent, {
         id, 
         handleEvent: () => {
             let tileId = uuidv4();
