@@ -101,6 +101,8 @@
     .circular-example-container {
         display: flex;
         flex-direction: column;
+        padding: 10px;
+        margin: 5px;
     }
     .ticker {
         width: 200px;
@@ -121,5 +123,7 @@
     }
     .indirect-example {
         display: flex;
+        padding: 10px;
+        margin: 5px;
     }
 </style>
