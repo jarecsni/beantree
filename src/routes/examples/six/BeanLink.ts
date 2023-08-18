@@ -39,6 +39,27 @@ export class BeanLink {
         this._name = name;
     }
 
+    public static getInstance(contextId?:string) {
+        let beanLink = getContext('beanLink') as BeanLink;
+        let parentBeanLink:BeanLink = beanLink;
+        if (!beanLink || (contextId && (contextId !== beanLink.name))) {
+            if (contextId) {
+                beanLink = new BeanLink(contextId);
+            } else {
+                throw new Error('Assumed beanLink in context where none exists - with no ID provided, none can be created either.');
+            }
+            parentBeanLink = getContext('beanLink');
+            setContext('beanLink', beanLink);
+            setContext('parentBeanLink', parentBeanLink);
+        } else if (beanLink) {
+            parentBeanLink = getContext('parentBeanLink');
+        }
+        return {
+            beanLink,
+            parentBeanLink
+        }
+    }
+
     public static getInstanceInContext(contextId?:string):BeanLink {
         let instance = getContext('beanLink') as BeanLink;
         if (!instance || (contextId && (contextId !== instance.name))) {

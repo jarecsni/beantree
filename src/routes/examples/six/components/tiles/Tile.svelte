@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="price">
-        <PriceLabel />
+        <PriceLabel id={labelId}/>
     </div>
     <div class="buttons">
         Buttons
@@ -33,19 +33,24 @@
     export let closeTileEvent:EventCreator = _closeTileEvent;
     export let symbolChangedEvent:EventCreator = _symbolChangedEvent;
 
-    const beanLink:BeanLink = BeanLink.getInstanceInContext();
-   
+    // const beanLink = BeanLink.getInstanceInContext('tile');
+    // const parentBeanLink:BeanLink = BeanLink.getInstanceInParentContext();
+ 
+    const {beanLink, parentBeanLink} = BeanLink.getInstance('tile');
+
     let symbols = Streamer.getInstance().getSymbols();
 
+    const labelId = id + '-label';
+
     function closeTile() {
-        beanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
+        parentBeanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
     }
 
     $: {
-        beanLink.publishEvent(id, symbolChangedEvent({id, sourceId: id, symbol: value}));        
+        parentBeanLink.publishEvent(id, symbolChangedEvent({id, sourceId: id, symbol: value}));        
     }
 
-    beanLink.subscribeToEventSource([{
+    parentBeanLink.subscribeToEventSource([{
         event: 'price.tick.received',
         predicate: (event: ReturnType<typeof priceTickReceivedEvent>) => {
             return (event.type == 'price.tick.received' && event.payload.symbol === value);
