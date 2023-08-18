@@ -6,7 +6,7 @@
     import {v4 as uuidv4} from 'uuid';
 	import { BeanLink, type EventSource } from '../../BeanLink';
     import Tile from './Tile.svelte';
-	import { closeTileEvent } from './types';
+	import { closeTileEvent, symbolChangedEvent } from './types';
     export let id:string;
     export let addTileEventSource:EventSource;
 
@@ -34,6 +34,14 @@
                 tiles.splice(index, 1);
                 tiles = tiles;
             }
+        }
+    });
+
+    beanLink.subscribe(symbolChangedEvent, {
+        id, 
+        handleEvent: (event:ReturnType<typeof symbolChangedEvent>) => {
+            const index = tiles.findIndex((element) => element.id === event.payload.id);
+            const symbol = event.payload.symbol;
         }
     });
 

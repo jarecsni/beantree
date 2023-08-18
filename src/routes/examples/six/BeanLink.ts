@@ -67,7 +67,7 @@ export class BeanLink {
 
     public publishEvent(sourceId:string, event:BusEvent) {
         const qualified = this._name + '.' + event.type;
-        this.log('publish start', sourceId + '/' + qualified);
+        this.log('publish start', sourceId + '/' + qualified + '(' + JSON.stringify(event.payload) + ')');
         this.eventStack.push(sourceId);
         const busEventPayload = {
             ...event,
