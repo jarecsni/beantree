@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', eventCreator: addNewTileEvent}]}/>
+        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', eventCreator: addNewTileEvent, event: 'tile.create'}]}/>
     </div>
     <div class="bottom-panel">
 

@@ -46,6 +46,7 @@
             const symbol = event.payload.symbol;
             tiles[index].symbol = symbol;
             const streamHandler = (symbol:string, value:number) => {
+                // This is not a circular reference as it will happen at a different time!
                 beanLink.publishEvent(id, priceTickReceivedEvent({sourceId: id, value: value, symbol}));
             };
             tiles[index].streamHandler = streamHandler;
