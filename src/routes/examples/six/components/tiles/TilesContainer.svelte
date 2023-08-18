@@ -46,7 +46,6 @@
             const symbol = event.payload.symbol;
             tiles[index].symbol = symbol;
             const streamHandler = (symbol:string, value:number) => {
-                console.log('publishing a price tick!')
                 beanLink.publishEvent(id, priceTickReceivedEvent({sourceId: id, value: value, symbol}));
             };
             tiles[index].streamHandler = streamHandler;
