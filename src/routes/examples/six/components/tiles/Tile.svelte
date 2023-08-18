@@ -47,7 +47,7 @@
     beanLink.subscribeToEventSource([{
         event: 'price.tick.received',
         predicate: (event: ReturnType<typeof priceTickReceivedEvent>) => {
-            return event.payload.symbol === value;
+            return (event.type == 'price.tick.received' && event.payload.symbol === value);
         }
     }], {
         id, handleEvent: (event: ReturnType<typeof priceTickReceivedEvent>)=>{

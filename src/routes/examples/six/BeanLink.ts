@@ -89,7 +89,7 @@ export class BeanLink {
         this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         this._bus.subscribe(eventId, (event) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            //this.checkEventStack(eventId, handlerDescr.id);
+            this.checkEventStack(eventId, handlerDescr.id);
             handlerDescr.handleEvent(event);
         });
     }
@@ -99,7 +99,7 @@ export class BeanLink {
         this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         this._bus.subscribe(event, (e) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            //this.checkEventStack(event.eventType, handlerDescr.id);
+            this.checkEventStack(event.eventType, handlerDescr.id);
             handlerDescr.handleEvent(e);
         });
     } 
@@ -111,7 +111,7 @@ export class BeanLink {
             const handler = (event:BusEvent) => {
                 if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
                     this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-                    //this.checkEventStack(eventSourceDef.event + '/' + (eventSourceDef.sourceId && ('/' + eventSourceDef.sourceId) || ''), handlerDescr.id);
+                    this.checkEventStack(eventSourceDef.event + '/' + (eventSourceDef.sourceId && ('/' + eventSourceDef.sourceId) || ''), handlerDescr.id);
                     handlerDescr.handleEvent(event);
                 }
             };
