@@ -6,14 +6,15 @@
     import {v4 as uuidv4} from 'uuid';
 	import { BeanLink, type EventSource } from '../../BeanLink';
     import Tile from './Tile.svelte';
-	import { closeTileEvent, symbolChangedEvent } from './types';
+	import { closeTileEvent, priceTickReceivedEvent, symbolChangedEvent } from './types';
+	import { Streamer, type onStreamDataHandler } from '../../datastream/Streamer';
     export let id:string;
     export let addTileEventSource:EventSource;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext('TilesContainer');
     const parentBeanLink:BeanLink = BeanLink.getInstanceInParentContext();
 
-    let tiles:{id:string}[] = [];
+    let tiles:{id:string, symbol?:string, streamHandler?:onStreamDataHandler}[] = [];
 
     parentBeanLink.subscribeToEventSource(addTileEventSource, {
         id, 
@@ -31,6 +32,7 @@
         handleEvent: (event) => {
             const index = tiles.findIndex((element) => element.id === event.payload.id);
             if (index !== -1) {
+                Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
                 tiles.splice(index, 1);
                 tiles = tiles;
             }
@@ -42,6 +44,12 @@
         handleEvent: (event:ReturnType<typeof symbolChangedEvent>) => {
             const index = tiles.findIndex((element) => element.id === event.payload.id);
             const symbol = event.payload.symbol;
+            tiles[index].symbol = symbol;
+            const streamHandler = (symbol:string, value:number) => {
+                beanLink.publishEvent(id, priceTickReceivedEvent({sourceId: id, value: value, symbol}));
+            };
+            tiles[index].streamHandler = streamHandler;
+            Streamer.getInstance().connect(symbol, streamHandler);
         }
     });
 

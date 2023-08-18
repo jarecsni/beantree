@@ -71,11 +71,14 @@
 	import { addNewTileEvent } from './components/tiles/types';
     import EventingComponent from './components/cycle/EventingComponent.svelte';
 	import { testEventA, testEventAA, testEventB, testEventBB, testEventCC } from './components/cycle/types';
+	import { Streamer } from './datastream/Streamer';
 
 
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);
+
+    Streamer.getInstance().startStreaming();
 
     let active:string = 'Steaming Prices';
 </script>
