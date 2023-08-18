@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', event: addNewTileEvent}]}/>
+        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', eventCreator: addNewTileEvent}]}/>
     </div>
     <div class="bottom-panel">
 
@@ -52,7 +52,7 @@
             <EventingComponent 
                 id="componentCC" 
                 testEventSource={[{event: testEventCC}]} 
-                t§estEvent={testEventBB}
+                testEvent={testEventBB}
             />
         </div>
     </div>
