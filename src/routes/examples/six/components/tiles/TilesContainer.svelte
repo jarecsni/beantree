@@ -45,6 +45,9 @@
             const index = tiles.findIndex((element) => element.id === event.payload.id);
             const symbol = event.payload.symbol;
             tiles[index].symbol = symbol;
+            if (tiles[index].streamHandler) {
+                Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
+            }
             const streamHandler = (symbol:string, value:number) => {
                 // This is not a circular reference as it will happen at a different time!
                 beanLink.publishEvent(id, priceTickReceivedEvent({sourceId: id, value: value, symbol}));
