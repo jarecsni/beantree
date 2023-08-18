@@ -33,10 +33,7 @@
     export let closeTileEvent:EventCreator = _closeTileEvent;
     export let symbolChangedEvent:EventCreator = _symbolChangedEvent;
 
-    // const beanLink = BeanLink.getInstanceInContext('tile');
-    // const parentBeanLink:BeanLink = BeanLink.getInstanceInParentContext();
- 
-    const {beanLink, parentBeanLink} = BeanLink.getInstance('tile');
+    const { beanLink, parentBeanLink } = BeanLink.getInstance('tile');
 
     let symbols = Streamer.getInstance().getSymbols();
 
