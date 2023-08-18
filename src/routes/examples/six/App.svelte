@@ -29,29 +29,29 @@
         <div class="direct-example">
             <EventingComponent 
                 id="componentA" 
-                testEventSource={[{event: testEventB}]} 
+                testEventSource={[{event: testEventB.eventType, eventCreator: testEventB}]} 
                 testEvent={testEventA}
             />
             <EventingComponent 
                 id="componentB" 
-                testEventSource={[{event: testEventA}]} 
+                testEventSource={[{event: testEventA.eventType, eventCreator: testEventA}]} 
                 testEvent={testEventB}
             />
         </div>
         <div class="indirect-example">
             <EventingComponent 
                 id="componentAA" 
-                testEventSource={[{event: testEventBB}]} 
+                testEventSource={[{event: testEventBB.eventType, eventCreator: testEventBB}]} 
                 testEvent={testEventAA}
             />
             <EventingComponent 
                 id="componentBB" 
-                testEventSource={[{event: testEventAA}]} 
+                testEventSource={[{event: testEventAA.eventType, eventCreator: testEventAA}]} 
                 testEvent={testEventCC}
             />
             <EventingComponent 
                 id="componentCC" 
-                testEventSource={[{event: testEventCC}]} 
+                testEventSource={[{event: testEventCC.eventType, eventCreator: testEventCC}]} 
                 testEvent={testEventBB}
             />
         </div>
