@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="price">
-        Price
+        <PriceLabel />
     </div>
     <div class="buttons">
         Buttons
@@ -25,8 +25,9 @@
 	import { BeanLink, type EventCreator } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
-	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent, priceTickReceivedEvent} from './types';
-	
+	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent, priceLabelSetValue, priceTickReceivedEvent} from './types';
+	import PriceLabel from './PriceLabel.svelte';
+
     export let id:string;
     export let value = '';
     export let closeTileEvent:EventCreator = _closeTileEvent;
@@ -50,8 +51,8 @@
             return (event.type == 'price.tick.received' && event.payload.symbol === value);
         }
     }], {
-        id, handleEvent: (event: ReturnType<typeof priceTickReceivedEvent>)=>{
-            console.log('handling price tick received symbol =', event.payload.symbol, ' value =', event.payload.value);
+        id, handleEvent: (event: ReturnType<typeof priceTickReceivedEvent>)=> {
+            beanLink.publishEvent(id, priceLabelSetValue({sourceId: id, value: event.payload.value}));
         }
     });
 </script>
