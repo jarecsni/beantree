@@ -82,7 +82,7 @@ export class Streamer {
     public disconnect(symbol:string, handler:onStreamDataHandler) {
         const handlers = this.handlerMap.get(symbol);
         if (handlers) {
-            const index = handlers.findIndex((item) => item === handler);
+            const index = handlers.findIndex((item) => item == handler);
             if (index !== -1) {
                 handlers.splice(index, 1);
             }  
