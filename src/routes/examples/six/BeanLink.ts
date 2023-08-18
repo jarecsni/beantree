@@ -12,8 +12,8 @@ type EventHandlerDescription = {
 }
 
 export type EventSource = [{
+    event:string,
     sourceId?:string,
-    event?:string,
     eventCreator?:EventCreator,
     predicate?:Predicate
 }];
@@ -89,7 +89,7 @@ export class BeanLink {
         this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         this._bus.subscribe(eventId, (event) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            this.checkEventStack(eventId, handlerDescr.id);
+            //this.checkEventStack(eventId, handlerDescr.id);
             handlerDescr.handleEvent(event);
         });
     }
@@ -99,7 +99,7 @@ export class BeanLink {
         this.log('subscribe', 'event = ' + qualifiedEventName + ', handler = ' + handlerDescr.id);
         this._bus.subscribe(event, (e) => {
             this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-            this.checkEventStack(event.eventType, handlerDescr.id);
+            //this.checkEventStack(event.eventType, handlerDescr.id);
             handlerDescr.handleEvent(e);
         });
     } 
@@ -111,19 +111,19 @@ export class BeanLink {
             const handler = (event:BusEvent) => {
                 if (!eventSourceDef.sourceId || (eventSourceDef.sourceId === event.meta!.sourceId)) {
                     this.log('handle event', 'handler: ' + handlerDescr.id + ', event: ' + qualifiedEventName);
-                    this.checkEventStack(eventSourceDef.event + '/' + (eventSourceDef.sourceId && ('/' + eventSourceDef.sourceId) || ''), handlerDescr.id);
+                    //this.checkEventStack(eventSourceDef.event + '/' + (eventSourceDef.sourceId && ('/' + eventSourceDef.sourceId) || ''), handlerDescr.id);
                     handlerDescr.handleEvent(event);
                 }
             };
             // TODO look into the typing side of this as this is a bit silly
             // I wanted to specify 'event' as SubscriptionDefinition which is clearly
             // an existing overload in EventBus, but it didn't work - not sure why?
-            if (eventSourceDef.event) {
-                this._bus.subscribe(eventSourceDef.event, handler);
+            if (eventSourceDef.predicate) {
+                this._bus.subscribe(eventSourceDef.predicate, handler);
             } else if (eventSourceDef.eventCreator) {
                 this._bus.subscribe(eventSourceDef.eventCreator, handler);
-            } else if (eventSourceDef.predicate) {
-                this._bus.subscribe(eventSourceDef.predicate, handler);
+            } else if (eventSourceDef.event) {
+                this._bus.subscribe(eventSourceDef.event, handler);
             } else {
                 throw Error('You need to specify one of "event", "eventCreator" or "predicate" for your eventsource');
             }

@@ -25,7 +25,7 @@
 	import { BeanLink, type EventCreator } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
-	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent} from './types';
+	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent, priceTickReceivedEvent} from './types';
 	
     export let id:string;
     export let value = '';
@@ -43,6 +43,17 @@
     $: {
         beanLink.publishEvent(id, symbolChangedEvent({id, sourceId: id, symbol: value}));        
     }
+
+    beanLink.subscribeToEventSource([{
+        event: 'price.tick.received',
+        predicate: (event: ReturnType<typeof priceTickReceivedEvent>) => {
+            return event.payload.symbol === value;
+        }
+    }], {
+        id, handleEvent: (event: ReturnType<typeof priceTickReceivedEvent>)=>{
+            console.log('handling price tick received symbol =', event.payload.symbol, ' value =', event.payload.value);
+        }
+    });
 </script>
 
 <style>
