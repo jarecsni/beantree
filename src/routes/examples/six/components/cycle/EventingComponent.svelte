@@ -16,7 +16,7 @@
     export let testEvent:EventCreator;
     const beanLink = BeanLink.getInstanceInContext();
     
-    const event = testEvent({});
+    const event = testEvent({sourceId: id});
     const eventLabel = 'Produce event ' + event.type
 
     beanLink.subscribeToEventSource(testEventSource, { id, handleEvent: (e) => {

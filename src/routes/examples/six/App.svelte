@@ -19,7 +19,9 @@
         </div>
     </div>
     <div class="container">
-        <TilesContainer id="tiles" addTileEventSource={[{sourceId: 'addTile', eventCreator: addNewTileEvent, event: addNewTileEvent.eventType}]}/>
+        <TilesContainer id="tiles" addTileEventSource={[
+            {sourceId: 'addTile', eventCreator: addNewTileEvent, event: addNewTileEvent.eventType}
+        ]}/>
     </div>
     <div class="bottom-panel">
 
@@ -75,9 +77,9 @@
     import { BookingFeature } from './features/BookingFeature';
 	import { FeatureManager } from './features/FeatureManager';
     const counterparties = CounterpartyService.getInstance().getCounterparties();
+    FeatureManager.instance.registerFeature(new BookingFeature());
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);
-    FeatureManager.instance.registerFeature(new BookingFeature());
     Streamer.getInstance().startStreaming();
     let active:string = 'Steaming Prices';
 </script>
