@@ -16,7 +16,7 @@
         <PriceLabel id={labelId}/>
     </div>
     <div class="buttons">
-        Buttons
+        <EventButton id="bookDeal" label="Book" event={bookDealEvent}/>
     </div>
 </div>
 
@@ -25,8 +25,15 @@
 	import { BeanLink, type EventCreator } from '../../BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
-	import { closeTileEvent as _closeTileEvent, symbolChangedEvent as _symbolChangedEvent, priceLabelSetValue, priceTickReceivedEvent} from './types';
+	import { 
+        closeTileEvent as _closeTileEvent, 
+        symbolChangedEvent as _symbolChangedEvent, 
+        bookDealEvent, 
+        priceLabelSetValue, 
+        priceTickReceivedEvent
+    } from './types';
 	import PriceLabel from './PriceLabel.svelte';
+    import EventButton from '../button/EventButton.svelte';
 
     export let id:string;
     export let value = '';
@@ -65,7 +72,7 @@
         flex-direction: column;
         background-color: lightsteelblue;
         margin: 5px;
-        padding: 5px;
+        padding: 10px;
     }
     .tile-row-1 {
         display: flex;
