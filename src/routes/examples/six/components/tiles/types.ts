@@ -11,3 +11,5 @@ export const priceTickReceivedEvent = createEvent<{symbol:string, value:number}>
 export const priceLabelSetValue = createEvent<{value:number}>('price.label.set.value');
 
 export const bookDealEvent = createEvent<{symbol:string, value:number}>('tile.book.deal');
+
+export const setBookButtonEnabled = createEvent<{enabled:boolean}>('tile.book.button.enable');

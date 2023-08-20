@@ -16,7 +16,7 @@
         <PriceLabel id={labelId}/>
     </div>
     <div class="buttons">
-        <EventButton id="bookDeal" label="Book" event={bookDealEvent({
+        <EventButton id="bookDeal" label="Book" disabled={disabled} event={bookDealEvent({
             sourceId: id,
             symbol: selectedSymbol,
             value: price
@@ -34,7 +34,10 @@
         symbolChangedEvent as _symbolChangedEvent, 
         bookDealEvent, 
         priceLabelSetValue, 
-        priceTickReceivedEvent
+        priceTickReceivedEvent,
+
+		setBookButtonEnabled
+
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
@@ -50,6 +53,7 @@
 
     const labelId = id + '-label';
     let price = 0;
+    let disabled = false;
 
     function closeTile() {
         parentBeanLink.publishEvent(id, closeTileEvent({id, sourceId: id}));
@@ -68,6 +72,15 @@
         id, handleEvent: (event: ReturnType<typeof priceTickReceivedEvent>)=> {
             price = event.payload.value;
             beanLink.publishEvent(id, priceLabelSetValue({sourceId: id, value: event.payload.value}));
+        }
+    });
+
+    beanLink.subscribeToEventSource([{
+        event: setBookButtonEnabled.name,
+        eventCreator: setBookButtonEnabled
+    }], {
+        id, handleEvent: (event: ReturnType<typeof setBookButtonEnabled>)=> {
+            disabled = !event.payload.enabled;
         }
     });
 </script>

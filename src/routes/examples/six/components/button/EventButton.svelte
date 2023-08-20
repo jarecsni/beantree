@@ -1,4 +1,4 @@
-<Button on:click={onClick} variant="raised">
+<Button on:click={onClick} variant="raised" disabled={disabled}>
     <Label>{label}</Label>
 </Button>
 
@@ -11,6 +11,7 @@
     export let label:string;
     export let event:BusEvent;
     export let id:string
+    export let disabled = false;
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
     
