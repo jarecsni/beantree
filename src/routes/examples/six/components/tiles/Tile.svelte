@@ -40,7 +40,7 @@
     export let closeTileEvent:EventCreator = _closeTileEvent;
     export let symbolChangedEvent:EventCreator = _symbolChangedEvent;
 
-    const { beanLink, parentBeanLink } = BeanLink.getInstance('tile');
+    const { beanLink, parentBeanLink } = BeanLink.getInstance('Tile');
 
     let symbols = Streamer.getInstance().getSymbols();
 

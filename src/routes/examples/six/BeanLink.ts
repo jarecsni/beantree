@@ -5,6 +5,7 @@ import type { BusEvent, EventCreatorFn, SubscriptionDef } from 'ts-bus/types';
 import { getContext, setContext } from 'svelte';
 import { Stack } from './utils/Stack';
 import type { PredicateFn } from 'ts-bus/EventBus';
+import type { Feature } from './features/Feature';
 
 type EventHandlerDescription = {
     id:string,
@@ -34,9 +35,26 @@ export class BeanLink {
     private _name:string;
     private _bus = new EventBus();
     private eventStack = new Stack<string>();
-    
-    constructor(name:string) {
+    private static featureMap:Map<string, Feature[]> = new Map();
+
+    private constructor(name:string) {
         this._name = name;
+    }
+
+    public static registerFeature(context:string, feature:Feature) {
+        let features = BeanLink.featureMap.get(context);
+        if (!features) {
+            features = [];
+            BeanLink.featureMap.set(context, features);
+        }
+        features.push(feature);
+    }
+
+    private static initialiseFeatures(context:string, beanLinkInstance:BeanLink) {
+        const features = BeanLink.featureMap.get(context);
+        features && features.forEach(f => {
+            f.init(context, beanLinkInstance);
+        });
     }
 
     public static getInstance(contextId?:string) {
@@ -45,6 +63,7 @@ export class BeanLink {
         if (!beanLink || (contextId && (contextId !== beanLink.name))) {
             if (contextId) {
                 beanLink = new BeanLink(contextId);
+                BeanLink.initialiseFeatures(contextId, beanLink);
             } else {
                 throw new Error('Assumed beanLink in context where none exists - with no ID provided, none can be created either.');
             }
@@ -65,6 +84,7 @@ export class BeanLink {
         if (!instance || (contextId && (contextId !== instance.name))) {
             if (contextId) {
                 instance = new BeanLink(contextId);
+                BeanLink.initialiseFeatures(contextId, instance);
             } else {
                 throw new Error('Assumed beanLink in context where none exists - with no ID provided, none can be created either.');
             }

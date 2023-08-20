@@ -72,14 +72,13 @@
     import EventingComponent from './components/cycle/EventingComponent.svelte';
 	import { testEventA, testEventAA, testEventB, testEventBB, testEventCC } from './components/cycle/types';
 	import { Streamer } from './datastream/Streamer';
-
-
+    import { BookingFeature } from './features/BookingFeature';
+	import { FeatureManager } from './features/FeatureManager';
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
     registerAppEventHandlers(beanLink);
-
+    FeatureManager.instance.registerFeature(new BookingFeature());
     Streamer.getInstance().startStreaming();
-
     let active:string = 'Steaming Prices';
 </script>
 
