@@ -12,6 +12,8 @@ type EventHandlerDescription = {
     handleEvent:(e:BusEvent) => void;
 }
 
+type ContextInitCallback = (context:string, beanLink:BeanLink) => void;
+
 export type EventSource = [{
     event:string,
     sourceId?:string,
@@ -35,25 +37,25 @@ export class BeanLink {
     private _name:string;
     private _bus = new EventBus();
     private eventStack = new Stack<string>();
-    private static featureMap:Map<string, Feature[]> = new Map();
+    private static featureMap:Map<string, ContextInitCallback[]> = new Map();
 
     private constructor(name:string) {
         this._name = name;
     }
 
-    public static registerFeature(context:string, feature:Feature) {
+    public static registerFeature(context:string, initCallback:ContextInitCallback) {
         let features = BeanLink.featureMap.get(context);
         if (!features) {
             features = [];
             BeanLink.featureMap.set(context, features);
         }
-        features.push(feature);
+        features.push(initCallback);
     }
 
     private static initialiseFeatures(context:string, beanLinkInstance:BeanLink) {
-        const features = BeanLink.featureMap.get(context);
-        features && features.forEach(f => {
-            f.init(context, beanLinkInstance);
+        const contextInitCallbacks = BeanLink.featureMap.get(context);
+        contextInitCallbacks && contextInitCallbacks.forEach(cb => {
+            cb(context, beanLinkInstance);
         });
     }
 
