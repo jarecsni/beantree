@@ -12,7 +12,8 @@ export class BookingFeature implements Feature {
                 this.counterparty = event.payload.value;
             };
             beanLink.subscribeToEvent('state.change.counterparty', { 
-                id: 'cptyEventHandler', handleEvent: counterpartyChangedHandler
+                id: 'BookingFeature', 
+                handleEvent: counterpartyChangedHandler
             });
         });
         BeanLink.registerFeature('Tile', (context:string, beanLink:BeanLink) => {
