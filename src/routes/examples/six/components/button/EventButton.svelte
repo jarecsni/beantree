@@ -6,15 +6,15 @@
 	import Button from '@smui/button/src/Button.svelte';
 	import Label from '@smui/list/src/Label.svelte';    
 	import { BeanLink, type EventCreator } from '../../BeanLink';
+	import type { BusEvent } from 'ts-bus/types';
 	
     export let label:string;
-    export let event:EventCreator;
+    export let event:BusEvent;
     export let id:string
 
     const beanLink:BeanLink = BeanLink.getInstanceInContext();
-    const eventToFire = event({sourceId: id});
-
+    
     function onClick() {
-        beanLink.publishEvent(id, eventToFire);
+        beanLink.publishEvent(id, event);
     }
 </script>

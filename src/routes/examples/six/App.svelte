@@ -14,7 +14,7 @@
         <div class="button-panel">
             <div class="spacer"/>
             <div class="add-button">
-                <EventButton id="addTile" label="New Tile" event={addNewTileEvent}/>
+                <EventButton id="addTile" label="New Tile" event={addNewTileEvent({sourceId:'app'})}/>
             </div>
         </div>
     </div>
@@ -67,7 +67,6 @@
     import CounterpartyPicker from './components/counterparty/CounterpartyPicker.svelte';
 	import { CounterpartyService } from './services/CounterpartyService';
 	import { BeanLink } from './BeanLink';
-	import { registerAppEventHandlers } from './app-event-handlers';
 	import EventButton from './components/button/EventButton.svelte';
 	import TilesContainer from './components/tiles/TilesContainer.svelte';
 	import { addNewTileEvent } from './components/tiles/types';
@@ -79,7 +78,6 @@
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     FeatureManager.instance.registerFeature(new BookingFeature());
     const beanLink = BeanLink.getInstanceInContext('App'); // top level BeanLink instance
-    registerAppEventHandlers(beanLink);
     Streamer.getInstance().startStreaming();
     let active:string = 'Steaming Prices';
 </script>
