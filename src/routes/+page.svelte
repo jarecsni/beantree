@@ -10,3 +10,5 @@
 <a href="/examples/five">Five</a>
 
 <a href="/examples/six">Six</a>
+
+<a href="/examples/seven">Seven</a>
