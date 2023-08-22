@@ -1,0 +1,61 @@
+import moment from 'moment';
+import { getContext, setContext } from 'svelte';
+
+export type BeanLinkEvent<T> = {
+    source:string,
+    name:string,
+    value:T,
+    volatile:boolean
+}
+
+export type BeanLinkEventHandler<T> = (event:BeanLinkEvent<T>) => void;
+
+export const createEvent = <T>(source:string, name:string, value:T) => ({
+    source, name, value, volatile: false
+});
+
+export class BeanLink {
+    
+    private _name:string;
+    
+    private constructor(name:string) {
+        this._name = name;
+    }
+
+    public static getInstance(contextId?:string) {
+        let beanLink = getContext('beanLink') as BeanLink;
+        let parentBeanLink:BeanLink = beanLink;
+        if (!beanLink || (contextId && (contextId !== beanLink.name))) {
+            if (contextId) {
+                beanLink = new BeanLink(contextId);
+            } else {
+                throw new Error('Assumed beanLink in context where none exists - with no ID provided, none can be created either.');
+            }
+            parentBeanLink = getContext('beanLink');
+            setContext('beanLink', beanLink);
+            setContext('parentBeanLink', parentBeanLink);
+        } else if (beanLink) {
+            parentBeanLink = getContext('parentBeanLink');
+        }
+        return {
+            beanLink,
+            parentBeanLink
+        }
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    public publishEvent<T>(event:BeanLinkEvent<T>) {
+    }
+
+    public subscribeToEvent<T>(eventId:string, handlerDescr:BeanLinkEventHandler<T>) {
+
+    }
+
+
+    private log(action:string, message:string) {
+        console.log('[beanlink:' + action + '][' + moment().format() + ']:', message);
+    }
+}
