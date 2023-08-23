@@ -50,11 +50,11 @@ export class BeanLink {
     public publishEvent<T>(event:BeanLinkEvent<T>) {
     }
 
-    public subscribeToEvent<T>(eventId:string, handlerDescr:BeanLinkEventHandler<T>) {
-
+    public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
+    public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
+    public on<T>(event: string | BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>):void {
     }
-
-
+    
     private log(action:string, message:string) {
         console.log('[beanlink:' + action + '][' + moment().format() + ']:', message);
     }
