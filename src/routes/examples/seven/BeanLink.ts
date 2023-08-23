@@ -44,6 +44,7 @@ export class BeanLink {
     }
 
     public publish<T>(event:BeanLinkEvent<T>) {
+        this.log('publish', event.name + ' = ' + JSON.stringify(event.value));
     }
 
     public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
