@@ -13,6 +13,7 @@ export const createEvent = <T>(name:string, value:T) => ({name, value});
 export class BeanLink {
     
     private _name:string;
+    private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
     
     private constructor(name:string) {
         this._name = name;
@@ -44,12 +45,26 @@ export class BeanLink {
     }
 
     public publish<T>(event:BeanLinkEvent<T>) {
-        this.log('publish', event.name + ' = ' + JSON.stringify(event.value));
+        this.log('publish start', event.name + ' = ' + JSON.stringify(event.value));
+        const handlers = this._handlers.get(event.name);
+        if (handlers) {
+            handlers.forEach(handler => {
+                handler.deref()!(event);
+            });
+        }
+        this.log('publish  done', event.name);
     }
 
     public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
     public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
     public on<T>(event: string | BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>):void {
+        const eventName = typeof event === 'string' ? event : event.name;
+        let handlers = this._handlers.get(eventName);
+        if (!handlers) {
+            handlers = [];
+            this._handlers.set(eventName, handlers);
+        }
+        handlers.push(new WeakRef(handler));
     }
     
     private log(action:string, message:string) {

@@ -67,8 +67,12 @@
 	import { CounterpartyService } from './services/CounterpartyService';
 	import { BeanLink } from './BeanLink';
 	import { Streamer } from './datastream/Streamer';
+	import type { counterpartyChanged } from './components/counterparty/types';
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const { beanLink } = BeanLink.getInstance('App'); // top level BeanLink instance
+    beanLink.on('counterparty', (event:ReturnType<typeof counterpartyChanged>) => {
+        console.log('counterparty changed:', event.value && event.value.label);
+    });
     Streamer.getInstance().startStreaming();
     let active:string = 'Steaming Prices';
 </script>
