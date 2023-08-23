@@ -2,17 +2,13 @@ import moment from 'moment';
 import { getContext, setContext } from 'svelte';
 
 export type BeanLinkEvent<T> = {
-    source:string,
     name:string,
     value:T,
-    volatile:boolean
 }
 
 export type BeanLinkEventHandler<T> = (event:BeanLinkEvent<T>) => void;
 
-export const createEvent = <T>(source:string, name:string, value:T) => ({
-    source, name, value, volatile: false
-});
+export const createEvent = <T>(name:string, value:T) => ({name, value});
 
 export class BeanLink {
     
@@ -47,7 +43,7 @@ export class BeanLink {
         return this._name;
     }
 
-    public publishEvent<T>(event:BeanLinkEvent<T>) {
+    public publish<T>(event:BeanLinkEvent<T>) {
     }
 
     public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;

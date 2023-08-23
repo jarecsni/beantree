@@ -1,9 +1,7 @@
 import { createEvent } from '../../BeanLink';
 
-export const COUNTERPARTY = 'Counterparty';
-
-export const counterpartyStateChangedEvent = 
-    (source:string, value:Counterparty) => createEvent<Counterparty>(source, COUNTERPARTY, value);
+export const counterpartyChanged = 
+    (name:string, value:Counterparty) => createEvent<Counterparty>(name, value);
 
 export type Counterparty = {
     id: number;

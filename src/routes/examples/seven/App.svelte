@@ -7,7 +7,6 @@
     {#if active === 'Steaming Prices'}
     <div class="toolbar">
         <CounterpartyPicker 
-            id="counterpartyPicker"
             {counterparties} 
             selectedCounterparty={counterparties[0]} 
         />
