@@ -13,7 +13,7 @@ export const createEvent = <T>(name:string, value:T) => ({name, value});
 export class BeanLink {
     
     private _name:string;
-    private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
+    private _handlers:Map<string, BeanLinkEventHandler<any>[]> = new Map();
     
     private constructor(name:string) {
         this._name = name;
@@ -49,7 +49,7 @@ export class BeanLink {
         const handlers = this._handlers.get(event.name);
         if (handlers) {
             handlers.forEach(handler => {
-                handler.deref()!(event);
+                handler(event);
             });
         }
         this.log('publish  done', event.name);
@@ -65,7 +65,7 @@ export class BeanLink {
             this._handlers.set(eventName, handlers);
         }
         this.log('register', 'name='+eventName+', handler='+handler);
-        handlers.push(new WeakRef(handler));
+        handlers.push(handler);
     }
     
     private log(action:string, message:string) {
