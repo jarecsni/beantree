@@ -7,20 +7,17 @@
     {#if active === 'Steaming Prices'}
     <div class="toolbar">
         <CounterpartyPicker 
-            {counterparties} 
-            selectedCounterparty={counterparties[0]} 
+            {counterparties} selectedCounterparty={counterparties[0]} 
         />
         <div class="button-panel">
             <div class="spacer"/>
             <div class="add-button">
-                <!-- <EventButton id="addTile" label="New Tile" event={addNewTileEvent({sourceId:'app'})}/> -->
+                <EventButton label="New Tile" name="addTile"/>
             </div>
         </div>
     </div>
     <div class="container">
-        <!-- <TilesContainer id="tiles" addTileEventSource={[
-            {sourceId: 'addTile', eventCreator: addNewTileEvent, event: addNewTileEvent.eventType}
-        ]}/> -->
+        <TilesContainer/>
     </div>
     <div class="bottom-panel">
 
@@ -67,6 +64,8 @@
 	import { CounterpartyService } from './services/CounterpartyService';
 	import { BeanLink } from './BeanLink';
 	import { Streamer } from './datastream/Streamer';
+    import EventButton from './components/button/EventButton.svelte';
+    import TilesContainer from './components/tiles/TilesContainer.svelte';
 	import type { counterpartyChanged } from './components/counterparty/types';
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const { beanLink } = BeanLink.getInstance('App'); // top level BeanLink instance

@@ -64,6 +64,7 @@ export class BeanLink {
             handlers = [];
             this._handlers.set(eventName, handlers);
         }
+        this.log('register', 'name='+eventName+', handler='+handler);
         handlers.push(new WeakRef(handler));
     }
     
