@@ -59,8 +59,11 @@
     }
 
     parentBeanLink.on(priceTickReceivedName, (event: ReturnType<typeof priceTickReceivedEvent>)=> {
-        price = event.value.value;
-        beanLink.publish(priceLabelSetValue(priceLabelSetValueName, price));
+        if (event.value.symbol === selectedSymbol) {
+            // FIXME this is not nice to filter like this - need to be able to filter earlier on
+            price = event.value.value;
+            beanLink.publish(priceLabelSetValue(priceLabelSetValueName, price));
+        }
     });
 
     beanLink.on(setBookButtonEnabledName,
