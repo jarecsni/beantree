@@ -21,8 +21,7 @@
         tiles = tiles; // svelte needs this
     });
 
-    beanLink.on('closeTile', 
-    (event:ReturnType<typeof closeTileEvent>) => {
+    beanLink.on('closeTile', (event:ReturnType<typeof closeTileEvent>) => {
         const index = tiles.findIndex((element) => element.id === event.value);
         if (index !== -1) {
             Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
@@ -31,22 +30,19 @@
         }
     });
 
-    // beanLink.subscribe(symbolChangedEvent, {
-    //     id, 
-    //     handleEvent: (event:ReturnType<typeof symbolChangedEvent>) => {
-    //         const index = tiles.findIndex((element) => element.id === event.payload.id);
-    //         const oldSymbol = tiles[index].symbol;
-    //         tiles[index].symbol = event.payload.symbol;
-    //         if (tiles[index].streamHandler) {
-    //             Streamer.getInstance().disconnect(oldSymbol!, tiles[index].streamHandler!);
-    //         }
-    //         const streamHandler = (symbol:string, value:number) => {
-    //             // This is not a circular reference as it will happen at a different time!
-    //             beanLink.publishEvent(id, priceTickReceivedEvent({sourceId: id, value: value, symbol}));
-    //         };
-    //         tiles[index].streamHandler = streamHandler;
-    //         Streamer.getInstance().connect(tiles[index].symbol!, streamHandler);
-    //     }
-    // });
+    beanLink.on('symbolChanged', (event:ReturnType<typeof symbolChangedEvent>) => {
+        const index = tiles.findIndex((element) => element.id === event.value.id);
+        const oldSymbol = tiles[index].symbol;
+        tiles[index].symbol = event.value.symbol;
+        if (tiles[index].streamHandler) {
+            Streamer.getInstance().disconnect(oldSymbol!, tiles[index].streamHandler!);
+        }
+        const streamHandler = (symbol:string, value:number) => {
+            // This is not a circular reference as it will happen at a different time!
+            beanLink.publish(priceTickReceivedEvent('priceTickReceived', {symbol, value}));
+        };
+        tiles[index].streamHandler = streamHandler;
+        Streamer.getInstance().connect(tiles[index].symbol!, streamHandler);
+    });
 
 </script>
