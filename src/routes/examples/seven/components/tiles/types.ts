@@ -1,6 +1,6 @@
 import { createEvent } from '../../BeanLink';
 
-export const closeTileEvent = (name:string) => createEvent(name, true);
+export const closeTileEvent = (name:string, id:string) => createEvent<string>(name, id);
 
 export const symbolChangedEvent = (name:string, value:{id:string, symbol:string}) => 
     createEvent<{id:string, symbol:string}>(name, value);

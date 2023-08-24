@@ -21,17 +21,15 @@
         tiles = tiles; // svelte needs this
     });
 
-    // beanLink.subscribe(closeTileEvent, {
-    //     id, 
-    //     handleEvent: (event) => {
-    //         const index = tiles.findIndex((element) => element.id === event.payload.id);
-    //         if (index !== -1) {
-    //             Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
-    //             tiles.splice(index, 1);
-    //             tiles = tiles;
-    //         }
-    //     }
-    // });
+    beanLink.on('closeTile', 
+    (event:ReturnType<typeof closeTileEvent>) => {
+        const index = tiles.findIndex((element) => element.id === event.value);
+        if (index !== -1) {
+            Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
+            tiles.splice(index, 1);
+            tiles = tiles;
+        }
+    });
 
     // beanLink.subscribe(symbolChangedEvent, {
     //     id, 

@@ -47,12 +47,11 @@
     const { beanLink, parentBeanLink } = BeanLink.getInstance('Tile');
 
     let symbols = Streamer.getInstance().getSymbols();
-
     let price = 0;
     let disabled = false;
 
     function closeTile() {
-        parentBeanLink.publish(closeTileEvent(closeTileEventName));
+        parentBeanLink.publish(closeTileEvent(closeTileEventName, id));
     }
 
     $: {
