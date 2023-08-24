@@ -67,6 +67,9 @@
     import EventButton from './components/button/EventButton.svelte';
     import TilesContainer from './components/tiles/TilesContainer.svelte';
 	import type { counterpartyChanged } from './components/counterparty/types';
+	import { BookingFeature } from './features/BookingFeature';
+	import { FeatureManager } from './features/FeatureManager';
+    FeatureManager.instance.registerFeature(new BookingFeature());
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const { beanLink } = BeanLink.getInstance('App'); // top level BeanLink instance
     beanLink.on('counterparty', (event:ReturnType<typeof counterpartyChanged>) => {
