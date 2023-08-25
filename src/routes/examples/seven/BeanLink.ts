@@ -18,8 +18,9 @@ const eventNames:Map<string, string> = new Map();
 export const createEvent = <T>(name:string) => {
     if (eventNames.get(name)) {
         BeanLink.warn('createEvent', 'event name "' + name + '" is being redefined');
+    } else {
+        eventNames.set(name, name);
     }
-    eventNames.set(name, name);
     return {
         name,
         event: ((value:T) => ({name, value}))
