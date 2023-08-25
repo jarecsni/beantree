@@ -5,10 +5,11 @@
 <script lang="ts">
 	import Button from '@smui/button/src/Button.svelte';
 	import Label from '@smui/list/src/Label.svelte';    
-	import { BeanLink, type BeanLinkEvent, type BeanLinkEventCreator } from '../../BeanLink';
+	import { BeanLink, type BeanLinkEventCreator } from '../../BeanLink';
+    import { buttonClicked as _buttonClicked } from './types';
 	
     export let label:string;
-    export let buttonClicked:BeanLinkEventCreator<boolean>;
+    export let buttonClicked:BeanLinkEventCreator<boolean> = _buttonClicked;
     export let disabled = false;
 
     const beanLink:BeanLink = BeanLink.getInstance().beanLink;

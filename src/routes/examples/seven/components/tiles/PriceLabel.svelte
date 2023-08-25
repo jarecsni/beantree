@@ -11,9 +11,7 @@
 <script lang="ts">
     import { Icon, Label } from '@smui/common';
 	import { BeanLink } from '../../BeanLink';
-	import { priceLabelSetValue as _priceLabelSetValue} from './types';
-
-    export let priceLabelSetValue = _priceLabelSetValue;
+	import { priceLabelSetValue } from './types';
 
     let price = 0;
     let arrow:string;

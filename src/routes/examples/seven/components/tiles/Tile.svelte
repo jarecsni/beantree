@@ -9,14 +9,17 @@
             </Select>
         </div>
         <div class="close-button">
-            <IconButton class="material-icons" on:click={()=>{onCloseTile()}}>close</IconButton>
+            <IconButton class="material-icons" on:click={()=>{onCloseTile()}}>
+                close
+            </IconButton>
         </div>
     </div>
     <div class="price">
         <PriceLabel/>
     </div>
     <div class="buttons">
-        <EventButton label="Book" 
+        <EventButton 
+            label="Book" 
             disabled={disabled} 
             buttonClicked={bookDealButtonClicked}
         />
@@ -29,23 +32,18 @@
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
 	import { 
-        closeTile as _closeTile, 
-        symbolChanged as _symbolChanged, 
+        closeTile, 
+        symbolChanged, 
         bookDeal, 
-        priceLabelSetValue as _priceLabelSetValue, 
-        priceTickReceived as _priceTickReceived,
-		setBookButtonEnabled as _setBookButtonEnabled,
+        priceLabelSetValue, 
+        priceTickReceived,
+		setBookButtonEnabled,
 		bookDealButtonClicked
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
 
     export let id:string;
-    export let closeTile = _closeTile;
-    export let symbolChanged = _symbolChanged;
-    export let priceLabelSetValue = _priceLabelSetValue;
-    export let setBookButtonEnabled = _setBookButtonEnabled;
-    export let priceTickReceived = _priceTickReceived;
     export let selectedSymbol = '';
 
     const { beanLink, parentBeanLink } = BeanLink.getInstance('Tile');
@@ -70,14 +68,11 @@
         }
     });
 
-    beanLink.on(setBookButtonEnabled,
-        (event: ReturnType<typeof setBookButtonEnabled.event>)=> {
-            disabled = !event.value;
-        }
-    );
+    beanLink.on(setBookButtonEnabled, (event: ReturnType<typeof setBookButtonEnabled.event>) => {
+        disabled = !event.value;
+    });
 
     beanLink.on(bookDealButtonClicked, () => {
-        // TODO why it will cause stack overflow if I use beanLink instead of parent
         beanLink.publish(bookDeal.event({symbol: selectedSymbol, value: price}));
     });
 </script>

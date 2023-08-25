@@ -70,6 +70,7 @@
 	import { BookingFeature } from './features/BookingFeature';
 	import { FeatureManager } from './features/FeatureManager';
 	import { addNewTile } from './components/tiles/types';
+    
     FeatureManager.instance.registerFeature(new BookingFeature());
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const { beanLink } = BeanLink.getInstance('App'); // top level BeanLink instance
