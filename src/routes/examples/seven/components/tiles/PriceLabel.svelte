@@ -11,17 +11,17 @@
 <script lang="ts">
     import { Icon, Label } from '@smui/common';
 	import { BeanLink } from '../../BeanLink';
-	import type { priceLabelSetValue } from '../../components/tiles/types';
+	import { priceLabelSetValue as _priceLabelSetValue} from './types';
 
-    export let priceLabelSetValueEventName = 'priceLabelSetValue';
+    export let priceLabelSetValue = _priceLabelSetValue;
 
     let price = 0;
     let arrow:string;
 
     const { beanLink } = BeanLink.getInstance();
 
-    beanLink.on(priceLabelSetValueEventName, 
-        (event:ReturnType<typeof priceLabelSetValue>) => {
+    beanLink.on(priceLabelSetValue.name, 
+        (event:ReturnType<typeof priceLabelSetValue.event>) => {
             if (event.value > price) {
                 arrow = 'arrow_upward';
             } else if (event.value < price) {

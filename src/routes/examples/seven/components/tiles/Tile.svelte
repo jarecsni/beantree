@@ -9,7 +9,7 @@
             </Select>
         </div>
         <div class="close-button">
-            <IconButton class="material-icons" on:click={()=>{closeTile()}}>close</IconButton>
+            <IconButton class="material-icons" on:click={()=>{onCloseTile()}}>close</IconButton>
         </div>
     </div>
     <div class="price">
@@ -26,22 +26,22 @@
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
 	import { 
-        closeTileEvent, 
-        symbolChangedEvent, 
-        bookDealEvent, 
-        priceLabelSetValue, 
-        priceTickReceivedEvent,
-		setBookButtonEnabled
+        closeTile as _closeTile, 
+        symbolChanged as _symbolChanged, 
+        bookDeal as _bookDeal, 
+        priceLabelSetValue as _priceLabelSetValue, 
+        priceTickReceived as _priceTickReceived,
+		setBookButtonEnabled as _setBookButtonEnabled
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
 
     export let id:string;
-    export let closeTileEventName = 'closeTile';
-    export let symbolChangedEventName = 'symbolChanged';
-    export let priceLabelSetValueName = 'priceLabelSetValue';
-    export let setBookButtonEnabledName = 'setBookButtonEnabled';
-    export let priceTickReceivedName = 'priceTickReceived';
+    export let closeTile = _closeTile;
+    export let symbolChanged = _symbolChanged;
+    export let priceLabelSetValue = _priceLabelSetValue;
+    export let setBookButtonEnabled = _setBookButtonEnabled;
+    export let priceTickReceived = _priceTickReceived;
     export let selectedSymbol = '';
 
     const { beanLink, parentBeanLink } = BeanLink.getInstance('Tile');
@@ -50,26 +50,27 @@
     let price = 0;
     let disabled = false;
 
-    function closeTile() {
-        parentBeanLink.publish(closeTileEvent(closeTileEventName, id));
+    function onCloseTile() {
+        parentBeanLink.publish(closeTile.event(id));
     }
 
     $: {
-        parentBeanLink.publish(symbolChangedEvent(symbolChangedEventName, {id, symbol: selectedSymbol}));        
+        parentBeanLink.publish(symbolChanged.event({id, symbol: selectedSymbol}));        
     }
 
-    parentBeanLink.on(priceTickReceivedName, (event: ReturnType<typeof priceTickReceivedEvent>)=> {
+    parentBeanLink.on(priceTickReceived.name, (event: ReturnType<typeof priceTickReceived.event>)=> {
         if (event.value.symbol === selectedSymbol) {
             // FIXME this is not nice to filter like this - need to be able to filter earlier on
             price = event.value.value;
-            beanLink.publish(priceLabelSetValue(priceLabelSetValueName, price));
+            beanLink.publish(priceLabelSetValue.event(price));
         }
     });
 
-    beanLink.on(setBookButtonEnabledName,
-        (event: ReturnType<typeof setBookButtonEnabled>)=> {
+    beanLink.on(setBookButtonEnabled.name,
+        (event: ReturnType<typeof setBookButtonEnabled.event>)=> {
             disabled = !event.value;
-    });
+        }
+    );
 </script>
 
 <style>

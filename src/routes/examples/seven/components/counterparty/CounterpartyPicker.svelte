@@ -10,15 +10,15 @@
     import Autocomplete from '@smui-extra/autocomplete';
 	import type { Counterparty } from '../counterparty/types';
 	import { BeanLink, createEvent } from '../../BeanLink';
-	import { counterpartyChanged } from './types';
-    export let stateName = 'counterparty';
+	import { counterpartyChanged as _counterpartyChanged} from './types';
 
     const { beanLink } = BeanLink.getInstance();
+    export let counterpartyChanged = _counterpartyChanged;
 
     export let selectedCounterparty:Counterparty;
     export let counterparties:Counterparty[] = [];
     
     $: {
-        beanLink.publish(counterpartyChanged(stateName, selectedCounterparty));
+        beanLink.publish(counterpartyChanged.event(selectedCounterparty));
     }
 </script>

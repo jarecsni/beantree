@@ -1,18 +1,15 @@
 import { createEvent } from '../../BeanLink';
 
-export const closeTileEvent = (name:string, id:string) => createEvent<string>(name, id);
+export const closeTile = createEvent<string>('closeTile');
 
-export const symbolChangedEvent = (name:string, value:{id:string, symbol:string}) => 
-    createEvent<{id:string, symbol:string}>(name, value);
+export const symbolChanged = createEvent<{id:string, symbol:string}>('symbolChanged');
 
-export const addNewTileEvent = (name:string) => createEvent(name, true);
+export const addNewTile = createEvent<boolean>('addNewTile');
 
-export const priceTickReceivedEvent = (name:string, value: {symbol:string, value:number}) => 
-    createEvent<{symbol:string, value:number}>(name, value);
+export const priceTickReceived = createEvent<{symbol:string, value:number}>('priceTickReceived');
 
-export const priceLabelSetValue = (name:string, value: number) => createEvent<number>(name, value);
+export const priceLabelSetValue = createEvent<number>('priceLabelSetValue');
 
-export const bookDealEvent = (name:string, symbol:string, value:number) => 
-    createEvent<{symbol:string, value:number}>(name, {symbol, value});
+export const bookDeal = createEvent<{symbol:string, value:number}>('bookDeal');
 
-export const setBookButtonEnabled = (name:string, value:boolean) => createEvent<boolean>(name, value);
+export const setBookButtonEnabled = createEvent<boolean>('setBookButtonEnabled');

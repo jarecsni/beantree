@@ -7,13 +7,13 @@
     import {v4 as uuidv4} from 'uuid';
 	import { BeanLink } from '../../BeanLink';
     import Tile from './Tile.svelte';
-	import { closeTileEvent, priceTickReceivedEvent, symbolChangedEvent } from './types';
+	import { addNewTile, closeTile, priceTickReceived, symbolChanged } from './types';
 	import { Streamer, type onStreamDataHandler } from '../../datastream/Streamer';
 	
     const { beanLink, parentBeanLink } = BeanLink.getInstance('TilesContainer');
     let tiles:{id:string, symbol?:string, streamHandler?:onStreamDataHandler}[] = [];
 
-    parentBeanLink.on('addTile', () => {
+    parentBeanLink.on(addNewTile.name, () => {
         let tileId = uuidv4();
         tiles.push({
             id: tileId
@@ -21,7 +21,7 @@
         tiles = tiles; // svelte needs this
     });
 
-    beanLink.on('closeTile', (event:ReturnType<typeof closeTileEvent>) => {
+    beanLink.on(closeTile.name, (event:ReturnType<typeof closeTile.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value);
         if (index !== -1) {
             Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
@@ -30,7 +30,7 @@
         }
     });
 
-    beanLink.on('symbolChanged', (event:ReturnType<typeof symbolChangedEvent>) => {
+    beanLink.on(symbolChanged.name, (event:ReturnType<typeof symbolChanged.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value.id);
         const oldSymbol = tiles[index].symbol;
         tiles[index].symbol = event.value.symbol;
@@ -39,7 +39,7 @@
         }
         const streamHandler = (symbol:string, value:number) => {
             // This is not a circular reference as it will happen at a different time!
-            beanLink.publish(priceTickReceivedEvent('priceTickReceived', {symbol, value}));
+            beanLink.publish(priceTickReceived.event({symbol, value}));
         };
         tiles[index].streamHandler = streamHandler;
         Streamer.getInstance().connect(tiles[index].symbol!, streamHandler);

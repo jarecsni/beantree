@@ -6,9 +6,17 @@ export type BeanLinkEvent<T> = {
     value:T,
 }
 
+export type BeanLinkEventCreator<T> = {
+    name: string,
+    event: (value:T) => (BeanLinkEvent<T>)
+}
+
 export type BeanLinkEventHandler<T> = (event:BeanLinkEvent<T>) => void;
 
-export const createEvent = <T>(name:string, value:T) => ({name, value});
+export const createEvent = <T>(name:string) => ({
+    name,
+    event: ((value:T) => ({name, value}))
+})
 
 type ContextInitCallback = (beanLink:BeanLinkEventer) => void;
 
