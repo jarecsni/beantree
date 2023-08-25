@@ -20,7 +20,7 @@
 
     const { beanLink } = BeanLink.getInstance();
 
-    beanLink.on(priceLabelSetValue.name, 
+    beanLink.on(priceLabelSetValue, 
         (event:ReturnType<typeof priceLabelSetValue.event>) => {
             if (event.value > price) {
                 arrow = 'arrow_upward';

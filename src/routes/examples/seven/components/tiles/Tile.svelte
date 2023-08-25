@@ -16,7 +16,10 @@
         <PriceLabel/>
     </div>
     <div class="buttons">
-        <EventButton label="Book" disabled={disabled} name="bookDeal"/>
+        <EventButton label="Book" 
+            disabled={disabled} 
+            buttonClicked={bookDealButtonClicked}
+        />
     </div>
 </div>
 
@@ -28,10 +31,11 @@
 	import { 
         closeTile as _closeTile, 
         symbolChanged as _symbolChanged, 
-        bookDeal as _bookDeal, 
+        bookDeal, 
         priceLabelSetValue as _priceLabelSetValue, 
         priceTickReceived as _priceTickReceived,
-		setBookButtonEnabled as _setBookButtonEnabled
+		setBookButtonEnabled as _setBookButtonEnabled,
+		bookDealButtonClicked
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
@@ -58,7 +62,7 @@
         parentBeanLink.publish(symbolChanged.event({id, symbol: selectedSymbol}));        
     }
 
-    parentBeanLink.on(priceTickReceived.name, (event: ReturnType<typeof priceTickReceived.event>)=> {
+    parentBeanLink.on(priceTickReceived, (event: ReturnType<typeof priceTickReceived.event>)=> {
         if (event.value.symbol === selectedSymbol) {
             // FIXME this is not nice to filter like this - need to be able to filter earlier on
             price = event.value.value;
@@ -66,11 +70,16 @@
         }
     });
 
-    beanLink.on(setBookButtonEnabled.name,
+    beanLink.on(setBookButtonEnabled,
         (event: ReturnType<typeof setBookButtonEnabled.event>)=> {
             disabled = !event.value;
         }
     );
+
+    beanLink.on(bookDealButtonClicked, () => {
+        // TODO why it will cause stack overflow if I use beanLink instead of parent
+        beanLink.publish(bookDeal.event({symbol: selectedSymbol, value: price}));
+    });
 </script>
 
 <style>

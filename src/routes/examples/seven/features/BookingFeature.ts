@@ -19,7 +19,7 @@ export class BookingFeature implements Feature {
         BeanLink.registerFeature('Tile', this.name, (beanLink:BeanLinkEventer) => {
             this.beanLinkTileContext = beanLink;
             console.log('registering BookingFeature for tile context');
-            beanLink.on(bookDeal.name, (event:ReturnType<typeof bookDeal.event>) => {
+            beanLink.on(bookDeal, (event:ReturnType<typeof bookDeal.event>) => {
                 console.log('[BookingFeature]', 'booking deal...', JSON.stringify(event.value));
             });
         });

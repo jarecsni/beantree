@@ -13,16 +13,23 @@ export type BeanLinkEventCreator<T> = {
 
 export type BeanLinkEventHandler<T> = (event:BeanLinkEvent<T>) => void;
 
-export const createEvent = <T>(name:string) => ({
-    name,
-    event: ((value:T) => ({name, value}))
-})
+const eventNames:Map<string, string> = new Map();
+
+export const createEvent = <T>(name:string) => {
+    if (eventNames.get(name)) {
+        BeanLink.warn('createEvent', 'event name "' + name + '" is being redefined');
+    }
+    eventNames.set(name, name);
+    return {
+        name,
+        event: ((value:T) => ({name, value}))
+    };
+}
 
 type ContextInitCallback = (beanLink:BeanLinkEventer) => void;
 
-export type BeanLinkEventer = {
-    on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
-    on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
+export interface BeanLinkEventer {
+    on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void;
     publish<T>(event:BeanLinkEvent<T>):void;
 }
 
@@ -31,15 +38,15 @@ class Multiplexer implements BeanLinkEventer {
     constructor(context:string) {
         this._context = context;
     }
-    public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
+    public on<T>(event:BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>): void;
     public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
-    public on<T>(event: string | BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>):void {
+    public on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void {
         const blinks = BeanLink.contextInstances.get(this._context);
         blinks?.forEach(beanLink => {
             if (typeof event === 'string') {
                 beanLink.on(event as string, handler);
             } else {
-                beanLink.on(event as BeanLinkEvent<T>, handler);
+                beanLink.on(event as BeanLinkEventCreator<T>, handler);
             }
         });
     }
@@ -122,9 +129,9 @@ export class BeanLink {
         BeanLink.log('publish  done', event.name);
     }
 
-    public on<T>(event:BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>): void;
+    public on<T>(event:BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>): void;
     public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
-    public on<T>(event: string | BeanLinkEvent<T>, handler:BeanLinkEventHandler<T>):void {
+    public on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void {
         const eventName = typeof event === 'string' ? event : event.name;
         let handlers = this._handlers.get(eventName);
         if (!handlers) {
@@ -135,7 +142,10 @@ export class BeanLink {
         handlers.push(handler);
     }
     
-    private static log(action:string, message:string) {
+    static log(action:string, message:string) {
         console.log('[beanlink:' + action + '][' + moment().format() + ']:', message);
+    }
+    static warn(action:string, message:string) {
+        console.log('[warning - beanlink:' + action + '][' + moment().format() + ']:', message);
     }
 }

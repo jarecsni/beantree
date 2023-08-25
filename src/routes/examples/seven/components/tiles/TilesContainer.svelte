@@ -13,7 +13,7 @@
     const { beanLink, parentBeanLink } = BeanLink.getInstance('TilesContainer');
     let tiles:{id:string, symbol?:string, streamHandler?:onStreamDataHandler}[] = [];
 
-    parentBeanLink.on(addNewTile.name, () => {
+    parentBeanLink.on(addNewTile, () => {
         let tileId = uuidv4();
         tiles.push({
             id: tileId
@@ -21,7 +21,7 @@
         tiles = tiles; // svelte needs this
     });
 
-    beanLink.on(closeTile.name, (event:ReturnType<typeof closeTile.event>) => {
+    beanLink.on(closeTile, (event:ReturnType<typeof closeTile.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value);
         if (index !== -1) {
             Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
@@ -30,7 +30,7 @@
         }
     });
 
-    beanLink.on(symbolChanged.name, (event:ReturnType<typeof symbolChanged.event>) => {
+    beanLink.on(symbolChanged, (event:ReturnType<typeof symbolChanged.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value.id);
         const oldSymbol = tiles[index].symbol;
         tiles[index].symbol = event.value.symbol;
