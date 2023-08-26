@@ -5,7 +5,7 @@
 
 <script lang="ts">
     import {v4 as uuidv4} from 'uuid';
-	import { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../beanlink/BeanLink';
     import Tile from './Tile.svelte';
 	import { addNewTile, closeTile, priceTickReceived, symbolChanged } from './types';
 	import { Streamer, type onStreamDataHandler } from '../../datastream/Streamer';

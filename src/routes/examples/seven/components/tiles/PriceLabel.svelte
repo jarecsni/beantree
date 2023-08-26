@@ -10,7 +10,7 @@
 
 <script lang="ts">
     import { Icon, Label } from '@smui/common';
-	import { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../beanlink/BeanLink';
 	import { priceLabelSetValue } from './types';
 
     let price = 0;

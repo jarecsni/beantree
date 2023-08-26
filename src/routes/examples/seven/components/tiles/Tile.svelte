@@ -28,7 +28,7 @@
 
 <script lang="ts">
     import IconButton from '@smui/icon-button';
-	import { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../beanlink/BeanLink';
 	import Select, { Option } from '@smui/select';
 	import { Streamer } from '../../datastream/Streamer';
 	import { 

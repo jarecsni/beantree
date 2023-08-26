@@ -1,8 +1,8 @@
 import { counterpartyChanged } from '../components/counterparty/types';
-import { BeanLink, type BeanLinkEventer } from '../BeanLink';
+import { BeanLink, type BeanLinkEventer } from '../beanlink/BeanLink';
 import type { Counterparty } from '../components/counterparty/types';
 import { bookDeal, setBookButtonEnabled, tileCreated } from '../components/tiles/types';
-import type { Feature } from './Feature';
+import type { Feature } from '../beanlink/Feature';
 
 export class BookingFeature implements Feature {
     private counterparty?:Counterparty;

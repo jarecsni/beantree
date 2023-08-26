@@ -9,7 +9,7 @@
 <script lang="ts">
     import Autocomplete from '@smui-extra/autocomplete';
 	import type { Counterparty } from '../counterparty/types';
-	import { BeanLink } from '../../BeanLink';
+	import { BeanLink } from '../../beanlink/BeanLink';
 	import { counterpartyChanged } from './types';
 
     const { beanLink } = BeanLink.getInstance();

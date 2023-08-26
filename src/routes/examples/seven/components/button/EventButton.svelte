@@ -5,7 +5,7 @@
 <script lang="ts">
 	import Button from '@smui/button/src/Button.svelte';
 	import Label from '@smui/list/src/Label.svelte';    
-	import { BeanLink, type BeanLinkEventCreator } from '../../BeanLink';
+	import { BeanLink, type BeanLinkEventCreator } from '../../beanlink/BeanLink';
     import { buttonClicked as _buttonClicked } from './types';
 	
     export let label:string;

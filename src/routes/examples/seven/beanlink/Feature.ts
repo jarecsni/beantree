@@ -1,4 +1,4 @@
-import type { BeanLink } from '../BeanLink'
+import type { BeanLink } from './BeanLink'
 
 export type Feature = {
     setup():void;
