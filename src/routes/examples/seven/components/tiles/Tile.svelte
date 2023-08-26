@@ -38,7 +38,10 @@
         priceLabelSetValue, 
         priceTickReceived,
 		setBookButtonEnabled,
-		bookDealButtonClicked
+		bookDealButtonClicked,
+
+		tileCreated
+
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
@@ -50,13 +53,15 @@
 
     let symbols = Streamer.getInstance().getSymbols();
     let price = 0;
-    let disabled = false;
+    let disabled = true;
+    let enabledExternally = false;
 
     function onCloseTile() {
         parentBeanLink.publish(closeTile.event(id));
     }
 
     $: {
+        disabled = !enabledExternally || !selectedSymbol;
         parentBeanLink.publish(symbolChanged.event({id, symbol: selectedSymbol}));        
     }
 
@@ -69,12 +74,14 @@
     });
 
     beanLink.on(setBookButtonEnabled, (event: ReturnType<typeof setBookButtonEnabled.event>) => {
-        disabled = !event.value;
+        enabledExternally = event.value;
     });
 
     beanLink.on(bookDealButtonClicked, () => {
         beanLink.publish(bookDeal.event({symbol: selectedSymbol, value: price}));
     });
+
+    beanLink.publish(tileCreated.event(id));
 </script>
 
 <style>

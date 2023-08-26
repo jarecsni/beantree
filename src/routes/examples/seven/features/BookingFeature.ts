@@ -1,7 +1,7 @@
 import { counterpartyChanged } from '../components/counterparty/types';
 import { BeanLink, type BeanLinkEventer } from '../BeanLink';
 import type { Counterparty } from '../components/counterparty/types';
-import { bookDeal, setBookButtonEnabled } from '../components/tiles/types';
+import { bookDeal, setBookButtonEnabled, tileCreated } from '../components/tiles/types';
 import type { Feature } from './Feature';
 
 export class BookingFeature implements Feature {
@@ -22,6 +22,11 @@ export class BookingFeature implements Feature {
             beanLink.on(bookDeal, (event:ReturnType<typeof bookDeal.event>) => {
                 console.log('[BookingFeature]', 'booking deal...', JSON.stringify(event.value));
             });
+            beanLink.on(tileCreated, (event:ReturnType<typeof tileCreated.event>) => {
+                if (this.beanLinkTileContext) {
+                    this.beanLinkTileContext.publish(setBookButtonEnabled.event(!!this.counterparty));
+                }
+            })
         });
     }
     get name() {

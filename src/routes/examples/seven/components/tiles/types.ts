@@ -12,5 +12,6 @@ export const priceLabelSetValue = createEvent<number>('priceLabelSetValue');
 
 export const bookDeal = createEvent<{symbol:string, value:number}>('bookDeal');
 export const bookDealButtonClicked = createEvent<boolean>('bookDealButtonClicked');
+export const tileCreated = createEvent<string>('tileCreated');
 
 export const setBookButtonEnabled = createEvent<boolean>('setBookButtonEnabled');
