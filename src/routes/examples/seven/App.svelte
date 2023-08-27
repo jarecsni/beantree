@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="container">
-        <TilesContainer/>
+        <TilesContainer bookingEnabled={$counterpartySpecified}/>
     </div>
     <div class="bottom-panel">
 
@@ -70,6 +70,7 @@
 	import { BookingFeature } from './features/BookingFeature';
 	import { FeatureManager } from './beanlink/FeatureManager';
 	import { addNewTile } from './components/tiles/types';
+    import { counterpartySpecified } from './features/store';
     
     FeatureManager.instance.registerFeature(new BookingFeature());
     const counterparties = CounterpartyService.getInstance().getCounterparties();
