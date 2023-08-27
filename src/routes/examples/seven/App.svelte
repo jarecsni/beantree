@@ -1,10 +1,4 @@
 <div class="app">
-    <TabBar tabs={['Steaming Prices', 'Circular Reference Detection']} let:tab bind:active>
-        <Tab stacked={true} {tab}>
-            <Label>{tab}</Label>
-        </Tab>
-    </TabBar>
-    {#if active === 'Steaming Prices'}
     <div class="toolbar">
         <CounterpartyPicker 
             {counterparties} selectedCounterparty={counterparties[0]}
@@ -22,39 +16,6 @@
     <div class="bottom-panel">
 
     </div>
-{:else if active === 'Circular Reference Detection'}
-    <div class="circular-example-container">
-        <!-- <div class="direct-example">
-            <EventingComponent 
-                id="componentA" 
-                testEventSource={[{event: testEventB.eventType, eventCreator: testEventB}]} 
-                testEvent={testEventA}
-            />
-            <EventingComponent 
-                id="componentB" 
-                testEventSource={[{event: testEventA.eventType, eventCreator: testEventA}]} 
-                testEvent={testEventB}
-            />
-        </div>
-        <div class="indirect-example">
-            <EventingComponent 
-                id="componentAA" 
-                testEventSource={[{event: testEventBB.eventType, eventCreator: testEventBB}]} 
-                testEvent={testEventAA}
-            />
-            <EventingComponent 
-                id="componentBB" 
-                testEventSource={[{event: testEventAA.eventType, eventCreator: testEventAA}]} 
-                testEvent={testEventCC}
-            />
-            <EventingComponent 
-                id="componentCC" 
-                testEventSource={[{event: testEventCC.eventType, eventCreator: testEventCC}]} 
-                testEvent={testEventBB}
-            />
-        </div> -->
-    </div>
-{/if}
 </div>
 
 <script lang="ts">
@@ -102,15 +63,6 @@
         display: flex;
         flex-direction: column;
     }
-    .circular-example-container {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-        margin: 5px;
-    }
-    .ticker {
-        width: 200px;
-    }
     .button-panel {
         flex-grow: 1;
         display: flex;
@@ -121,14 +73,5 @@
     }
     .add-button {
         align-self: center;
-    }
-    .direct-example {
-        display: flex;
-        margin: 5px;
-
-    }
-    .indirect-example {
-        display: flex;
-        margin: 5px;
     }
 </style>
