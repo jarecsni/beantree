@@ -32,7 +32,7 @@ type ContextInitCallback = (beanLink:BeanLink) => void;
 export class BeanLink {
     
     private _name:string;
-    private _handlers:Map<string, BeanLinkEventHandler<any>[]> = new Map();
+    private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
     private static featureMap:Map<string, ContextInitCallback[]> = new Map();
     static contextInstances:Map<String, BeanLink[]> = new Map();
     
@@ -94,7 +94,8 @@ export class BeanLink {
         const handlers = this._handlers.get(event.name);
         if (handlers) {
             handlers.forEach(handler => {
-                handler(event);
+                const handlerRef = handler.deref();
+                handlerRef && handlerRef(event);
             });
         }
         BeanLink.log('publish  done', event.name);
@@ -110,7 +111,7 @@ export class BeanLink {
             this._handlers.set(eventName, handlers);
         }
         //this.log('register', 'name='+eventName+', handler='+handler);
-        handlers.push(handler);
+        handlers.push(new WeakRef(handler));
     }
     
     static log(action:string, message:string) {

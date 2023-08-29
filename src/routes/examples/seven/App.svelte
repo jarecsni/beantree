@@ -1,4 +1,10 @@
 <div class="app">
+    <TabBar tabs={['Steaming Prices', 'Circular Reference Detection']} let:tab bind:active>
+        <Tab stacked={true} {tab}>
+            <Label>{tab}</Label>
+        </Tab>
+    </TabBar>
+    {#if active === 'Steaming Prices'}
     <div class="toolbar">
         <CounterpartyPicker 
             {counterparties} selectedCounterparty={counterparties[0]}
@@ -16,6 +22,9 @@
     <div class="bottom-panel">
 
     </div>
+    {:else if active === 'Circular Reference Detection'}
+        <div>Circular stuff</div>
+    {/if}
 </div>
 
 <script lang="ts">

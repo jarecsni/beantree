@@ -1,4 +1,3 @@
-
 {#each tiles as tile (tile.id)}
     <Tile id={tile.id} {bookingEnabled}/>
 {/each}
@@ -9,7 +8,6 @@
     import Tile from './Tile.svelte';
 	import { addNewTile, closeTile, priceTickReceived, symbolChanged } from './types';
 	import { Streamer, type onStreamDataHandler } from '../../datastream/Streamer';
-	import { counterpartySpecified } from '../../features/store';
 	
     export let bookingEnabled = false;
 
