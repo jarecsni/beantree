@@ -27,37 +27,7 @@ export const createEvent = <T>(name:string) => {
     };
 }
 
-type ContextInitCallback = (beanLink:BeanLinkEventer) => void;
-
-export interface BeanLinkEventer {
-    on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void;
-    publish<T>(event:BeanLinkEvent<T>):void;
-}
-
-class Multiplexer implements BeanLinkEventer {
-    private _context:string;
-    constructor(context:string) {
-        this._context = context;
-    }
-    public on<T>(event:BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>): void;
-    public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
-    public on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void {
-        const blinks = BeanLink.contextInstances.get(this._context);
-        blinks?.forEach(beanLink => {
-            if (typeof event === 'string') {
-                beanLink.on(event as string, handler);
-            } else {
-                beanLink.on(event as BeanLinkEventCreator<T>, handler);
-            }
-        });
-    }
-    public publish<T>(event:BeanLinkEvent<T>) {
-        const blinks = BeanLink.contextInstances.get(this._context);
-        blinks?.forEach(beanLink => {
-            beanLink.publish(event);
-        });
-    }
-}
+type ContextInitCallback = (beanLink:BeanLink) => void;
 
 export class BeanLink {
     
@@ -89,7 +59,7 @@ export class BeanLink {
         instancesForContext!.push(beanLinkInstance);
         const contextInitCallbacks = BeanLink.featureMap.get(context);
         contextInitCallbacks && contextInitCallbacks.forEach(cb => {
-            cb(new Multiplexer(context));
+            cb(beanLinkInstance);
         });
     }
 
