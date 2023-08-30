@@ -45,9 +45,10 @@
     FeatureManager.instance.registerFeature(new BookingFeature());
     const counterparties = CounterpartyService.getInstance().getCounterparties();
     const { beanLink } = BeanLink.getInstance('App'); // top level BeanLink instance
-    beanLink.on(counterpartyChanged, (event:ReturnType<typeof counterpartyChanged.event>) => {
+    const counterpartyListener = (event:ReturnType<typeof counterpartyChanged.event>) => {
         console.log('counterparty changed:', event.value && event.value.label);
-    });
+    };
+    beanLink.on(counterpartyChanged, counterpartyListener);
     Streamer.getInstance().startStreaming();
     let active:string = 'Steaming Prices';
 </script>

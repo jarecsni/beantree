@@ -62,17 +62,19 @@
         parentBeanLink.publish(symbolChanged.event({id, symbol: selectedSymbol}));        
     }
 
-    parentBeanLink.on(priceTickReceived, (event: ReturnType<typeof priceTickReceived.event>)=> {
+    const priceTickListener = (event: ReturnType<typeof priceTickReceived.event>)=> {
         if (event.value.symbol === selectedSymbol) {
             // FIXME this is not nice to filter like this - need to be able to filter earlier on
             price = event.value.value;
             beanLink.publish(priceLabelSetValue.event(price));
         }
-    });
+    };
+    parentBeanLink.on(priceTickReceived, priceTickListener);
 
-    beanLink.on(bookDealButtonClicked, () => {
+    const buttonListener = () => {
         beanLink.publish(bookDeal.event({symbol: selectedSymbol, value: price}));
-    });
+    };
+    beanLink.on(bookDealButtonClicked, buttonListener);
 
 </script>
 

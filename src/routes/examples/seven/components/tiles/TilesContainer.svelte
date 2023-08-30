@@ -14,24 +14,26 @@
     const { beanLink, parentBeanLink } = BeanLink.getInstance('TilesContainer');
     let tiles:{id:string, symbol?:string, streamHandler?:onStreamDataHandler}[] = [];
 
-    parentBeanLink.on(addNewTile, () => {
+    const addNewTitleListener = () => {
         let tileId = uuidv4();
         tiles.push({
             id: tileId
         });
         tiles = tiles; // svelte needs this
-    });
+    };
+    parentBeanLink.on(addNewTile, addNewTitleListener);
 
-    beanLink.on(closeTile, (event:ReturnType<typeof closeTile.event>) => {
+    const closeTileListener = (event:ReturnType<typeof closeTile.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value);
         if (index !== -1) {
             Streamer.getInstance().disconnect(tiles[index].symbol!, tiles[index].streamHandler!);
             tiles.splice(index, 1);
             tiles = tiles;
         }
-    });
+    };
+    beanLink.on(closeTile, closeTileListener);
 
-    beanLink.on(symbolChanged, (event:ReturnType<typeof symbolChanged.event>) => {
+    const symbolChangedListener = (event:ReturnType<typeof symbolChanged.event>) => {
         const index = tiles.findIndex((element) => element.id === event.value.id);
         const oldSymbol = tiles[index].symbol;
         tiles[index].symbol = event.value.symbol;
@@ -44,6 +46,7 @@
         };
         tiles[index].streamHandler = streamHandler;
         Streamer.getInstance().connect(tiles[index].symbol!, streamHandler);
-    });
+    };
+    beanLink.on(symbolChanged, symbolChangedListener);
 
 </script>
