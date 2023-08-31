@@ -32,9 +32,8 @@ type ContextInitCallback = (beanLink:BeanLink) => void;
 export class BeanLink {
     
     private _name:string;
-    private _handlers:Map<string, BeanLinkEventHandler<any>[]> = new Map();
+    private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
     private static featureMap:Map<string, ContextInitCallback[]> = new Map();
-    static contextInstances:Map<String, BeanLink[]> = new Map();
     
     private constructor(name:string) {
         this._name = name;
@@ -51,12 +50,6 @@ export class BeanLink {
     }
 
     private static initialiseFeatures(context:string, beanLinkInstance:BeanLink) {
-        let instancesForContext = BeanLink.contextInstances.get(context);
-        if (!instancesForContext) {
-            instancesForContext = [];
-            BeanLink.contextInstances.set(context, instancesForContext);
-        }
-        instancesForContext!.push(beanLinkInstance);
         const contextInitCallbacks = BeanLink.featureMap.get(context);
         contextInitCallbacks && contextInitCallbacks.forEach(cb => {
             cb(beanLinkInstance);
@@ -92,10 +85,23 @@ export class BeanLink {
     public publish<T>(event:BeanLinkEvent<T>) {
         BeanLink.log('publish start', event.name + ' = ' + JSON.stringify(event.value));
         const handlers = this._handlers.get(event.name);
+        const recycledRefs:WeakRef<BeanLinkEventHandler<any>>[] = [];
         if (handlers) {
             handlers.forEach(handler => {
-                handler(event);
+                const handlerRef = handler.deref();
+                if (!handlerRef) {
+                    recycledRefs.push(handler);
+                } else {
+                    handlerRef(event);
+                }
             });
+            if (recycledRefs.length !== 0) {
+                recycledRefs.forEach(ref => {
+                    const i = handlers.findIndex(e => e === ref);
+                    handlers.splice(i, 1);
+                });
+                BeanLink.log('cleanup', recycledRefs.length + ' obsolete handler references removed');
+            }
         }
         BeanLink.log('publish  done', event.name);
     }
@@ -110,7 +116,7 @@ export class BeanLink {
             this._handlers.set(eventName, handlers);
         }
         //this.log('register', 'name='+eventName+', handler='+handler);
-        handlers.push(handler);
+        handlers.push(new WeakRef(handler));
     }
     
     static log(action:string, message:string) {
