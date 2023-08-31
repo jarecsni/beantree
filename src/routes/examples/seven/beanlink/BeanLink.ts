@@ -92,11 +92,23 @@ export class BeanLink {
     public publish<T>(event:BeanLinkEvent<T>) {
         BeanLink.log('publish start', event.name + ' = ' + JSON.stringify(event.value));
         const handlers = this._handlers.get(event.name);
+        const recycledRefs:WeakRef<BeanLinkEventHandler<any>>[] = [];
         if (handlers) {
             handlers.forEach(handler => {
                 const handlerRef = handler.deref();
-                handlerRef && handlerRef(event);
+                if (!handlerRef) {
+                    recycledRefs.push(handler);
+                } else {
+                    handlerRef(event);
+                }
             });
+            if (recycledRefs.length !== 0) {
+                recycledRefs.forEach(ref => {
+                    const i = handlers.findIndex(e => e === ref);
+                    handlers.splice(i, 1);
+                });
+                BeanLink.log('cleanup', recycledRefs.length + ' obsolete handler references removed');
+            }
         }
         BeanLink.log('publish  done', event.name);
     }
