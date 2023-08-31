@@ -34,7 +34,6 @@ export class BeanLink {
     private _name:string;
     private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
     private static featureMap:Map<string, ContextInitCallback[]> = new Map();
-    static contextInstances:Map<String, BeanLink[]> = new Map();
     
     private constructor(name:string) {
         this._name = name;
@@ -51,12 +50,6 @@ export class BeanLink {
     }
 
     private static initialiseFeatures(context:string, beanLinkInstance:BeanLink) {
-        let instancesForContext = BeanLink.contextInstances.get(context);
-        if (!instancesForContext) {
-            instancesForContext = [];
-            BeanLink.contextInstances.set(context, instancesForContext);
-        }
-        instancesForContext!.push(beanLinkInstance);
         const contextInitCallbacks = BeanLink.featureMap.get(context);
         contextInitCallbacks && contextInitCallbacks.forEach(cb => {
             cb(beanLinkInstance);
