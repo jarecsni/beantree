@@ -23,6 +23,9 @@
             disabled={disabled} 
             buttonClicked={bookDealButtonClicked}
         />
+        {#if bookingInProgress}
+            <img src={Spinner} alt="spinner" class="spinner"/>
+        {/if}
     </div>
 </div>
 
@@ -38,9 +41,11 @@
         priceLabelSetValue, 
         priceTickReceived,
 		bookDealButtonClicked,
+		bookDealDone,
     } from './types';
 	import PriceLabel from './PriceLabel.svelte';
     import EventButton from '../button/EventButton.svelte';
+    import Spinner from './spinner.gif';
 
     export let id:string;
     export let selectedSymbol = '';
@@ -52,6 +57,7 @@
     let symbols = Streamer.getInstance().getSymbols();
     let price = 0;
     let disabled = true;
+    let bookingInProgress = false;
 
     function onCloseTile() {
         parentBeanLink.publish(closeTile.event(id));
@@ -72,9 +78,15 @@
     parentBeanLink.on(priceTickReceived, priceTickListener);
 
     const buttonListener = () => {
+        bookingInProgress = true;
         beanLink.publish(bookDeal.event({symbol: selectedSymbol, value: price}));
     };
     beanLink.on(bookDealButtonClicked, buttonListener);
+
+    const dealBookListener = () => {
+        bookingInProgress = false;
+    }
+    beanLink.on(bookDealDone, dealBookListener);
 
 </script>
 
@@ -90,5 +102,14 @@
         display: flex;
         flex-direction: row;
         background-color: lightsteelblue;
+    }
+    .spinner {
+        width: 32px;
+        height: 32px;
+        margin-left: 5px;
+        align-self: center;
+    }
+    .buttons {
+        display: flex;
     }
 </style>

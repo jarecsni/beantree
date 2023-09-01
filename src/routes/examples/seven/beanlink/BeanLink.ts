@@ -32,7 +32,7 @@ type ContextInitCallback = (beanLink:BeanLink) => void;
 export class BeanLink {
     
     private _name:string;
-    private _handlers:Map<string, WeakRef<BeanLinkEventHandler<any>>[]> = new Map();
+    private _handlers:Map<string, (WeakRef<BeanLinkEventHandler<any>> | BeanLinkEventHandler<any>)[]> = new Map();
     private static featureMap:Map<string, ContextInitCallback[]> = new Map();
     
     private constructor(name:string) {
@@ -85,10 +85,10 @@ export class BeanLink {
     public publish<T>(event:BeanLinkEvent<T>) {
         BeanLink.log('publish start', event.name + ' = ' + JSON.stringify(event.value));
         const handlers = this._handlers.get(event.name);
-        const recycledRefs:WeakRef<BeanLinkEventHandler<any>>[] = [];
+        const recycledRefs:unknown[] = [];
         if (handlers) {
             handlers.forEach(handler => {
-                const handlerRef = handler.deref();
+                const handlerRef = (handler instanceof WeakRef) ? handler.deref() : handler;
                 if (!handlerRef) {
                     recycledRefs.push(handler);
                 } else {
@@ -103,12 +103,12 @@ export class BeanLink {
                 BeanLink.log('cleanup', recycledRefs.length + ' obsolete handler references removed');
             }
         }
-        BeanLink.log('publish  done', event.name);
+        BeanLink.log('publish done', event.name);
     }
 
-    public on<T>(event:BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>): void;
-    public on<T>(event:string, handler:BeanLinkEventHandler<T>):void;
-    public on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>):void {
+    public on<T>(event:BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>, weak?:boolean): void;
+    public on<T>(event:string, handler:BeanLinkEventHandler<T>, weak?:boolean):void;
+    public on<T>(event: string | BeanLinkEventCreator<T>, handler:BeanLinkEventHandler<T>, weak=true):void {
         const eventName = typeof event === 'string' ? event : event.name;
         let handlers = this._handlers.get(eventName);
         if (!handlers) {
@@ -116,7 +116,7 @@ export class BeanLink {
             this._handlers.set(eventName, handlers);
         }
         //this.log('register', 'name='+eventName+', handler='+handler);
-        handlers.push(new WeakRef(handler));
+        handlers.push(weak? new WeakRef(handler) : handler);
     }
     
     static log(action:string, message:string) {
